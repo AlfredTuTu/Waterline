@@ -70,4 +70,5 @@ decision appends a row to `docs/decisions.md` in the same PR.
 
 - Branches: `codex/<n>-<slug>`, `claude/<n>-<slug>`, `alfred/<slug>`.
 - Conventional Commits: `feat(providers): deepseek balance adapter`, `fix(engine): honour Retry-After`. Body ends with `Refs #<n>`.
+- No attribution trailers. Commit messages end after `Refs #<n>`; no `Co-Authored-By`, no generated-by line in commits or pull request descriptions. The repository owner is the author of every commit.
 - Never commit secrets, `.env`, unredacted captures, `build/` or `.build/`.
