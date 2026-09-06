@@ -1,0 +1,49 @@
+name: Task
+description: A unit of work an agent can pick up and finish without asking.
+labels: ["agent:codex"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: The outcome in one or two sentences. Why it matters.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: Files, types and behaviours this task owns. Reference ARCHITECTURE.md sections.
+    validations:
+      required: true
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Out of scope
+      description: Adjacent things that look tempting and belong to another issue.
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance
+      description: Observable, checkable statements. Each one becomes a test or a manual check.
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification
+      description: Exact commands to run and what they must print.
+      value: |
+        make verify
+    validations:
+      required: true
+  - type: textarea
+    id: docs
+    attributes:
+      label: Docs to update
+      description: Which of ARCHITECTURE.md, ACCEPTANCE.md, docs/ui.md, docs/providers/*.md, docs/decisions.md change.
+  - type: input
+    id: blocked-by
+    attributes:
+      label: Blocked by
+      description: Issue numbers that must be merged first, e.g. "#3, #4".

@@ -1,0 +1,29 @@
+name: verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: make verify
+    runs-on: macos-26
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Toolchain
+        run: xcrun swift --version
+
+      - name: Verify
+        run: make verify

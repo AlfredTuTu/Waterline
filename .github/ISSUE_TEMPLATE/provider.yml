@@ -1,0 +1,52 @@
+name: Provider adapter
+description: Add or repair one provider under Sources/WaterlineKit/Providers/<Name>/.
+labels: ["agent:codex", "type:feature"]
+body:
+  - type: input
+    id: provider
+    attributes:
+      label: Provider
+      description: Value of `Provider` in Model/Provider.swift, e.g. `deepseek`.
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Quota kind
+      options: [window, balance, both, unsupported]
+    validations:
+      required: true
+  - type: textarea
+    id: credentials
+    attributes:
+      label: Credential locations
+      description: Tier 1 files/Keychain items and Tier 2 env names in fallback order. See docs/providers/<name>.md.
+    validations:
+      required: true
+  - type: textarea
+    id: endpoints
+    attributes:
+      label: Endpoint candidates
+      description: URL, method, headers, and where the candidate came from. Mark each official or community.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance
+      value: |
+        - `discover` finds the account from a synthetic home directory in tests and returns no secret when reading would prompt
+        - `fetch` maps the recorded response to `Usage` exactly; a changed shape throws `FetchError.schemaChanged`
+        - `descriptor.allowedHosts` lists every host the adapter contacts and nothing else
+        - Fixtures under Tests/WaterlineKitTests/Fixtures/<provider>/ are redacted (`Scripts/audit.sh` passes)
+        - `waterline refresh --provider <provider> --json` on the owner's machine returns a fresh reading
+        - docs/providers/<name>.md: response mapping filled in, `last verified` set to today
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification
+      value: |
+        make verify
+        xcrun swift test --filter <Name>
