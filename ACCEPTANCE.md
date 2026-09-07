@@ -997,3 +997,11 @@ CLI-to-isolated-listener test received only hash/kind/time with empty CLI stdout
 (hook-ipc.json). Full gate reached 302 Swift tests and 4 Python tests. Native enable,
 real Claude event support/session execution, disable, pending-cleanup restoration and
 layout remain unverified. The currently installed app has not been replaced.
+
+2026-09-08 real Claude hook event check: installed Claude Code 2.1.263 ran one
+minimal Haiku request with temporary --settings, empty setting sources/tools/MCP
+configuration and no session persistence. It returned exit 0 without a reported
+error. The actual Waterline hook CLI emitted UserPromptSubmit, Stop and SessionEnd
+to the isolated local listener. Temporary settings were removed; persistent user
+hooks were not modified. Evidence: claude-hooks-live.json. StopFailure execution,
+native toggle/banner and cleanup/relaunch UI remain unverified.

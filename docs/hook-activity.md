@@ -50,3 +50,9 @@ and idempotence, private permissions and symlink refusal. An isolated real CLI-t
 notification test received the sanitized synthetic event with no stdout. No real Claude
 settings were edited or enabled. Actual tool event support, native opt-in, relaunch,
 disable and layout checks remain pending.
+
+Real event follow-up: Claude Code 2.1.263 accepted the temporary four-event command
+configuration and completed one minimal request. UserPromptSubmit, Stop and SessionEnd
+reached the local receiver through the real Waterline CLI; no persistent configuration
+was changed. StopFailure was not exercised. This establishes installed-tool success
+events, not the native opt-in/disable/relaunch acceptance described above.
