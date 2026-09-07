@@ -36,6 +36,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         guard !duplicateLaunch else { return }
         NSApplication.shared.setActivationPolicy(.accessory)
         model.start()
+        SoftwareUpdates.shared.start()
         NotificationCenter.default.addObserver(
             self, selector: #selector(screenChanged), name: NSApplication.didChangeScreenParametersNotification,
             object: nil)

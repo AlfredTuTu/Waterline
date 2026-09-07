@@ -371,3 +371,15 @@
 "Reads personal GLM Coding Plan credentials only for the official China or international endpoint in ~/.claude/settings.json. Team plans are not verified." = "Reads personal GLM Coding Plan credentials only for the official China or international endpoint in ~/.claude/settings.json. Team plans are not verified.";
 
 "Choose an account" = "Choose an account";
+
+"Check for updates…" = "Check for updates…";
+
+"Automatically check for updates" = "Automatically check for updates";
+
+"Update checks contact GitHub. Installation requires your confirmation." = "Update checks contact GitHub. Installation requires your confirmation.";
+
+"Could not start updates. Reopen Waterline and try again." = "Could not start updates. Reopen Waterline and try again.";
+
+"Updates are unavailable in this development build." = "Updates are unavailable in this development build.";
+
+"The update download address is not supported." = "The update download address is not supported.";

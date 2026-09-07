@@ -15,7 +15,7 @@ if grep -rnE "$secret_pattern" Sources Tests docs README.md 2>/dev/null; then
     status=1
 fi
 
-allowed_dependencies=''
+allowed_dependencies='https://github.com/sparkle-project/Sparkle'
 for url in $(grep -oE '\.package\(url: "[^"]+"' Package.swift | sed 's/.*"\(.*\)"/\1/'); do
     case " $allowed_dependencies " in
         *" $url "*) ;;

@@ -30,6 +30,7 @@ sign_code() {
         codesign --force --options runtime --timestamp --sign "$signing_identity" "$1"
     fi
 }
+bash Scripts/embed-sparkle.sh "$app"
 sign_code "$app/Contents/MacOS/waterline"
 sign_code "$app"
 codesign --verify --deep --strict "$app"

@@ -371,3 +371,15 @@
 "Reads personal GLM Coding Plan credentials only for the official China or international endpoint in ~/.claude/settings.json. Team plans are not verified." = "仅在~/.claude/settings.json使用官方国内或国际地址时读取个人GLM编程套餐凭据。团队套餐尚未验证。";
 
 "Choose an account" = "选择日常账号";
+
+"Check for updates…" = "检查更新…";
+
+"Automatically check for updates" = "自动检查更新";
+
+"Update checks contact GitHub. Installation requires your confirmation." = "检查更新会连接GitHub，安装前会请你确认。";
+
+"Could not start updates. Reopen Waterline and try again." = "更新功能启动失败，请重新打开Waterline再试。";
+
+"Updates are unavailable in this development build." = "此开发版本暂不提供应用更新。";
+
+"The update download address is not supported." = "此更新下载地址不受支持。";

@@ -19,6 +19,7 @@ sed "s/__VERSION__/$version/g" Resources/Info.plist > "$app/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c 'Set :CFBundleName WaterlineVerification' "$app/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c 'Set :CFBundleDisplayName Waterline Verification' "$app/Contents/Info.plist"
 printf 'APPL????' > "$app/Contents/PkgInfo"
+WATERLINE_SIGNING_IDENTITY=- bash Scripts/embed-sparkle.sh "$app" .build/verification/artifacts
 codesign --force --sign - "$app"
 codesign --verify --strict "$app"
 echo "$app"

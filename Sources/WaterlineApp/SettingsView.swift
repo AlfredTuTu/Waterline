@@ -22,6 +22,8 @@ struct SettingsView: View {
                 Divider()
                 LoginItemSettings()
                 Divider()
+                SoftwareUpdateSettings()
+                Divider()
                 Toggle(
                     "Usage notifications",
                     isOn: Binding(

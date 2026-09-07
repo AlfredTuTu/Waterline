@@ -340,7 +340,8 @@ Record actual versions when verifying; do not silently choose another toolchain.
 
 The bundle script creates an ad-hoc signed `build/Waterline.app`. Prefer system libraries; a dependency
 needs a concrete benefit, licence/maintenance review, decision record and audit allowlist entry. The
-current allowlist is empty. A policy change alone does not add a package.
+current allowlist contains Sparkle 2.9.6 for native app updates only; the kit and CLI
+have no external dependencies. See `docs/software-updates.md` for its boundaries.
 
 ## Roadmap
 
@@ -361,3 +362,10 @@ The native Token records window offers explicit single-file Codex JSONL import. 
 The engine owns `token-history.json` beside the existing snapshot. This is a separate version-2 atomic document (64 MiB supported limit; version 1 loads without pricing eligibility), loaded only when requested. It stores thread IDs, observed times, model identifiers, counters and coverage flags, never source paths or prompt/response bodies. Counts remain account-unassigned. A dated Standard API-equivalent reference can price eligible exact-model Astra and Sol/Terra/Luna records; it is not a bill. See docs/token-reference-pricing.md. This file is not the balance journal and has no automatic retention deletion.
 
 A repeated source analysis must contain all previously accepted samples unchanged before it can append. Identical imports do not write or add counts; shorter/conflicting sources and unknown ledger versions preserve the saved file and fail explicitly. Period filters (7/30/90/all) only change display; cached input remains a subset of input rather than another additive total. Native file-picker interaction and real user-selected persistence acceptance remain separate from fixture validation.
+
+## Software update preparation — 2026-09-08
+
+`docs/software-updates.md` records the reviewed Sparkle 2.9.6 candidate, license,
+target opt-in flow and release network/signature boundaries. The app target now embeds this exact dependency and native controls. No feed/public key
+is configured, so the updater remains uninitialized. Exact feed routing and signed
+installation acceptance remain required.

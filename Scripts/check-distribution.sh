@@ -95,6 +95,18 @@ else
 fi
 if [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then pass "release version format"; else fail "stable release version required"; fi
 
+
+framework="$app/Contents/Frameworks/Sparkle.framework"
+if codesign --verify --deep --strict "$framework" >/dev/null 2>&1 && cmp -s Resources/Sparkle-LICENSE.txt "$app/Contents/Resources/Sparkle-LICENSE.txt"; then
+    pass "Sparkle framework integrity and complete license"
+else
+    fail "Sparkle framework or complete license missing/invalid"
+fi
+
+if ! python3 Scripts/check-update-config.py "$app"; then
+    fail "release update configuration required"
+fi
+
 if [[ "$mode" == --pre-notarization ]]; then
     echo "Pre-notarization checks only; ticket and Gatekeeper acceptance remain unchecked."
     exit "$status"

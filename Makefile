@@ -38,6 +38,7 @@ verification-test:
 verify: build test lint
 	python3 Scripts/test-cask-generator.py
 	python3 Scripts/test-run-app.py
+	python3 Scripts/test-update-config.py
 	git diff --check
 	git diff --cached --check
 	Scripts/audit.sh

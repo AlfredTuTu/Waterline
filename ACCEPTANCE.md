@@ -949,3 +949,41 @@ to proceed. The script now captures inventories with checked assignments before
 branching. An isolated test injects failures at four pre-build checks and verifies
 that no build is attempted; the previous HEAD fails the regression. This test is
 included in `make verify` and does not inspect or signal real processes.
+
+2026-09-08 real development launch follow-up: with the installed copy temporarily
+closed, `Scripts/run-app.sh` built/bundled the checkout, exited 0 and confirmed its
+exact executable running. The checkout process was then stopped and the fixed user
+installation restored; the final inventory confirmed that restoration and no checkout
+instance. Evidence: worktree-launch.json and worktree-launch.log under local ignored
+verification output. This closes the script's successful-launch check above, not
+locked-screen UI or post-login acceptance.
+
+2026-09-08 native updater integration: pinned Sparkle 2.9.6, added native settings
+controls and startup configuration checks, copied its full license and embedded/signed
+its framework and nested helpers. The current Info.plist has no update feed/public key,
+so the updater is not initialized. Automatic checks/install and profile submission are
+off by default; HTML release notes are disabled. Initial Swift compilation and deep
+bundle signature verification passed. No signed feed, real update request, installation,
+relaunch/data preservation or native Settings interaction has been verified.
+
+Updater packaging follow-up: `make verify` passed 296 Swift tests and 3 Python tests.
+The generated development app linked Sparkle via its embedded runpath and stayed
+running in an actual startup check; the fixed installed copy was restored afterward.
+Evidence: sparkle-verify.log, sparkle-bundle.log and sparkle-startup.json. This proves
+framework loading for this development bundle, not native update controls or signed
+update delivery. The fixed installed copy has not been replaced by this candidate.
+
+2026-09-08 updater policy follow-up: missing or weakened signing/default configuration
+prevents native updater initialization; an explicit delegate suppresses optional
+system-profile fields and rejects non-project/non-DMG initial archive URLs. Two Swift
+regressions pass. Distribution preflight now rejects absent update configuration,
+including the current development bundle; a Python regression covers the gate.
+This is not proof of redirect handling, a genuine signed feed or update installation.
+
+2026-09-08 updater Release packaging: the arm64 Release build and development DMG
+completed. A read-only mount matched all 118 file/symlink entries to the source app
+and passed deep/strict signature integrity, then detached. Evidence:
+sparkle-release-dmg.log and sparkle-release-dmg.json. SHA-256:
+`3bbc20584cdc7817ea949f305caf048994ed639e01f05dff72aa356eedca350e`.
+This remains ad-hoc development distribution, with no update feed/key, notarization,
+clean-install or real signed-update acceptance.

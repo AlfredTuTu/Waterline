@@ -5,7 +5,7 @@ cd "$(dirname "$0")/.."
 
 app=build/Waterline.app
 test -x "$app/Contents/MacOS/WaterlineApp"
-codesign --verify --strict "$app"
+codesign --verify --deep --strict "$app"
 version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$app/Contents/Info.plist")
 architecture=$(lipo -archs "$app/Contents/MacOS/WaterlineApp" | tr ' ' '-')
 image="build/Waterline-$version-$architecture-development.dmg"
