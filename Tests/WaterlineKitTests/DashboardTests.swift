@@ -4,6 +4,27 @@ import Testing
 @testable import WaterlineKit
 
 struct DashboardTests {
+    @Test func explicitDailyAccountRemainsVisibleBeyondTheOverviewLimit() {
+        let rows = (0..<6).map { entry("account-\($0)", usage: .windows(windows: [], plan: nil)) }
+        let selected = rows[5].account.id
+        let snapshot = Snapshot(
+            generatedAt: Date(), accounts: rows,
+            preferences: UserPreferences(notchAccountIDs: [selected]))
+        let visible = Dashboard.overviewAccounts(snapshot, frozenIDs: rows.map(\.account.id))
+        #expect(visible.map(\.account.id) == [selected, rows[0].account.id, rows[1].account.id, rows[2].account.id])
+        #expect(Set(visible.map(\.account.id)).count == 4)
+    }
+
+    @Test func selectedPausedAccountRemainsAvailableForRecovery() {
+        let row = entry("paused", usage: .windows(windows: [], plan: nil))
+        let preferences = UserPreferences(disabledProviders: [.deepseek], notchAccountIDs: [row.account.id])
+        let selected = Snapshot(generatedAt: Date(), accounts: [row], preferences: preferences)
+        #expect(Dashboard.overviewAccounts(selected).map(\.account.id) == [row.account.id])
+        let automatic = Snapshot(
+            generatedAt: Date(), accounts: [row], preferences: UserPreferences(disabledProviders: [.deepseek]))
+        #expect(Dashboard.overviewAccounts(automatic).isEmpty)
+    }
+
     @Test func dailySelectionShowsOnlyFirstLegacyAccountAndNeverSubstitutesAnother() {
         let first = entry("first", usage: .windows(windows: [], plan: nil))
         let second = entry("second", usage: .windows(windows: [], plan: nil))

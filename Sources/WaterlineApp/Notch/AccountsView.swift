@@ -547,10 +547,7 @@ struct AccountsView: View {
     }
 
     private var visibleAccounts: [AccountEntry] {
-        let ordered =
-            pointerInside || keyboardActive
-            ? Dashboard.preservingOrder(preferredAccounts, ids: frozenOrder) : preferredAccounts
-        return Array(ordered.filter { $0.isEnabled(in: model.snapshot.preferences) }.prefix(4))
+        Dashboard.overviewAccounts(model.snapshot, frozenIDs: pointerInside || keyboardActive ? frozenOrder : nil)
     }
 
     private var preferredAccounts: [AccountEntry] {

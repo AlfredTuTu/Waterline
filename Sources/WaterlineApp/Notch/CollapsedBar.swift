@@ -16,6 +16,8 @@ struct CollapsedBar: View {
         let edgeInset: CGFloat = 18
         let wingWidth = (displayWidth - geometry.notchWidth) / 2
         let accounts = Dashboard.notchAccounts(model.snapshot)
+        let emptyLabel =
+            model.snapshot.accounts.isEmpty ? AppText.text("Connect accounts") : AppText.text("Choose an account")
         return HStack(spacing: 0) {
             ProviderLogo(provider: accounts.first?.account.provider)
                 .frame(width: 18, height: 18)
@@ -39,11 +41,11 @@ struct CollapsedBar: View {
         .onTapGesture(perform: toggle)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(
-            accounts.isEmpty ? AppText.text("Connect accounts") : accounts.map(description).joined(separator: ", ")
+            accounts.isEmpty ? emptyLabel : accounts.map(description).joined(separator: ", ")
         )
         .accessibilityAddTraits(.isButton)
         .accessibilityAction { toggle() }
-        .help(accounts.isEmpty ? AppText.text("Connect accounts") : accounts.map(description).joined(separator: "\n"))
+        .help(accounts.isEmpty ? emptyLabel : accounts.map(description).joined(separator: "\n"))
     }
 
     private func metric(_ entry: AccountEntry) -> some View {

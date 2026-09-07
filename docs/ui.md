@@ -316,3 +316,9 @@ account prunes the selection; an empty explicit selection stays empty until the 
 The daily headline keeps its shortest primary cadence at reset boundaries: when that
 window has expired, show Awaiting update until a fresh response arrives, rather than
 switching the unlabelled percentage to a weekly or additional-model window.
+
+An explicitly selected daily account stays first in the four-account overview, even
+when it would otherwise fall beyond the visible limit. Its paused state remains visible
+so it can be managed. Other rows keep their interaction-frozen order. With existing
+accounts but no daily selection, the compact control says Choose an account rather than
+claiming that accounts need connecting.

@@ -369,3 +369,5 @@
 "Read GLM from Claude Code settings" = "从Claude Code设置读取GLM";
 
 "Reads personal GLM Coding Plan credentials only for the official China or international endpoint in ~/.claude/settings.json. Team plans are not verified." = "仅在~/.claude/settings.json使用官方国内或国际地址时读取个人GLM编程套餐凭据。团队套餐尚未验证。";
+
+"Choose an account" = "选择日常账号";
