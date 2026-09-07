@@ -4,10 +4,18 @@ public enum OptionalCredentialSource: String, Codable, CaseIterable, Sendable {
     case deepSeekEnvironment
     case deepSeekClaudeSettings
     case antigravityCLI
-    public var provider: Provider { self == .antigravityCLI ? .antigravity : .deepseek }
+    case zhipuClaudeSettings
+    public var provider: Provider {
+        switch self {
+        case .antigravityCLI: .antigravity
+        case .zhipuClaudeSettings: .zhipu
+        case .deepSeekEnvironment, .deepSeekClaudeSettings: .deepseek
+        }
+    }
     public var commandName: String {
         switch self {
         case .antigravityCLI: "antigravity-cli"
+        case .zhipuClaudeSettings: "zhipu-claude-settings"
         case .deepSeekEnvironment: "deepseek-env"
         case .deepSeekClaudeSettings: "deepseek-claude-settings"
         }

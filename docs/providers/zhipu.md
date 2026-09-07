@@ -50,3 +50,21 @@ previous readings with their original times, and other components remain usable.
 
 Complete field requirements, units, currency source, timestamps, partial-result behaviour and safe
 error mapping before marking this provider implemented or live verified.
+
+## Claude Code settings source — 2026-09-08
+
+An explicit `zhipu-claude-settings` source now reads only the user-level
+`~/.claude/settings.json`. Official [China integration](https://docs.bigmodel.cn/cn/guide/develop/claude)
+and [international integration](https://docs.z.ai/devpack/tool/claude) document
+`env.ANTHROPIC_BASE_URL` and `env.ANTHROPIC_AUTH_TOKEN`. Only HTTPS /api/anthropic
+on open.bigmodel.cn or api.z.ai, with no user info/query/fragment/nonstandard port,
+is accepted. Region is fixed from that explicit route before creating a credential.
+Other routes are ignored without decoding their credential field. No commands,
+helper scripts, project overrides or live configuration writes are performed.
+
+The source is off by default and supports the existing personal-plan quota adapter.
+The official China guide distinguishes team-plan keys; team quota transport is still
+unverified and is not inferred from this configuration. Tests cover routing, opt-in,
+malformed fields, missing/invalid keys, regional requests, account separation, rotation
+and restart. Config-source region changes preserve distinct local account IDs instead
+of merging through the shared file path. No real GLM key/query was used for this change.

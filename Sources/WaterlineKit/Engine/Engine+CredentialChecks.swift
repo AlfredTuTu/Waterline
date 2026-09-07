@@ -9,6 +9,9 @@ extension Engine {
         if configuration.preferences.enabledCredentialSources?.contains(.antigravityCLI) == true {
             checks.append((.antigravity, .antigravityCLI))
         }
+        if configuration.preferences.enabledCredentialSources?.contains(.zhipuClaudeSettings) == true {
+            checks.append((.zhipu, .zhipuClaudeSettings))
+        }
         return checks.filter { adapters[$0.0] != nil && !configuration.preferences.disabledProviders.contains($0.0) }
     }
 
@@ -48,7 +51,9 @@ extension Engine {
                 let matches: (ManagedAccount, Discovered) -> Bool = { known, candidate in
                     self.sameAccount(known.account, candidate.account)
                         || (candidate.secret == nil && candidate.account.identity == nil
-                            && known.account.credential == candidate.account.credential)
+                            && known.account.credential == candidate.account.credential
+                            && (candidate.account.region == nil || known.account.region == candidate.account.region)
+                            && (candidate.account.teamID == nil || known.account.teamID == candidate.account.teamID))
                 }
                 let changed =
                     candidates.contains { candidate in

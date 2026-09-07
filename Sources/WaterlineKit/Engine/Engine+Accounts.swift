@@ -162,7 +162,7 @@ extension Engine {
 
     func saveConfiguration(_ next: Configuration) throws {
         var next = next
-        next.schemaVersion = 2
+        next.schemaVersion = 3
         do { try configurationStore.save(next) } catch { configurationFailed = true; broadcast(); throw error }
         configuration = next
         configurationFailed = false
@@ -332,6 +332,7 @@ extension Engine {
         if let identity = lhs.identity, let other = rhs.identity { return identity == other }
         if lhs.id == rhs.id { return true }
         return lhs.credential != .manual && lhs.identity == nil && rhs.identity == nil
+            && lhs.region == rhs.region && lhs.teamID == rhs.teamID
             && lhs.credential == rhs.credential
     }
 }

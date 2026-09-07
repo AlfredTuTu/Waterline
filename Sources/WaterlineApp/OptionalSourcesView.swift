@@ -29,6 +29,11 @@ struct OptionalSourcesView: View {
                 .font(.caption).foregroundStyle(.secondary)
                 Text("If the variable is unavailable in this app session, add a key manually.")
                     .font(.caption).foregroundStyle(.secondary)
+            } else if source == .zhipuClaudeSettings {
+                Text(
+                    "Reads personal GLM Coding Plan credentials only for the official China or international endpoint in ~/.claude/settings.json. Team plans are not verified."
+                )
+                .font(.caption).foregroundStyle(.secondary)
             } else if source == .antigravityCLI {
                 Text(
                     "Reads quota from the running Antigravity CLI on this Mac. Open the CLI and sign in there first; Waterline does not launch it or copy its tokens."
@@ -58,6 +63,7 @@ struct OptionalSourcesView: View {
     private func title(_ source: OptionalCredentialSource) -> String {
         switch source {
         case .antigravityCLI: "Read Antigravity CLI quota"
+        case .zhipuClaudeSettings: "Read GLM from Claude Code settings"
         case .deepSeekEnvironment: "Read DEEPSEEK_API_KEY"
         case .deepSeekClaudeSettings: "Read DeepSeek from Claude Code settings"
         }

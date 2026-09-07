@@ -16,7 +16,7 @@ public enum WaterlineCLI {
           connect <provider> [--json]
           source enable|disable|check <source> [--json]
           source list [--json]
-          sources: deepseek-env, deepseek-claude-settings, antigravity-cli
+          sources: deepseek-env, deepseek-claude-settings, antigravity-cli, zhipu-claude-settings
           account enable|disable|pin|unpin|remove <id>
           account rename <id> <name>
           account add <provider> --stdin [--region <region>] [--team <id>] [--json]

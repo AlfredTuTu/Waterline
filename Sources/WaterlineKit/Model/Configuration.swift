@@ -70,13 +70,13 @@ struct ManagedAccount: Codable, Sendable, Hashable {
 }
 
 struct Configuration: Codable, Sendable {
-    var schemaVersion = 2
+    var schemaVersion = 3
     var preferences = UserPreferences()
     var accounts: [ManagedAccount] = []
     var removed: [Account] = []
 
     func validate() throws {
-        guard (1...2).contains(schemaVersion) else { throw SnapshotStoreError.unsupportedVersion(schemaVersion) }
+        guard (1...3).contains(schemaVersion) else { throw SnapshotStoreError.unsupportedVersion(schemaVersion) }
         try preferences.validate()
         guard Set(accounts.map(\.account.id)).count == accounts.count else {
             throw SettingsError.invalidLabel

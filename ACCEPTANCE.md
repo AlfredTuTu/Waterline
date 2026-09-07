@@ -920,3 +920,10 @@ confirmed exact CLI bytes and detached/removed the mount. Evidence: bundled-cli.
 and bundled-cli-dmg.json. Distribution checks still reject missing Developer ID/runtime/
 notarization; packaging the helper does not satisfy those gates. Generated casks expose
 the bundled CLI without executing it during artifact validation.
+
+Regional source regression (2026-09-08): a new GLM configuration-source test reproduced
+CN -> global reusing one account ID. Region/team-aware source matching now preserves
+both accounts, including restart and later return to CN. Unknown locked credential
+scope can still recover a unique known account; an explicit conflicting region cannot.
+Full local gate: 294 Swift tests plus 2 cask-generator tests. GLM live and native UI
+checks remain open; no real GLM credentials were read.

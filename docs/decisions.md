@@ -149,3 +149,5 @@ Later rows explicitly supersede earlier decisions; an old row is not a current r
 | 2026-09-08 | Generate Homebrew metadata only from a signed/stapled validated artifact, with actual architecture and SHA-256; no development cask is emitted. | Distribution metadata must match the installer and remain separate from publication/clean-install acceptance. |
 
 | 2026-09-08 | Ship the CLI inside the app, sign it before the outer bundle, and expose it in generated Homebrew casks. | Installed users should not need a source checkout to access the second client; validator checks remain read-only for external artifacts. |
+
+| 2026-09-08 | Add opted-in GLM personal-plan discovery from documented Claude settings; account source fallback includes region/team. Config/snapshot schemas advance to 3/11 with backups. | Domestic/international routes must not merge solely because they share a configuration file and token field. |

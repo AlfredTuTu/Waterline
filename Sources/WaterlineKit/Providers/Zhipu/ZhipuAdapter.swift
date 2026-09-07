@@ -12,9 +12,12 @@ public struct ZhipuAdapter: ProviderAdapter {
         ],
         regionalConsoleURLs: ["cn": URL(string: "https://bigmodel.cn/coding-plan/personal/usage")!])
     public init() {}
-    public func discover(in environment: DiscoveryEnvironment, http: any HTTPClient) async throws -> [Discovered] { [] }
+    public func discover(in environment: DiscoveryEnvironment, http: any HTTPClient) async throws -> [Discovered] {
+        try discoverClaudeSettings(in: environment)
+    }
     public func fetch(_ account: Account, secret: Secret, http: any HTTPClient) async throws -> Usage {
-        guard account.provider == .zhipu, account.credential == .manual,
+        guard account.provider == .zhipu,
+            account.credential == .manual || account.optionalCredentialSource == .zhipuClaudeSettings,
             let region = Self.descriptor.manualRegions.first(where: { $0.id == account.region }),
             account.identity == nil || account.identity?.region == region.host
         else { throw ManualKeyError.invalidRegion }

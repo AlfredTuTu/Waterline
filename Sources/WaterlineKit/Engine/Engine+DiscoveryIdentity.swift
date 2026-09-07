@@ -3,9 +3,12 @@ import Foundation
 extension Engine {
     func discoveryMatch(_ discovered: Discovered, in managed: [ManagedAccount]) -> Int? {
         let candidate = discovered.account
+        let unknownScope = candidate.identity == nil && discovered.secret == nil
         let sameSource = managed.indices.filter {
             candidate.credential != .manual && managed[$0].account.provider == candidate.provider
                 && managed[$0].account.credential == candidate.credential
+                && ((unknownScope && candidate.region == nil) || managed[$0].account.region == candidate.region)
+                && ((unknownScope && candidate.teamID == nil) || managed[$0].account.teamID == candidate.teamID)
         }
         if candidate.identity == nil, discovered.secret == nil {
             let identified = sameSource.filter { managed[$0].account.identity != nil }

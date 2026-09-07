@@ -365,3 +365,7 @@
 "Qwen / Bailian" = "Qwen / Bailian";
 
 "Quota lookup not yet supported" = "Quota lookup not yet supported";
+
+"Read GLM from Claude Code settings" = "Read GLM from Claude Code settings";
+
+"Reads personal GLM Coding Plan credentials only for the official China or international endpoint in ~/.claude/settings.json. Team plans are not verified." = "Reads personal GLM Coding Plan credentials only for the official China or international endpoint in ~/.claude/settings.json. Team plans are not verified.";
