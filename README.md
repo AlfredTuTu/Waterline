@@ -218,3 +218,12 @@ checks inspect its signature, signing team, architecture and deployment target w
 executing a downloaded artifact. Generated Homebrew casks link this helper as `waterline`.
 Read-only snapshot commands remain available while the app runs; commands that need the
 writer lock require the running app to exit first.
+
+For this development workflow, a fixed user installation may live at
+`~/Applications/Waterline.app`. The worktree bundle and the installed copy are separate:
+`make run` only relaunches the worktree bundle and does not update an installed copy.
+It refuses to proceed while another Waterline bundle is running and checks that the
+requested executable stays running after launch. A process-inventory failure stops the run.
+When testing an installed build, verify the running executable path and copy/version
+identity rather than assuming a new build replaced the running app. Preserve the prior
+installation before updating it. Account state remains outside the app bundle.

@@ -927,3 +927,25 @@ both accounts, including restart and later return to CN. Unknown locked credenti
 scope can still recover a unique known account; an explicit conflicting region cannot.
 Full local gate: 294 Swift tests plus 2 cask-generator tests. GLM live and native UI
 checks remain open; no real GLM credentials were read.
+
+Fixed local installation (2026-09-08): no prior Waterline app existed in system or user
+Applications. The development bundle was copied to the user's Applications directory;
+all 20 files matched and deep/strict code integrity passed. The worktree instance exited
+and process inventory confirmed only the installed copy running. Its bundled CLI read
+the four existing provider accounts and a valid saved Codex selection. Evidence:
+local-installation.json, installed-startup.json, installed-selection.json. This is an
+existing-profile local install, not a clean-user/Gatekeeper/notarization or login-item
+acceptance result. Those remain open while native interaction is blocked by Mac lock.
+
+2026-09-08 development launch guard: the actual running user installation caused
+`Scripts/run-app.sh` to exit 1 with its bundle path before build/replacement. The
+installed app was not stopped. Process-inventory failure also stops the script;
+post-launch checks now require the checkout executable to remain running. The
+successful relaunch path remains pending native verification while the Mac is locked.
+
+2026-09-08 launch failure regression: process-enumeration errors inside shell process
+substitution/conditions could be treated as an empty process list and allow the build
+to proceed. The script now captures inventories with checked assignments before
+branching. An isolated test injects failures at four pre-build checks and verifies
+that no build is attempted; the previous HEAD fails the regression. This test is
+included in `make verify` and does not inspect or signal real processes.

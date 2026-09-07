@@ -151,3 +151,5 @@ Later rows explicitly supersede earlier decisions; an old row is not a current r
 | 2026-09-08 | Ship the CLI inside the app, sign it before the outer bundle, and expose it in generated Homebrew casks. | Installed users should not need a source checkout to access the second client; validator checks remain read-only for external artifacts. |
 
 | 2026-09-08 | Add opted-in GLM personal-plan discovery from documented Claude settings; account source fallback includes region/team. Config/snapshot schemas advance to 3/11 with backups. | Domestic/international routes must not merge solely because they share a configuration file and token field. |
+
+| 2026-09-08 | Development run refuses an already-running different Waterline bundle and verifies its own executable after launch. | The single-instance guard must not make an old installed build appear to be the freshly built checkout. |
