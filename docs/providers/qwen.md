@@ -1,6 +1,6 @@
 # Qwen / Alibaba Bailian
 
-Capability review: 2026-09-07. No suitable quota/balance query contract has been verified for the
+Capability review: 2026-09-08. No suitable quota/balance query contract has been verified for the
 intended DashScope or Coding Plan API-key credentials. The provider is not registered. This is a
 scoped finding, not a claim that Alibaba Cloud has no billing APIs. Last live verified: —.
 
@@ -63,3 +63,28 @@ Qwen/Bailian quota lookup as not yet supported. It does not request a key, creat
 account or display numeric data. Config discovery and a usable quota-query contract
 remain unimplemented; this label is not an integration claim. Native visual verification
 of the new row remains pending macOS unlock.
+
+## Console-query implementation evidence — 2026-09-08
+
+Reviewed CodexBar commit `ca3ad7851e936f7d125958252af141c8b9996e0f`:
+[regional routing](https://github.com/steipete/CodexBar/blob/ca3ad7851e936f7d125958252af141c8b9996e0f/Sources/CodexBarCore/Providers/Alibaba/AlibabaCodingPlanAPIRegion.swift),
+[Coding Plan fetcher](https://github.com/steipete/CodexBar/blob/ca3ad7851e936f7d125958252af141c8b9996e0f/Sources/CodexBarCore/Providers/Alibaba/AlibabaCodingPlanUsageFetcher.swift),
+and [Token Plan fetcher](https://github.com/steipete/CodexBar/blob/ca3ad7851e936f7d125958252af141c8b9996e0f/Sources/CodexBarCore/Providers/Alibaba/AlibabaTokenPlanUsageFetcher.swift).
+This is community implementation evidence, not vendor documentation or Waterline live validation.
+
+Coding Plan attempts POST `/data/api.json` on the selected console host with action
+`zeldaEasy.broadscope-bailian.codingPlan.queryCodingPlanInstanceInfoV2`, using either
+API-key headers or a separate web-session flow. Its parser explicitly handles
+API-key mode being unavailable. Candidate fields include `per5HourUsedQuota`,
+`per5HourTotalQuota`, their reset timestamp, and weekly/billing-month equivalents.
+This establishes a concrete candidate, not working authentication for either region.
+
+Token Plan uses web cookies and separate personal usage/subscription/quota-config
+gateway actions; it is not evidence of a subscription-key-only lookup.
+
+Do not copy the reference's automatic international-to-China credential retry,
+endpoint overrides, broad payload logging or fallback quota inference. Waterline
+requires explicit regional identity, fixed authorized destinations and actual metrics.
+No browser cookie store or user Qwen credential was read for this review. Next proof
+needed: a permitted regional authentication method and a redacted real response tied
+to the intended account/plan. The adapter remains unregistered pending that evidence.

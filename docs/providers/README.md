@@ -21,7 +21,7 @@ establish live support; unreviewed candidate notes remain provisional.
 | [MiniMax](minimax.md) | `minimax` | Registered regional Subscription Key; offline only | coding-plan quotas; balance route unverified | community | Regional config/manual key | v0.2 |
 | [DeepSeek](deepseek.md) | `deepseek` | Registered manual key; offline only | balance | official candidate | Config/manual key | v0.2 |
 | [Antigravity](antigravity.md) | `antigravity` | Registered opt-in running CLI; real engine/restore 2026-09-08; native UI pending | per-model/group quotas | community | Documented account storage to verify | v0.3 |
-| [Qwen / Bailian](qwen.md) | `qwen` | Reviewed 2026-09-07; intended key quota lookup unverified | OAuth discontinued; plan/account scopes separate | primary capability review | Opted-in config source | v0.3 |
+| [Qwen / Bailian](qwen.md) | `qwen` | Reviewed 2026-09-08; console-query candidate found, key auth unverified | OAuth discontinued; plan/account scopes separate | primary capability review | Opted-in config source | v0.3 |
 
 Keep Tier 1 tool login state on by default; Tier 2 config scanning off per source; Tier 3 manual entry
 user initiated. A configured base URL helps identify a region or gateway; it is never permission to
