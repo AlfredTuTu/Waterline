@@ -16,6 +16,7 @@ class CaskGeneratorTests(unittest.TestCase):
         text = generator.render("1.2.3", "a" * 64, url, ["arm64"])
         self.assertIn("depends_on arch: :arm64", text)
         self.assertNotIn("auto_updates", text)
+        self.assertIn('binary "#{appdir}/Waterline.app/Contents/MacOS/waterline"', text)
         with tempfile.NamedTemporaryFile(suffix=".rb", mode="w") as output:
             output.write(text)
             output.flush()

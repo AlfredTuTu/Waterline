@@ -147,3 +147,5 @@ Later rows explicitly supersede earlier decisions; an old row is not a current r
 | 2026-09-08 | Owned-Keychain reads execute off the engine actor; lifecycle/generation checks reject late results. | Waiting for user authorization must not prevent engine state access or repopulate stopped operations. |
 
 | 2026-09-08 | Generate Homebrew metadata only from a signed/stapled validated artifact, with actual architecture and SHA-256; no development cask is emitted. | Distribution metadata must match the installer and remain separate from publication/clean-install acceptance. |
+
+| 2026-09-08 | Ship the CLI inside the app, sign it before the outer bundle, and expose it in generated Homebrew casks. | Installed users should not need a source checkout to access the second client; validator checks remain read-only for external artifacts. |

@@ -31,7 +31,8 @@ def render(version, digest, url, architectures):
             f'  url "{url}"\n  name "Waterline"\n'
             '  desc "Menu bar monitor for AI account usage and balances"\n'
             '  homepage "https://github.com/AlfredTuTu/Waterline"\n\n'
-            f'  depends_on macos: :sonoma\n{dependency}\n  app "Waterline.app"\nend\n')
+            f'  depends_on macos: :sonoma\n{dependency}\n  app "Waterline.app"\n'
+            '  binary "#{appdir}/Waterline.app/Contents/MacOS/waterline"\nend\n')
 
 
 def run(*arguments):

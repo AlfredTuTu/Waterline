@@ -49,6 +49,30 @@ if [[ "$minimum" == "14.0" && -n "$deployment_targets" ]] && $targets_match; the
 else
     fail "declared and compiled macOS 14 deployment target required"
 fi
+cli="$app/Contents/MacOS/waterline"
+app_arches=$(lipo -archs "$app/Contents/MacOS/WaterlineApp" 2>/dev/null | tr ' ' '\n' | sort -u | tr '\n' ' ' || true)
+cli_arches=$(lipo -archs "$cli" 2>/dev/null | tr ' ' '\n' | sort -u | tr '\n' ' ' || true)
+if [[ -x "$cli" && -n "$app_arches" && "$cli_arches" == "$app_arches" ]] && codesign --verify --strict "$cli" >/dev/null 2>&1; then
+    pass "bundled CLI integrity and matching architectures"
+else
+    fail "bundled CLI missing, invalid, or architecture mismatch"
+fi
+cli_signature=$(codesign -dv --verbose=4 "$cli" 2>&1 || true)
+app_team=$(sed -n 's/^TeamIdentifier=//p' <<< "$signature")
+cli_team=$(sed -n 's/^TeamIdentifier=//p' <<< "$cli_signature")
+cli_flags=$(sed -n 's/^CodeDirectory .*flags=//p' <<< "$cli_signature")
+if [[ "$cli_signature" == *"Authority=Developer ID Application:"* && "$cli_signature" == *"Timestamp="* && "$cli_flags" == *runtime* && -n "$app_team" && "$app_team" == "$cli_team" ]]; then
+    pass "bundled CLI Developer ID, runtime and signing team"
+else
+    fail "bundled CLI needs matching Developer ID, runtime and timestamp"
+fi
+cli_build=$(xcrun vtool -show-build "$cli" 2>/dev/null || true)
+cli_targets=$(awk '$1 == "minos" { print $2 }' <<< "$cli_build")
+cli_targets_match=true
+while read -r target; do
+    case "$target" in 14.0|14.0.0) ;; *) cli_targets_match=false ;; esac
+done <<< "$cli_targets"
+if [[ -n "$cli_targets" ]] && $cli_targets_match; then pass "bundled CLI macOS 14 target"; else fail "bundled CLI deployment target mismatch"; fi
 accessory=$(/usr/libexec/PlistBuddy -c 'Print :LSUIElement' "$app/Contents/Info.plist" 2>/dev/null || true)
 if [[ "$accessory" == "true" ]]; then pass "accessory-app bundle setting"; else fail "accessory-app bundle setting required"; fi
 provider_assets_match=true

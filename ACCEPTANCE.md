@@ -912,3 +912,11 @@ The Intel test bundle compiled, but SwiftPM's testing helper attempted ARM loadi
 failed with an incompatible-architecture error. Therefore the Intel test suite did NOT
 pass and no Intel hardware/native GUI support is claimed. Current development DMG remains
 arm64. Evidence: `intel-build.log`, `intel-cli-build.log`, `intel-tests.log`.
+
+Bundled CLI check (2026-09-08): the app now includes Contents/MacOS/waterline, signed
+before the outer bundle. The known local build's version command exits 0 and matches
+0.1.0-dev; architecture and macOS 14 metadata match the app. Read-only DMG inspection
+confirmed exact CLI bytes and detached/removed the mount. Evidence: bundled-cli.json
+and bundled-cli-dmg.json. Distribution checks still reject missing Developer ID/runtime/
+notarization; packaging the helper does not satisfy those gates. Generated casks expose
+the bundled CLI without executing it during artifact validation.

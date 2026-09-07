@@ -211,3 +211,10 @@ It accepts only this project's versioned HTTPS GitHub asset URLs and never insta
 publishes anything. The source DMG must already be a validated stable release; development
 DMGs are rejected. Online Homebrew audit and clean installation remain required after
 publication. Format reference: [Homebrew Cask Cookbook](https://docs.brew.sh/Cask-Cookbook).
+
+The application bundle now includes `Contents/MacOS/waterline`, signed before the outer
+app. Its version is checked against the app in local packaging verification; distribution
+checks inspect its signature, signing team, architecture and deployment target without
+executing a downloaded artifact. Generated Homebrew casks link this helper as `waterline`.
+Read-only snapshot commands remain available while the app runs; commands that need the
+writer lock require the running app to exit first.

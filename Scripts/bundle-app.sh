@@ -16,16 +16,21 @@ app=build/Waterline.app
 rm -rf "$app"
 mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources"
 cp "$bin/WaterlineApp" "$app/Contents/MacOS/WaterlineApp"
+cp "$bin/waterline" "$app/Contents/MacOS/waterline"
 cp -R Resources/en.lproj Resources/zh-Hans.lproj "$app/Contents/Resources/"
 cp Resources/ProviderLogos/*.png "$app/Contents/Resources/"
 cp Resources/ProviderLogos/LICENSE.txt "$app/Contents/Resources/ProviderLogos-LICENSE.txt"
 bash Scripts/build-icon.sh "$app/Contents/Resources/AppIcon.icns"
 sed "s/__VERSION__/$version/g" Resources/Info.plist > "$app/Contents/Info.plist"
 printf 'APPL????' > "$app/Contents/PkgInfo"
-if [[ "$signing_identity" == "-" ]]; then
-    codesign --force --sign - "$app"
-else
-    codesign --force --options runtime --timestamp --sign "$signing_identity" "$app"
-fi
-codesign --verify --strict "$app"
+sign_code() {
+    if [[ "$signing_identity" == "-" ]]; then
+        codesign --force --sign - "$1"
+    else
+        codesign --force --options runtime --timestamp --sign "$signing_identity" "$1"
+    fi
+}
+sign_code "$app/Contents/MacOS/waterline"
+sign_code "$app"
+codesign --verify --deep --strict "$app"
 echo "$app"
