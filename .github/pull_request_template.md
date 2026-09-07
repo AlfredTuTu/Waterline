@@ -1,11 +1,11 @@
-Closes #
+<!-- If there is an issue, replace this comment with Closes #<number>; otherwise remove it. -->
 
 ## What changed
 
 ## How it was verified
 
-- [ ] `make verify` passes locally
-- [ ] New behaviour is covered by tests using fixtures or fakes — no live network, no Keychain prompts
-- [ ] Adapter change: `docs/providers/<name>.md` updated (endpoint, response mapping, last verified)
-- [ ] No secrets, tokens or unredacted fixtures
-- [ ] Nothing outside the issue's scope; anything that needed a decision is on the issue, not silently here
+- [ ] `make verify` passes locally, or any blocker is explicitly recorded
+- [ ] Applicable logic tests and native UI/OS checks are recorded; documentation-only changes need no new tests
+- [ ] Adapter change: contract, supported scope and evidence status updated; live date changes only after a live check
+- [ ] Fixtures and diagnostics reviewed for private data in addition to the audit script
+- [ ] The change fits the authorised task; material decisions and revised requirements are documented

@@ -2,7 +2,7 @@
 export DEVELOPER_DIR ?= /Applications/Xcode.app
 CONFIGURATION ?= debug
 
-.PHONY: build test lint format app run verify clean
+.PHONY: build test lint format app run dmg distribution-check verification-app verification-test verify clean
 
 build:
 	xcrun swift build -c $(CONFIGURATION)
@@ -19,9 +19,21 @@ format:
 app: build
 	Scripts/bundle-app.sh
 
-run: app
-	pkill -x WaterlineApp || true
-	open -n build/Waterline.app
+run:
+	bash Scripts/run-app.sh
+
+dmg:
+	CONFIGURATION=release $(MAKE) app
+	bash Scripts/build-dmg.sh
+
+distribution-check:
+	bash Scripts/check-distribution.sh
+
+verification-app:
+	bash Scripts/build-verification-app.sh
+
+verification-test:
+	xcrun swift test -c release --scratch-path .build/verification -Xswiftc -DWATERLINE_VERIFICATION --filter VerificationEnvironmentTests
 
 verify: build test lint
 	git diff --check

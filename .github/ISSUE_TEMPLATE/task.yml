@@ -25,7 +25,7 @@ body:
     id: acceptance
     attributes:
       label: Acceptance
-      description: Observable, checkable statements. Each one becomes a test or a manual check.
+      description: Observable, checkable statements. Choose logic tests, native checks or document review appropriate to the change; distinguish local checks from live evidence.
     validations:
       required: true
   - type: textarea

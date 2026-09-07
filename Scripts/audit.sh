@@ -23,4 +23,16 @@ for url in $(grep -oE '\.package\(url: "[^"]+"' Package.swift | sed 's/.*"\(.*\)
     esac
 done
 
+for locale in en zh-Hans; do
+    if ! plutil -lint "Resources/$locale.lproj/Localizable.strings"; then
+        status=1
+    fi
+done
+
+for script in Scripts/*.sh; do
+    if ! bash -n "$script"; then
+        status=1
+    fi
+done
+
 exit $status

@@ -1,6 +1,9 @@
 # MiniMax
 
-Kind: both (Coding Plan windows per model; platform balance). Doc status: community. Milestone: v0.2.
+Implementation: registered CN/global Subscription Key flow and offline Token Plan quota tests. No live quota verification yet.
+See [the provider contract rules](README.md) for evidence, mapping and live-check requirements.
+
+Candidate kind: Coding Plan quotas per model; platform balance has no candidate route recorded yet. Doc status: community. Milestone: v0.2.
 
 ## Credentials
 
@@ -9,20 +12,38 @@ Kind: both (Coding Plan windows per model; platform balance). Doc status: commun
 | 2 | `MINIMAX_API_KEY` → `MINIMAX_CN_API_KEY` → `MINIMAX_INTL_API_KEY` in config files | CN `api.minimaxi.com`, international `api.minimax.io`. |
 | 3 | manual | |
 
-## Endpoint candidates
+## Current endpoint contract
 
-| Purpose | Request | Source | Status |
-|---|---|---|---|
-| coding plan remains | `GET https://api.minimaxi.com/v1/api/openplatform/coding_plan/remains` (CN) / `https://api.minimax.io/…` (intl), `Authorization: Bearer <key>` | dsh-provider-balance, CodexBar | community, unverified |
-
-Observed shape: `model_remains[] { model_name, current_interval_usage_count, current_interval_total_count, current_interval_end_timestamp }`.
+Official current FAQs use `GET https://www.minimaxi.com/v1/token_plan/remains` (CN) and
+`GET https://www.minimax.io/v1/token_plan/remains` (global), with a regional Subscription Key as Bearer.
+These replace the initial unverified coding_plan/remains candidate in the implemented path.
+No sibling-region, browser-cookie or pay-as-you-go fallback is attempted.
 
 ## Allowed hosts
 
-`api.minimaxi.com`, `api.minimax.io`
+`www.minimaxi.com`, `www.minimax.io`
 
 ## Response mapping
 
-_To be filled by the adapter PR._
+Support top-level or data-wrapped model_remains and base_resp status. Each model's interval and weekly
+lane is independent. For current responses, remaining_percent gives used = 100 - remaining_percent;
+zero placeholder counts do not create an invented absolute allowance. Legacy usage_count means
+remaining, so used = total_count - usage_count with a positive denominator. Do not label these quota
+units as fixed prompts or money. Unquantified status-3/100%-remaining/zero-or-absent-total lanes carry
+no percentage or count rather than pretending zero usage or unlimited availability.
 
-Last verified: —
+End times accept the observed contemporary epoch-second and epoch-millisecond formats. Missing end
+times stay missing; ambiguous remains_time is not used to invent a reset. Invalid lanes preserve
+successful siblings. Reported model/bucket names remain separate and are never summed. Purchased
+Credits, cash balances, browser-session history and legacy cookie-only endpoint paths remain open.
+
+## Evidence
+
+- Official [global FAQ](https://platform.minimax.io/docs/token-plan/faq) and [CN FAQ](https://platform.minimaxi.com/docs/token-plan/faq), inspected 2026-09-07: Subscription Keys, separate PAYG keys, current endpoints and quota windows.
+- Response evidence: CodexBar MiniMaxModelRemains.swift, MiniMaxUsageFetcher.swift and MiniMaxCurrentTokenPlanResponseTests.swift at [commit c15f736](https://github.com/steipete/CodexBar/tree/c15f736ef42158b830b47db1970ea91886e30e85/Sources/CodexBarCore/Providers/MiniMax), inspected 2026-09-07. Used as protocol evidence, not copied implementation.
+- Last capability review: 2026-09-07
+- Last live verified: —
+- Verified account/region/metric scope: none.
+
+Complete field requirements, units, currency source, timestamps, partial-result behaviour and safe
+error mapping before marking this provider implemented or live verified.

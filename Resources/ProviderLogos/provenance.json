@@ -1,0 +1,64 @@
+{
+  "package": "@lobehub/icons-static-png",
+  "version": "1.97.0",
+  "license": "MIT",
+  "license_source": "https://raw.githubusercontent.com/lobehub/lobe-icons/a94750e3f5f8fc33757b839d85030e742284e43a/LICENSE",
+  "files": [
+    {
+      "provider": "codex",
+      "url": "https://unpkg.com/@lobehub/icons-static-png@1.97.0/dark/openai.png",
+      "sha256": "375016542ebe78b63c7f36b8f6aee3058f2b706d861e5153fd74f9c27f63b8b7",
+      "note": "OpenAI mark fallback; prefer the installed ChatGPT application icon at runtime."
+    },
+    {
+      "provider": "claude-code",
+      "url": "https://unpkg.com/@lobehub/icons-static-png@1.97.0/dark/claude-color.png",
+      "sha256": "97b53fb85b3bf401ffeb8ee7c5ebad734ce9f6edc3038f242021c53bcc18e23d"
+    },
+    {
+      "provider": "cursor",
+      "url": "https://unpkg.com/@lobehub/icons-static-png@1.97.0/dark/cursor.png",
+      "sha256": "1ac411d127a35bb2d287f39e3a4084ed1407884e52377a5cd9bda1a3ea7ef47b"
+    },
+    {
+      "provider": "deepseek",
+      "url": "https://unpkg.com/@lobehub/icons-static-png@1.97.0/dark/deepseek-color.png",
+      "sha256": "f98596fd7802ca0c5290c498fec578fa823988646332ee36c43b7920dc4936eb"
+    },
+    {
+      "provider": "moonshot",
+      "url": "https://unpkg.com/@lobehub/icons-static-png@1.97.0/dark/moonshot.png",
+      "sha256": "10f9a0e0336b921a21feead2fa9e64056414d6bdd43739eca3b07333d5a5eab4"
+    },
+    {
+      "provider": "kimi-code",
+      "url": "https://unpkg.com/@lobehub/icons-static-png@1.97.0/dark/kimi-color.png",
+      "sha256": "fb460178c19cd28fc953fb446eb200b4050f4046eae3d84d1a15189eb50f717c"
+    },
+    {
+      "provider": "zhipu",
+      "url": "https://unpkg.com/@lobehub/icons-static-png@1.97.0/dark/zhipu-color.png",
+      "sha256": "612dca42bba94fd6e760eea79bb34ee8f40f23e24944e58075d6a9ff43b6801a"
+    },
+    {
+      "provider": "minimax",
+      "url": "https://unpkg.com/@lobehub/icons-static-png@1.97.0/dark/minimax-color.png",
+      "sha256": "9e596627348deb4030938a948243cc94e96cc1548d645ce4faf1de0e51b9043a"
+    },
+    {
+      "provider": "xai",
+      "url": "https://unpkg.com/@lobehub/icons-static-png@1.97.0/dark/grok.png",
+      "sha256": "dbd7bf8431752d3a1ad00f7b3b28df4ef5bd508cdb8583c3bd9f579936545fa0"
+    },
+    {
+      "provider": "antigravity",
+      "url": "https://unpkg.com/@lobehub/icons-static-png@1.97.0/dark/antigravity-color.png",
+      "sha256": "ac20d11802a405491048957d68c84f7303ceaf682a95cf890263452ccdd97897"
+    },
+    {
+      "provider": "qwen",
+      "url": "https://unpkg.com/@lobehub/icons-static-png@1.97.0/dark/qwen-color.png",
+      "sha256": "de9bc7e285164e0d284a7b9555511c7f7767af7699d6272b3b67b376eeddbfb3"
+    }
+  ]
+}
