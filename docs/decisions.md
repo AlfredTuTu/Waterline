@@ -145,3 +145,5 @@ Later rows explicitly supersede earlier decisions; an old row is not a current r
 | 2026-09-08 | Dedicated local-service requests share the engine HTTP permit queue while retaining their own endpoint validation. | Local IPC must not bypass global concurrency or continue probing after cancellation. |
 
 | 2026-09-08 | Owned-Keychain reads execute off the engine actor; lifecycle/generation checks reject late results. | Waiting for user authorization must not prevent engine state access or repopulate stopped operations. |
+
+| 2026-09-08 | Generate Homebrew metadata only from a signed/stapled validated artifact, with actual architecture and SHA-256; no development cask is emitted. | Distribution metadata must match the installer and remain separate from publication/clean-install acceptance. |

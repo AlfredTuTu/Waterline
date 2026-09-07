@@ -24,3 +24,7 @@ release/
 
 # Local design experiments and external CLI consultation records
 design-previews/
+
+# Python tooling bytecode
+__pycache__/
+*.pyc

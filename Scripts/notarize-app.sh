@@ -20,11 +20,11 @@ if [[ -z "$profile" || -e "$output" || -L "$output" || -e "$report" || -L "$repo
     echo "Provide an existing notarytool profile and a new output path." >&2
     exit 64
 fi
-bash Scripts/check-distribution.sh "$app" --pre-notarization
 staging=$(mktemp -d "${TMPDIR:-/tmp}/waterline-notarize.XXXXXX")
 trap 'rm -rf "$staging"' EXIT
 staged_app="$staging/Waterline.app"
 ditto "$app" "$staged_app"
+bash Scripts/check-distribution.sh "$staged_app" --pre-notarization
 ditto -c -k --keepParent "$staged_app" "$staging/Waterline.zip"
 mkdir -p "$(dirname "$report")"
 submission_result=0

@@ -201,3 +201,13 @@ source app, profile name and a new output-app path. It submits a staged ZIP, pre
 Apple's result beside the output path, staples and validates an accepted app, and leaves
 the source bundle unchanged. This step does not publish a GitHub release, build a
 Homebrew cask or establish clean-install acceptance. Those remain separate requirements.
+
+### Homebrew cask preparation
+
+`python3 Scripts/generate-cask.py SIGNED_DMG --url VERSIONED_RELEASE_URL --output Casks/waterline.rb`
+checks the DMG signature/ticket, mounts it read-only, validates its actual application,
+and generates a cask with the artifact SHA-256, macOS minimum and actual CPU architectures.
+It accepts only this project's versioned HTTPS GitHub asset URLs and never installs or
+publishes anything. The source DMG must already be a validated stable release; development
+DMGs are rejected. Online Homebrew audit and clean installation remain required after
+publication. Format reference: [Homebrew Cask Cookbook](https://docs.brew.sh/Cask-Cookbook).

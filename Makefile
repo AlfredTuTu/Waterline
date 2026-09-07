@@ -36,6 +36,7 @@ verification-test:
 	xcrun swift test -c release --scratch-path .build/verification -Xswiftc -DWATERLINE_VERIFICATION --filter VerificationEnvironmentTests
 
 verify: build test lint
+	python3 Scripts/test-cask-generator.py
 	git diff --check
 	git diff --cached --check
 	Scripts/audit.sh
