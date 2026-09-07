@@ -987,3 +987,13 @@ sparkle-release-dmg.log and sparkle-release-dmg.json. SHA-256:
 `3bbc20584cdc7817ea949f305caf048994ed639e01f05dff72aa356eedca350e`.
 This remains ad-hoc development distribution, with no update feed/key, notarization,
 clean-install or real signed-update acceptance.
+
+2026-09-08 optional Claude hook implementation: native settings opt-in, bounded CLI
+input, sanitized distributed notifications, independent session activity and owned
+hook cleanup are implemented. Default off; no real Claude settings were changed.
+Four new offline tests cover sensitive-field exclusion, replay/overlap/expiry,
+configuration preservation/idempotence and private-file/symlink behavior. An actual
+CLI-to-isolated-listener test received only hash/kind/time with empty CLI stdout
+(hook-ipc.json). Full gate reached 302 Swift tests and 4 Python tests. Native enable,
+real Claude event support/session execution, disable, pending-cleanup restoration and
+layout remain unverified. The currently installed app has not been replaced.

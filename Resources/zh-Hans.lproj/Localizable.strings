@@ -383,3 +383,17 @@
 "Updates are unavailable in this development build." = "此开发版本暂不提供应用更新。";
 
 "The update download address is not supported." = "此更新下载地址不受支持。";
+
+"Claude Code session activity" = "Claude Code会话活动";
+
+"Adds local hooks to Claude Code settings. Conversation content is not recorded." = "向Claude Code设置添加本地Hook，不记录对话内容。";
+
+"Could not update Claude Code hooks. Check settings permissions and JSON, then retry." = "无法更新Claude Code Hook，请检查设置文件权限和JSON后重试。";
+
+"Remove remaining hooks" = "移除剩余Hook";
+
+"Claude Code: recent session activity" = "Claude Code：近期会话活动";
+
+"Could not find the bundled Waterline command. Reinstall the app and try again." = "找不到Waterline内置命令，请重新安装应用后重试。";
+
+"Claude Code has disabled hooks. Enable them there before connecting activity." = "Claude Code已禁用Hook，请先在其中启用，再连接会话活动。";

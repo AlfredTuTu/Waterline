@@ -17,30 +17,34 @@ struct SettingsView: View {
 
     var body: some View {
         TabView(selection: Binding(get: { model.settingsTab }, set: { model.settingsTab = $0 })) {
-            Form {
-                LanguageSettings()
-                Divider()
-                LoginItemSettings()
-                Divider()
-                SoftwareUpdateSettings()
-                Divider()
-                Toggle(
-                    "Usage notifications",
-                    isOn: Binding(
-                        get: { model.notifications.enabled },
-                        set: { enabled in Task { await model.notifications.setEnabled(enabled) } })
-                )
-                .disabled(model.notifications.changing)
-                Text("New threshold crossings only. At most one alert per account each hour.")
-                    .font(.caption).foregroundStyle(.secondary)
-                if model.notifications.changing { ProgressView("Updating…").controlSize(.small) }
-                if let message = model.notifications.message {
-                    Text(LocalizedStringKey(message)).font(.caption).foregroundStyle(.orange)
-                }
-                Divider()
-                Button("Connection guide") { showGuide = true }
-            }.padding(12)
-                .tabItem { Label("General", systemImage: "gearshape") }.tag("general")
+            ScrollView {
+                Form {
+                    LanguageSettings()
+                    Divider()
+                    LoginItemSettings()
+                    Divider()
+                    SoftwareUpdateSettings()
+                    Divider()
+                    HookActivitySettings()
+                    Divider()
+                    Toggle(
+                        "Usage notifications",
+                        isOn: Binding(
+                            get: { model.notifications.enabled },
+                            set: { enabled in Task { await model.notifications.setEnabled(enabled) } })
+                    )
+                    .disabled(model.notifications.changing)
+                    Text("New threshold crossings only. At most one alert per account each hour.")
+                        .font(.caption).foregroundStyle(.secondary)
+                    if model.notifications.changing { ProgressView("Updating…").controlSize(.small) }
+                    if let message = model.notifications.message {
+                        Text(LocalizedStringKey(message)).font(.caption).foregroundStyle(.orange)
+                    }
+                    Divider()
+                    Button("Connection guide") { showGuide = true }
+                }.padding(12)
+            }
+            .tabItem { Label("General", systemImage: "gearshape") }.tag("general")
             accounts.tabItem { Label("Accounts", systemImage: "person.crop.circle") }.tag("accounts")
             limits.tabItem { Label("Display & refresh", systemImage: "slider.horizontal.3") }.tag("limits")
             privacy.tabItem { Label("Privacy", systemImage: "hand.raised") }.tag("privacy")

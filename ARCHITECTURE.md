@@ -170,8 +170,11 @@ leave headline, healthy-state and alert eligibility while their last values rema
 
 Window accounts refresh every 60 seconds while the corresponding harness is active, otherwise every
 5 minutes; balance-only accounts every 5 minutes. For both kinds, use the window cadence but respect
-separate endpoint limits. Activity uses documented directory modification evidence within 10 minutes;
-it is an approximation until hooks exist, not proof that a request is currently running.
+separate endpoint limits. Current implementation uses user input idle time to select the faster cadence for
+window accounts (`Engine.userActive`), not tool-directory evidence. This does not
+prove that a harness or request is running. Optional Claude Code hooks now have a separate local activity path described in
+`docs/hook-activity.md`. They do not attribute activity to quota accounts or change
+refresh scheduling; real-tool/native acceptance remains outstanding.
 
 429 honours numeric or HTTP-date `Retry-After`; without it use 60-second exponential backoff capped
 at 30 minutes. Transport/5xx failures use the same fallback backoff; success resets it. Coalesce

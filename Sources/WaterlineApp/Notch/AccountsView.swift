@@ -72,6 +72,7 @@ struct AccountsView: View {
                     .disabled(model.isVerification)
                 }.font(.system(size: 11, weight: .medium)).buttonStyle(.plain).padding(.bottom, 18)
             }
+            HookActivityBanner()
             ScrollView {
                 if waitingForAccount || (!model.loaded && model.snapshot.accounts.isEmpty) {
                     Text("Loading account…").foregroundStyle(.secondary).padding(.vertical, 24)

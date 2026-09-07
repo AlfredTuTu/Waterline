@@ -155,3 +155,5 @@ Later rows explicitly supersede earlier decisions; an old row is not a current r
 | 2026-09-08 | Development run refuses an already-running different Waterline bundle and verifies its own executable after launch. | The single-instance guard must not make an old installed build appear to be the freshly built checkout. |
 
 | 2026-09-08 | Pin Sparkle 2.9.6 in the app target for signed native updates, ship its full license and embed/sign nested components. No feed/key is configured; missing release configuration keeps the updater uninitialized. | Reuse a maintained native installer instead of writing executable replacement logic; provider credentials never enter the updater. |
+
+| 2026-09-08 | Optional Claude command hooks send only hashed session/kind/time over local distributed notifications. Native opt-in owns exact hook entries; disable stops reception before retryable cleanup. | Tool-session activity must not expose conversations, infer quota identity, or silently modify tool configuration at startup. |

@@ -383,3 +383,17 @@
 "Updates are unavailable in this development build." = "Updates are unavailable in this development build.";
 
 "The update download address is not supported." = "The update download address is not supported.";
+
+"Claude Code session activity" = "Claude Code session activity";
+
+"Adds local hooks to Claude Code settings. Conversation content is not recorded." = "Adds local hooks to Claude Code settings. Conversation content is not recorded.";
+
+"Could not update Claude Code hooks. Check settings permissions and JSON, then retry." = "Could not update Claude Code hooks. Check settings permissions and JSON, then retry.";
+
+"Remove remaining hooks" = "Remove remaining hooks";
+
+"Claude Code: recent session activity" = "Claude Code: recent session activity";
+
+"Could not find the bundled Waterline command. Reinstall the app and try again." = "Could not find the bundled Waterline command. Reinstall the app and try again.";
+
+"Claude Code has disabled hooks. Enable them there before connecting activity." = "Claude Code has disabled hooks. Enable them there before connecting activity.";

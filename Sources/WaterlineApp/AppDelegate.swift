@@ -37,6 +37,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApplication.shared.setActivationPolicy(.accessory)
         model.start()
         SoftwareUpdates.shared.start()
+        HookActivity.shared.start()
         NotificationCenter.default.addObserver(
             self, selector: #selector(screenChanged), name: NSApplication.didChangeScreenParametersNotification,
             object: nil)
