@@ -1005,3 +1005,31 @@ error. The actual Waterline hook CLI emitted UserPromptSubmit, Stop and SessionE
 to the isolated local listener. Temporary settings were removed; persistent user
 hooks were not modified. Evidence: claude-hooks-live.json. StopFailure execution,
 native toggle/banner and cleanup/relaunch UI remain unverified.
+
+2026-09-08 current Release resource measurement: executable SHA-256
+`5e0ce9b3c6b00f3d2c782f080d6e69d68e7535a56d8d8f8de5512a321ffadcdf`
+completed ten minutes of warm-up followed by 600 one-second samples. Four actual
+configured accounts were enabled (Claude Code, Codex, Cursor, Moonshot). Mean process
+CPU was 0.1899979%; sampled physical peak 24,839,248 bytes (23.6886 MiB), lifetime
+physical peak 24,872,016 bytes, maximum sample gap 1.0271 seconds. The executable
+and recorded configuration were unchanged. Environment: macOS 27.0 (26A5425a),
+Mac17,9, 48 GiB RAM, built-in 3024x1964 Retina display, mirroring off. The controller
+then stopped the candidate and restored the fixed installed copy. Evidence:
+runtime-latest-real.json, runtime-latest-summary.json, runtime-latest-target.json and
+runtime-latest-displays.json under ignored build/verification.
+
+The numeric thresholds pass for this binary and background real-account scope. Mac
+lock prevented native collapsed/idle verification; this is not the four-fixture standard
+scenario, enabled-update/hook activity measurement, proof that every account refreshed
+successfully, or acceptance on macOS 14/15/26 and other display arrangements.
+
+2026-09-08 fixed-install update: the exact measured Release candidate (SHA-256
+`5e0ce9b3c6b00f3d2c782f080d6e69d68e7535a56d8d8f8de5512a321ffadcdf`)
+was staged, integrity/contents checked and installed at the fixed user Applications
+location. The previous app was retained in Waterline Backups with a matching file
+inventory. One process was running at the installed path; its bundled CLI could read
+the four existing accounts and the saved daily selection resolved. Evidence:
+measured-installation.json and measured-installation-state.json. This supersedes
+earlier notes that the installed copy lacks the updater/hook candidate. Neither
+feature was enabled by installation. Native UI, signing and clean-user acceptance
+remain open; the Mac was still locked.
