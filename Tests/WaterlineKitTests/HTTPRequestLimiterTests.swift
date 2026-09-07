@@ -10,9 +10,9 @@ struct HTTPRequestLimiterTests {
         let client = LimitedHTTPClient(client: probe, limiter: limiter)
         let request = HTTPRequest(url: URL(string: "https://synthetic.example/usage")!)
         let remote = (0..<4).map { _ in Task { try await client.send(request) } }
-        #expect(await eventually { await probe.active == 4 })
+        #expect(try await eventually { await probe.active == 4 })
         let local = Task { try await client.withRequestPermit { try await probe.send(request) } }
-        #expect(await eventually { await limiter.waitingCount == 1 })
+        #expect(try await eventually { await limiter.waitingCount == 1 })
         #expect(await probe.total == 4)
         await probe.open()
         for task in remote { _ = try await task.value }
@@ -36,7 +36,7 @@ struct HTTPRequestLimiterTests {
         let first = Task { try await engine.refreshAll(provider: .codex) }
         let second = Task { try await engine.refreshAll(provider: .cursor) }
         let limiter = await engine.requestLimiter
-        let reachedQueue = await eventually { await limiter.waitingCount >= 4 }
+        let reachedQueue = try await eventually { await limiter.waitingCount >= 4 }
         #expect(reachedQueue)
         #expect(await probe.active == 4)
         await probe.open()
@@ -55,14 +55,14 @@ struct HTTPRequestLimiterTests {
         let client = LimitedHTTPClient(client: probe, limiter: limiter)
         let request = HTTPRequest(url: URL(string: "https://synthetic.example/usage")!)
         let first = (0..<4).map { _ in Task { try await client.send(request) } }
-        #expect(await eventually { await probe.active == 4 })
+        #expect(try await eventually { await probe.active == 4 })
         let queued = Task {
             if local { return try await client.withRequestPermit { try await probe.send(request) } }
             return try await client.send(request)
         }
-        #expect(await eventually { await limiter.waitingCount == 1 })
+        #expect(try await eventually { await limiter.waitingCount == 1 })
         queued.cancel()
-        #expect(await eventually { await limiter.waitingCount == 0 })
+        #expect(try await eventually { await limiter.waitingCount == 0 })
         await probe.open()
         for task in first { _ = try await task.value }
         await #expect(throws: CancellationError.self) { try await queued.value }
@@ -71,14 +71,16 @@ struct HTTPRequestLimiterTests {
         #expect(await probe.total == 5)
     }
 
-    private func eventually(_ predicate: () async -> Bool) async -> Bool {
+    private func eventually(_ predicate: () async -> Bool) async throws -> Bool {
         let clock = ContinuousClock()
         let end = clock.now.advanced(by: .seconds(2))
         while clock.now < end {
             if await predicate() { return true }
-            await Task.yield()
+            try await clock.sleep(for: .milliseconds(1))
         }
-        return false
+        // A loaded runner can resume this task after the deadline. Observe the state
+        // once more instead of declaring failure without giving the actor a turn.
+        return await predicate()
     }
 }
 

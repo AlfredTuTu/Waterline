@@ -83,3 +83,20 @@ query/fragment and non-DMG URLs. This does not yet prove redirect restrictions.
 preflight. The current development bundle correctly fails it because no feed/public
 key is configured. Passing that gate proves syntax/policy, not key ownership, archive
 signature validity or real installation.
+
+## Fixed-version transport review — 2026-09-08
+
+At resolved revision `ac2def288cbff5cfc7df3ffef6abdf45b72bcb0a`,
+`Downloader/SPUDownloader.m` creates a default NSURLSession and does not implement
+`willPerformHTTPRedirection`. `Sparkle/SPUDownloadDriver.m` builds requests and
+accepts optional supplied headers; Waterline supplies no provider headers. The
+actual downloaded Downloader.xpc plist sets `NSAllowsArbitraryLoads` to false.
+The updater delegate API supports the implemented empty system-profile key list.
+
+Consequently, initial feed/archive URL policy is implemented, but a per-redirect
+host allowlist is not. ATS and signed-feed/archive validation are separate controls,
+not evidence of a redirect allowlist. Keep this limitation explicit; inspect actual
+GitHub delivery and test downgrade/unexpected-redirect handling before configuring
+a production feed. The updater remains uninitialized in the current bundle.
+
+Source: [fixed-version downloader](https://github.com/sparkle-project/Sparkle/blob/ac2def288cbff5cfc7df3ffef6abdf45b72bcb0a/Downloader/SPUDownloader.m).
