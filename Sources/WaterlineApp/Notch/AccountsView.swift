@@ -85,7 +85,21 @@ struct AccountsView: View {
                         ForEach(visibleAccounts, id: \.account.id) { entry in
                             account(entry, detail: false)
                                 .contentShape(Rectangle())
-                                .draggable(dragSession + ":" + entry.account.id.rawValue)
+                                .draggable(dragSession + ":" + entry.account.id.rawValue) {
+                                    account(entry, detail: false)
+                                        .frame(
+                                            width: (width - 48 - 28 * CGFloat(accountColumns - 1))
+                                                / CGFloat(accountColumns)
+                                        )
+                                        .padding(16)
+                                        .background(.black, in: RoundedRectangle(cornerRadius: 16))
+                                        .overlay {
+                                            RoundedRectangle(cornerRadius: 16).stroke(
+                                                .white.opacity(0.14), lineWidth: 1)
+                                        }
+                                        .shadow(color: .black.opacity(0.35), radius: 12, y: 6)
+                                        .environment(\.colorScheme, .dark)
+                                }
                                 .dropDestination(for: String.self) { values, _ in
                                     reorder(values, onto: entry.account.id)
                                 } isTargeted: { targeted in
