@@ -1181,3 +1181,36 @@ build/verification/empty-onboarding; both exited render runs' temporary states
 were removed after checking empty snapshots. This is visual/isolation evidence,
 not a successful real onboarding connection: verification mode deliberately
 restricts Settings actions, and live one-minute account discovery remains open.
+
+
+2026-09-08 abnormal-state rendering audit: the current isolated verification app
+rendered partial/component-failure, expired-secondary and unsupported account
+details in English and Simplified Chinese. The component-failure images visibly
+preserved the valid 44% test lane and showed the separate 7d schema error. The
+expired-secondary images retained the old 10% with an earlier-reading/awaiting-update
+label, but omitted the account header and a lane label. Unsupported images showed
+the scoped unsupported reason without a quota bar, but also omitted the account
+header. These incomplete images are not accepted as full layout evidence.
+Results are retained under ignored build/verification/state-render-checks.
+
+A native on-screen comparison was attempted to distinguish rendering defects from
+export capture defects; CUA reported the Mac locked and automatic unlock failed.
+No production UI correction is justified from the export artifacts alone. All
+three export processes exited successfully and their temporary synthetic stores
+were removed, but process success does not establish successful visual acceptance.
+Actual on-screen comparison remains open until the Mac is available.
+
+
+2026-09-08 unlocked follow-up: CUA again read the production app, but repeated
+user-driven window changes prevented a non-disruptive switch to the verification
+instance. The production PID 87228 remained running. The same two offscreen
+scenarios were rerun without showing test windows. Expired-secondary zh-Hans now
+showed the complete header; its English image still omitted part of the header.
+Unsupported English now showed the complete header, while zh-Hans omitted it.
+Metric/status wording remained scoped: old secondary usage was labelled earlier
+and awaiting update, and unsupported contained no quota bar. The changing missing
+regions are evidence of capture/render instability, not proof of an underlying UI
+fix or a known capture-only defect. Preserve both runs and keep visual acceptance
+open until a real on-screen comparison is available. New images and run results
+are under ignored build/verification/state-render-unlocked. No production source,
+installed executable or account configuration was changed in this follow-up.
