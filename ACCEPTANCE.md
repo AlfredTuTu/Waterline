@@ -1136,3 +1136,32 @@ this is event injection or the native drag path; mouse dragging remains unverifi
 and is not replaced by keyboard acceptance. Named VoiceOver actions also remain
 unverified by this AX inspection. The keyboard path is an additional accessible
 input, not a scope reduction of the owner's drag requirement.
+
+
+2026-09-08 drag-input control: CUA dragging across a temporary plain search string
+in the native Settings text field also failed to produce an observed text selection;
+the screenshot pointer remained near the drag start. The temporary query was cleared.
+This independent control makes input injection a plausible contributor, but does not
+prove the list drag path works. A single bounded Claude CLI consultation returned
+only incomplete analysis and is not verification evidence. Real owner mouse behavior
+has been requested to discriminate these cases. Evidence: ignored
+`build/verification/drag-input-control.json`. No drag implementation or acceptance
+criterion was relaxed based on the failed injection.
+
+
+2026-09-08 current development DMG: Waterline-0.1.0-dev-arm64-development.dmg
+SHA-256 `2a2113e10d4e70402849b81e2574a392c731a2b466bcc6e66271f286dfa0410d`
+was built and hdiutil-verified. A read-only mount confirmed every bundled file and
+symlink matched build/Waterline.app, nested signature integrity passed, Read Me
+matched the source, and the Applications link targeted /Applications. The mount
+was detached. Updated bilingual uninstall instructions require disabling Claude
+activity and resolving remaining-hook cleanup before removing the app. Evidence:
+current-dmg-mounted.json under ignored build/verification.
+
+Pre-notarization checks passed sealed resources, app/CLI deployment target and
+architecture consistency, provider icons/license, icon sizes and Sparkle integrity.
+They correctly failed Developer ID, hardened runtime, secure timestamp, matching
+signed CLI, stable release version and update-feed configuration. No ticket or
+Gatekeeper acceptance is claimed. This is an arm64 development image, not a public
+release or a clean-machine installation/upgrade test. Installed account state was
+not modified by packaging or the read-only mount.
