@@ -14,9 +14,6 @@ struct WaterlineApp: App {
             Group {
                 Text("Waterline \(WaterlineVersion.current)")
                 Button("Show accounts") { delegate.showAccounts() }
-                Button("Balance history") {
-                    NSApplication.shared.activate(); openWindow(id: "balance-history")
-                }
                 Button("Token records") {
                     NSApplication.shared.activate(); openWindow(id: "token-history")
                 }
@@ -32,10 +29,6 @@ struct WaterlineApp: App {
         } label: {
             Image(nsImage: WaterlineMark.image).accessibilityLabel("Waterline")
         }
-        Window("Balance history", id: "balance-history") {
-            HistoryWindow(model: delegate.model).modifier(RecordWindowBehavior()).environment(
-                \.locale, localization.locale)
-        }.defaultSize(width: 720, height: 520)
         Window("Token records", id: "token-history") {
             TokenHistoryWindow(model: delegate.model).modifier(RecordWindowBehavior()).environment(
                 \.locale, localization.locale)

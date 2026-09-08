@@ -124,10 +124,6 @@ struct AccountsView: View {
                 notchAccountMenu
                 Menu("Waterline") {
                     Button("Collapse island", action: close).keyboardShortcut(.escape, modifiers: [])
-                    Button("Balance history") {
-                        close()
-                        NSApplication.shared.activate(); openWindow(id: "balance-history")
-                    }
                     Button("Token records") {
                         close()
                         NSApplication.shared.activate(); openWindow(id: "token-history")

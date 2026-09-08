@@ -151,9 +151,9 @@ public actor Engine {
             uniquingKeysWith: { first, _ in first })
         for account in accounts where states[account.id] == nil { states[account.id] = .pending }
         started = true
-        nextCredentialCheck = dependencies.now().addingTimeInterval(300)
+        nextCredentialCheck = dependencies.now().addingTimeInterval(60)
         pendingDiscovery = Set(dependencies.adapters.map { type(of: $0).descriptor.provider })
-        loadHistory()
+        if dependencies.adapters.contains(where: { type(of: $0).descriptor.kind != .window }) { loadHistory() }
         cleanRemovedSecrets()
         broadcast()
         for adapter in dependencies.adapters {
@@ -250,7 +250,7 @@ public actor Engine {
 
     func isEnabled(_ id: AccountID) -> Bool {
         guard let managed = configuration.accounts.first(where: { $0.account.id == id }) else { return false }
-        return managed.preferences.enabled
+        return adapters[managed.account.provider] != nil && managed.preferences.enabled
             && configuration.preferences.allowsSource(for: managed.account)
     }
 

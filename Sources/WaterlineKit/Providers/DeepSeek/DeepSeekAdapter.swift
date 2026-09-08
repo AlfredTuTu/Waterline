@@ -21,6 +21,9 @@ public struct DeepSeekAdapter: ProviderAdapter {
         if environment.enabledCredentialSources.contains(.deepSeekClaudeSettings) {
             accounts += discoverClaudeSettings(in: environment)
         }
+        if environment.enabledCredentialSources.contains(.deepSeekOpenCode) {
+            accounts += discoverOpenCode(in: environment)
+        }
         return accounts
     }
 

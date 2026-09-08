@@ -3,6 +3,9 @@ import Foundation
 extension Engine {
     var fileCredentialChecks: [(provider: Provider, source: OptionalCredentialSource?)] {
         var checks: [(Provider, OptionalCredentialSource?)] = [(.codex, nil), (.cursor, nil)]
+        if configuration.preferences.enabledCredentialSources?.contains(.deepSeekOpenCode) == true {
+            checks.append((.deepseek, .deepSeekOpenCode))
+        }
         if configuration.preferences.enabledCredentialSources?.contains(.deepSeekClaudeSettings) == true {
             checks.append((.deepseek, .deepSeekClaudeSettings))
         }
@@ -18,7 +21,7 @@ extension Engine {
     /// Read-only file or opted-in local-service discovery; never permits interactive Keychain access.
     func checkChangedFileCredentials() async {
         guard started, !suspended else { return }
-        nextCredentialCheck = dependencies.now().addingTimeInterval(300)
+        nextCredentialCheck = dependencies.now().addingTimeInterval(60)
         let session = lifecycle
         let environment = dependencies.environment
         for (provider, source) in fileCredentialChecks {

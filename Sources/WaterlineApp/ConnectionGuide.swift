@@ -4,7 +4,7 @@ import WaterlineKit
 struct ConnectionGuide: View {
     let model: AppModel
     let continueToAccounts: () -> Void
-    @State private var selected: Set<Provider> = [.codex, .claudeCode, .cursor]
+    @State private var selected: Set<Provider> = [.codex, .claudeCode, .cursor, .grok]
     @State private var connecting: Provider?
     @State private var operation: Task<Void, Never>?
 
@@ -20,7 +20,7 @@ struct ConnectionGuide: View {
                     Text(
                         "Always Allow can remember access for a consistently signed installation. Development updates may ask again."
                     )
-                    ForEach([Provider.codex, .claudeCode, .cursor], id: \.self) { provider in
+                    ForEach([Provider.codex, .claudeCode, .cursor, .grok], id: \.self) { provider in
                         HStack {
                             Toggle(
                                 provider.displayName,
@@ -42,7 +42,8 @@ struct ConnectionGuide: View {
                     }
                     Button("Connect selected accounts") {
                         operation = Task {
-                            for provider in [Provider.codex, .claudeCode, .cursor] where selected.contains(provider) {
+                            for provider in [Provider.codex, .claudeCode, .cursor, .grok]
+                            where selected.contains(provider) {
                                 guard !Task.isCancelled else { break }
                                 connecting = provider
                                 await model.connect(provider)
@@ -52,17 +53,20 @@ struct ConnectionGuide: View {
                         }
                     }.disabled(operation != nil || selected.isEmpty || !model.loaded)
 
-                    Text("Manual keys stay in Waterline’s Keychain service. Choose the key’s region when requested.")
                     Divider()
                     ForEach(Registry.adapters.map { type(of: $0).descriptor }, id: \.provider) { descriptor in
                         VStack(alignment: .leading, spacing: 5) {
                             Text(descriptor.provider.displayName).fontWeight(.medium)
                             Text(LocalizedStringKey(sourceDescription(descriptor))).font(.caption)
-                            Text(
-                                AppText.format(
-                                    "Destination: %@", descriptor.allowedHosts.sorted().joined(separator: ", "))
-                            )
-                            .font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                            if descriptor.provider == .antigravity {
+                                Text("Connection: local Antigravity CLI").font(.caption).foregroundStyle(.secondary)
+                            } else {
+                                Text(
+                                    AppText.format(
+                                        "Destination: %@", descriptor.allowedHosts.sorted().joined(separator: ", "))
+                                )
+                                .font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+                            }
                         }
                     }
                     Divider()
@@ -95,7 +99,7 @@ struct ConnectionGuide: View {
         case .claudeCode: "Claude Code’s saved Keychain login, or its credentials file when no Keychain item exists."
         case .cursor: "Cursor’s local login database, opened read-only."
         case .grok: "Grok Build’s saved OAuth login. Consumer subscription usage, not API billing."
-        case .deepseek: "Manual key, or explicitly enabled environment and Claude Code settings sources."
+        case .antigravity: "Antigravity’s running local CLI. Enable it in Accounts after signing in."
         default:
             descriptor.supportsManualKey
                 ? "Add a provider key in Accounts. Its required type and destination are shown before saving."

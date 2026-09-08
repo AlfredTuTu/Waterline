@@ -3,7 +3,6 @@ import WaterlineKit
 
 struct SettingsView: View {
     let model: AppModel
-    @State private var manualProvider: Provider?
     @State private var accountSearch = ""
     @State private var accountProvider: Provider?
     @State private var showGuide = false
@@ -38,9 +37,6 @@ struct SettingsView: View {
                 model.settingsTab = "accounts"
                 showGuide = false
             }
-        }
-        .sheet(isPresented: Binding(get: { manualProvider != nil }, set: { if !$0 { manualProvider = nil } })) {
-            if let provider = manualProvider { ManualKeySheet(model: model, provider: provider, accountID: nil) }
         }
 
     }
@@ -92,21 +88,9 @@ struct SettingsView: View {
                                     Task { await model.setSource(provider, enabled: enabled) }
                                 }))
                         Spacer()
-                        if Registry.adapters.contains(where: {
-                            type(of: $0).descriptor.provider == provider && type(of: $0).descriptor.supportsManualKey
-                        }) {
-                            Button("Add key") { manualProvider = provider }
-                                .disabled(model.snapshot.preferences.disabledProviders.contains(provider))
-                        } else {
-                            Button("Connect") { Task { await model.connect(provider) } }
-                                .disabled(model.snapshot.preferences.disabledProviders.contains(provider))
-                        }
+                        Button("Connect") { Task { await model.connect(provider) } }
+                            .disabled(model.snapshot.preferences.disabledProviders.contains(provider))
                     }
-                }
-                HStack {
-                    Text("Qwen / Bailian")
-                    Spacer()
-                    Text("Quota lookup not yet supported").foregroundStyle(.secondary)
                 }
                 Divider()
                 OptionalSourcesView(model: model)
@@ -178,7 +162,6 @@ private struct AccountSettingsRow: View {
     let model: AppModel
     let entry: AccountEntry
     @State private var label = ""
-    @State private var editingKey = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -218,18 +201,13 @@ private struct AccountSettingsRow: View {
                             Task { await model.toggleNotchAccount(entry.account.id) }
                         }))
                 Spacer()
-                if entry.account.credential == .manual {
-                    Button("Update key") { editingKey = true }
-                }
                 Button("Reconnect") { Task { await model.reconnect(entry) } }
                     .disabled(entry.operation != .idle)
                 Button("Remove", role: .destructive) { Task { await model.remove(entry.account.id) } }
             }.controlSize(.small)
         }
         .onAppear { label = entry.preferences.label ?? "" }
-        .sheet(isPresented: $editingKey) {
-            ManualKeySheet(model: model, provider: entry.account.provider, accountID: entry.account.id)
-        }
+
     }
 
     @ViewBuilder private var connectionStatus: some View {

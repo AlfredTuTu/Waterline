@@ -3,12 +3,13 @@
 **中文** · [English](#english)
 
 Waterline是一个开发中的macOS原生刘海/菜单栏应用，目标是自动发现本机已有的AI编程工具账号，
-集中显示服务商报告的**额度使用情况、重置时间和预付费余额**。
+集中显示服务商报告的**额度使用情况和重置时间**。
+
+当前仅保留Claude Code、ChatGPT、Cursor、独立Grok和Antigravity五类原生套餐。API账号功能按用户要求暂时移除，已有密钥、账号记录和历史保留在本机，后续再处理。
 
 - 一个真实账号一行，凭据可以更换；同一账号的多个来源可以合并，不同地区或计费范围保持独立。
 - 支持服务商原始值和有明确依据的计算；缺失数据不补零，预测值标`≈`。
 - 最小状态常显一个账号的图标与剩余额度，点击展开、移出收起，图钉选择日常账号；无刘海的屏幕使用悬浮胶囊。数据过期时保留上次读数并显示时间。
-- 余额按各自币种的阈值判断状态，不直接比较不同币种金额。
 
 ### 当前状态
 
@@ -61,7 +62,9 @@ make dmg
 ## English
 
 Waterline is a macOS notch/menu-bar app in development. It aims to discover existing AI coding accounts
-and show provider-reported **allowance usage, reset times and prepaid balances** in one place.
+and show provider-reported **allowance usage and reset times** in one place.
+
+Current scope is Claude Code, ChatGPT, Cursor, independent Grok and Antigravity. API-account features are deferred by the owner; existing keys, records and history remain stored locally.
 
 - One row per account; credentials can rotate. Reconcile known duplicate sources, while keeping
   separate regional and billing identities distinct.
@@ -69,7 +72,6 @@ and show provider-reported **allowance usage, reset times and prepaid balances**
   predictions carry `≈`.
 - Keep one account logo and remaining allowance visible; click to expand, leave to close, and use pin to select the daily account. Use a floating capsule on displays without a notch. Stale readings
   retain their values and observation age.
-- Preserve each balance's own currency; never rank raw amounts across currencies.
 
 ### Status
 

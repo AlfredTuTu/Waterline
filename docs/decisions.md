@@ -169,3 +169,7 @@ Later rows explicitly supersede earlier decisions; an old row is not a current r
 | 2026-09-08 | Replace account-order arrow buttons with native drag-and-drop; remove automatic overview sorting and use configuration order when no explicit order exists. Render monochrome provider marks as adaptive templates. | Owner requested direct manipulation, stable account positions and visible icons in light settings. |
 
 | 2026-09-08 | Remove Settings diagnostics, interval/threshold controls, usage notifications and Claude activity. Use automatic 60-second checks; retire owned hooks with retryable cleanup. | Owner explicitly rejected these extra features and the 300-second interval; preserve actual account data, identity, order and provider backoff. |
+
+| 2026-09-08 | Follow the opted-in OpenCode DeepSeek credential instead of requiring a second key entry. Preserve one unambiguous existing account and retain its old owned key. | Owner prefers using credentials already saved by agents; automatic deletion of the old key was not authorized. |
+
+| 2026-09-08 | Offer only the five native subscription providers; remove API-account UI and default adapters while retaining local records, keys and history. | Owner explicitly requested removing all API-related functionality for now and revisiting it later. This supersedes earlier API rollout requirements. |

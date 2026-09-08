@@ -423,3 +423,11 @@
 "Could not remove old Waterline hooks. Retry cleanup." = "Could not remove old Waterline hooks. Retry cleanup.";
 
 "Retry cleanup" = "Retry cleanup";
+
+"Use DeepSeek from OpenCode" = "Use DeepSeek from OpenCode";
+
+"Uses the DeepSeek key already saved in OpenCode. Updates follow that source; no second key entry is needed." = "Uses the DeepSeek key already saved in OpenCode. Updates follow that source; no second key entry is needed.";
+
+"Connection: local Antigravity CLI" = "Connection: local Antigravity CLI";
+
+"Antigravity’s running local CLI. Enable it in Accounts after signing in." = "Antigravity’s running local CLI. Enable it in Accounts after signing in.";

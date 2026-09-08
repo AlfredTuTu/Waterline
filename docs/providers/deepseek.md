@@ -104,3 +104,34 @@ with an authentication reason; no balance or successful live-verification date i
 claimed. Evidence: ignored `build/verification/opencode-account-imports.json` and
 `build/verification/account-completion-status.json`. Later OpenCode key changes
 are not automatically synced into the Waterline-owned Keychain entry.
+
+## OpenCode saved-key source — 2026-09-08
+
+The explicit deepseek-opencode source reads only the named DeepSeek API credential
+in ~/.local/share/opencode/auth.json. It follows the official
+[OpenCode credential location](https://opencode.ai/docs/providers/) and calls only
+DeepSeek's [GET /user/balance](https://api-docs.deepseek.com/api/get-user-balance/).
+No model generation or tool prompt is used to estimate balance. The source is off
+by default and does not copy a new key into Waterline's Keychain.
+
+Only the standard global provider entry is supported. User-level opencode.json and
+opencode.jsonc are checked with native JSON5 parsing; a DeepSeek provider override
+or inherited custom config/data-path override is rejected rather than guessing a
+key's destination. Project overrides, plugins and arbitrary provider aliases are
+not evaluated. Unrelated auth entries are ignored and a missing source stays missing.
+Keys are bounded and validated; neither keys nor config bodies enter diagnostics.
+
+A single existing manual DeepSeek account with the exact same recorded key revision
+and scope is rebound without changing its ID, label, history, order or daily selection.
+Ambiguous matches are not merged. Existing source identity takes precedence over a
+manual match. The old owned key remains retained and tracked; binding never deletes
+it. Only a later explicit account removal uses normal owned-key cleanup. File-source
+checks run every 60 seconds and credential changes release authentication parking
+under the existing scheduler policy. These are source-bound logical identities;
+the balance API does not establish a server-side account identifier for detecting
+an intentional account switch in the same OpenCode slot.
+
+Snapshot/configuration schemas advance to 14/6. Offline checks cover consent,
+JSONC, overrides, invalid keys, OAuth exclusion, same-key binding, rotation, restart,
+history preservation, no Keychain writes/deletes during binding and source removal
+without falling back to the retained old key. Real binding/refresh is checked separately.

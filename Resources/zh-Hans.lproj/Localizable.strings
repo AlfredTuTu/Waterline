@@ -423,3 +423,11 @@
 "Could not remove old Waterline hooks. Retry cleanup." = "旧版Waterline Hook未清理完成，请重试。";
 
 "Retry cleanup" = "重试清理";
+
+"Use DeepSeek from OpenCode" = "使用OpenCode中的DeepSeek";
+
+"Uses the DeepSeek key already saved in OpenCode. Updates follow that source; no second key entry is needed." = "使用OpenCode已保存的DeepSeek凭据，并跟随来源更新，无需再次输入密钥。";
+
+"Connection: local Antigravity CLI" = "连接方式：本机Antigravity CLI";
+
+"Antigravity’s running local CLI. Enable it in Accounts after signing in." = "使用本机正在运行的Antigravity CLI；登录后在账号设置中启用。";

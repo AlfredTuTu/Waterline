@@ -1239,3 +1239,31 @@ stable-signing acceptance. Evidence: simplification-installation.json and
 simplification-live.json under ignored build/verification. Subsequent verification
 uses the owner's actual accounts, per the explicit instruction to stop separate
 verification applications.
+
+
+Owner scope update — 2026-09-08: all API-account functionality is deferred. Only
+Claude Code, ChatGPT/Codex, Cursor, independent Grok and Antigravity remain active
+provider acceptance targets. Earlier xAI/v0.2 API and Qwen rollout checklists are
+historical/deferred, not requirements to bring those features back into this version.
+Keys/history are retained, not deleted. NativeProviderScopeTests checks the exact
+five-provider registry, no manual-key entry support, deferred fetch/key-access
+exclusion, preserved cached records and visible ordering without dropping hidden IDs.
+
+
+2026-09-08 native-only installed verification: final executable SHA-256
+`61ba8a3491e078b6a79e4e0f830950129893c890faa8cdb6a9a14c696e6a44e0`.
+Native overview, account settings and ordering showed the five owner-selected
+subscription accounts only. API account rows, manual-key controls, API-source
+switches and balance-history entry points were removed. The ordering sheet moved
+ChatGPT down with Option-Down, then restored it with Option-Up; the complete stored
+order including hidden API slots and daily selection matched the before state.
+Normal CLI accounts output contained only the five native providers; source list
+contained only Antigravity CLI. Four deferred API account records and their cached
+observation times were preserved, and the balance-history journal remained byte-for-byte
+unchanged. No key retrieval or API balance query was used for this retention check.
+Full make verify passed 306 tests. Existing API code/contracts remain inactive for
+future work, not a current integration claim. Native Claude still required system
+Keychain access after the development signature changed; current-data validation
+and stable-signing release acceptance remain open. Evidence: native-only-live.json,
+api-deferral-before.json and native-only-final-installation.json under ignored
+build/verification. Only the owner's normal application was used for UI validation.

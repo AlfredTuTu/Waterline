@@ -5,6 +5,11 @@ and verification evidence. Candidate notes are not implemented support. `officia
 is documented by the vendor; `community` means third-party observation. Neither label proves a live
 check, all account types, or the completeness of the proposed mapping.
 
+Current product scope (owner decision 2026-09-08): only Claude Code, ChatGPT/Codex,
+Cursor, independent Grok and Antigravity are registered. All API-account rows below
+are archived implementation/evidence notes, excluded from the UI and background
+queries until the owner resumes that work. Existing credentials/history are retained.
+
 As of 2026-09-08, the table separates current implementation evidence from target scope. Provider
 contracts carry reviewed endpoints, tested account scopes and dates. A registered adapter does not
 establish live support; unreviewed candidate notes remain provisional.
@@ -15,12 +20,12 @@ establish live support; unreviewed candidate notes remain provisional.
 | [ChatGPT / Codex](codex.md) | `codex` | Registered; live quota 2026-09-07, one account | windows | community / local records | Tool auth file; local usage records | v0.1 |
 | [Cursor](cursor.md) | `cursor` | Registered; one Pro summary/Grok Bot live 2026-09-07 | separate usage pools and reported caps | community | Read-only tool SQLite | v0.1 |
 | [Grok / SuperGrok](grok.md) | `grok` | Consumer OIDC adapter; direct weekly endpoint and native discovery/refresh live 2026-09-08 | subscription windows | official client source | Grok Build auth file | priority |
-| [xAI API](xai.md) | `xai` | Registered posted-ledger/team flow; offline only | billing usage and/or balance; allowance denominator unverified | official candidate | Manual management key, account/team scope | v0.1 |
-| [Zhipu GLM](zhipu.md) | `zhipu` | Registered personal CN/global; CN real quota request rejected authentication 2026-09-08; no successful quota verification | windows / named quotas | community | Opted-in named config keys or manual key | v0.2 |
-| [Kimi Code](kimi-code.md) | `kimiCode` | Registered manual key; offline only | windows | community | Opted-in named config keys or manual key | v0.2 |
-| [Moonshot](moonshot.md) | `moonshot` | Registered CN/global; CN manual CLI live 2026-09-07, native CN reading verified; updated ad-hoc app can require renewed Keychain access | balance | official candidate | Regional config/manual key | v0.2 |
-| [MiniMax](minimax.md) | `minimax` | Registered regional Subscription Key; CN real request reported no active plan 2026-09-08; no successful quota verification | coding-plan quotas; balance route unverified | community | Regional config/manual key | v0.2 |
-| [DeepSeek](deepseek.md) | `deepseek` | Registered manual key; real imported key returned unauthorized 2026-09-08; no successful balance verification | balance | official candidate | Config/manual key | v0.2 |
+| [xAI API](xai.md) | `xai` | Deferred; Registered posted-ledger/team flow; offline only| billing usage and/or balance; allowance denominator unverified | official candidate | Manual management key, account/team scope | deferred |
+| [Zhipu GLM](zhipu.md) | `zhipu` | Deferred; Registered personal CN/global; CN real quota request rejected authentication 2026-09-08; no successful quota verification| windows / named quotas | community | Opted-in named config keys or manual key | deferred |
+| [Kimi Code](kimi-code.md) | `kimiCode` | Deferred; Registered manual key; offline only| windows | community | Opted-in named config keys or manual key | deferred |
+| [Moonshot](moonshot.md) | `moonshot` | Deferred; Registered CN/global; CN manual CLI live 2026-09-07, native CN reading verified; updated ad-hoc app can require renewed Keychain access| balance | official candidate | Regional config/manual key | deferred |
+| [MiniMax](minimax.md) | `minimax` | Deferred; Registered regional Subscription Key; CN real request reported no active plan 2026-09-08; no successful quota verification| coding-plan quotas; balance route unverified | community | Regional config/manual key | deferred |
+| [DeepSeek](deepseek.md) | `deepseek` | Deferred; Registered manual key; real imported key returned unauthorized 2026-09-08; no successful balance verification| balance | official candidate | Config/manual key | deferred |
 | [Antigravity](antigravity.md) | `antigravity` | Registered opt-in running CLI; real engine/restore and native source/account/detail verified 2026-09-08 | per-model/group quotas | community | Already-running signed CLI local service; no token extraction | v0.3 |
 | [Qwen / Bailian](qwen.md) | `qwen` | Reviewed 2026-09-08; console-query candidate found, key auth unverified | OAuth discontinued; plan/account scopes separate | primary capability review | Opted-in config source | v0.3 |
 

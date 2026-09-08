@@ -162,7 +162,7 @@ extension Engine {
 
     func saveConfiguration(_ next: Configuration) throws {
         var next = next
-        next.schemaVersion = 5
+        next.schemaVersion = 6
         if let order = next.preferences.accountOrder {
             let ids = next.accounts.map(\.account.id)
             let known = Set(ids)
@@ -229,6 +229,13 @@ extension Engine {
             var ambiguousSourceFailure: FetchError?
             for discovered in discoveries {
                 let candidate = discovered.account
+                if candidate.credential == .manual,
+                    next.accounts.contains(where: {
+                        $0.account.id == candidate.id && $0.account.optionalCredentialSource == .deepSeekOpenCode
+                    })
+                {
+                    continue
+                }
                 guard candidate.provider == provider else {
                     throw FetchError.schemaChanged(detail: "discovery.provider")
                 }
@@ -260,6 +267,11 @@ extension Engine {
                     plan: candidate.plan ?? (discovered.secret == nil ? previous?.plan : nil), region: candidate.region,
                     teamID: candidate.teamID)
                 if let match {
+                    if next.accounts[match].account.credential == .manual,
+                        account.optionalCredentialSource == .deepSeekOpenCode
+                    {
+                        next.retainedManualSecrets = (next.retainedManualSecrets ?? []).union([id])
+                    }
                     next.accounts[match].account = account
                 } else {
                     next.accounts.append(ManagedAccount(account: account, preferences: AccountPreferences()))

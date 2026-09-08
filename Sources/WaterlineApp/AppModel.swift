@@ -75,7 +75,7 @@ final class AppModel {
             let updates = await engine.updates
             for await snapshot in updates {
                 guard let self else { return }
-                self.snapshot = snapshot
+                self.snapshot = isVerification ? snapshot : snapshot.includingProviders(Registry.activeProviders)
                 if !snapshot.historyFailed, let previous = self.historyRetryError {
                     if self.error == previous { self.error = nil }
                     self.historyRetryError = nil
@@ -223,7 +223,8 @@ final class AppModel {
     }
 
     func setAccountOrder(_ ids: [AccountID]?) async {
-        await perform { try await engine.setAccountOrder(ids) }
+        let visible = isVerification ? nil : Registry.activeProviders
+        await perform { try await engine.setAccountOrder(ids, visibleProviders: visible) }
     }
 
     private func perform(_ operation: () async throws -> Void) async {

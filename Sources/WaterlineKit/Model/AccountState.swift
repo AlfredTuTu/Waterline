@@ -104,7 +104,7 @@ public struct SourceFailure: Codable, Sendable, Hashable {
 }
 
 public struct Snapshot: Codable, Sendable, Hashable {
-    public static let currentVersion = 13
+    public static let currentVersion = 14
     public let schemaVersion: Int
     public let generatedAt: Date
     public let accounts: [AccountEntry]
@@ -131,6 +131,16 @@ public struct Snapshot: Codable, Sendable, Hashable {
         self.pendingSecretCleanup = pendingSecretCleanup
         self.historyFailed = historyFailed
         self.historyRepairNotice = historyRepairNotice
+    }
+
+    /// A client view only: archived provider records remain in persistent snapshots/configuration.
+    public func includingProviders(_ providers: Set<Provider>) -> Snapshot {
+        Snapshot(
+            generatedAt: generatedAt, accounts: accounts.filter { providers.contains($0.account.provider) },
+            sourceFailures: sourceFailures.filter { providers.contains($0.provider) },
+            storageFailed: storageFailed, preferences: preferences, lastAttemptAt: lastAttemptAt,
+            pendingSecretCleanup: pendingSecretCleanup, historyFailed: historyFailed,
+            historyRepairNotice: historyRepairNotice)
     }
 
     enum CodingKeys: String, CodingKey {

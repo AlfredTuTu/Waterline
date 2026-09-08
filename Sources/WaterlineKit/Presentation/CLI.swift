@@ -16,11 +16,9 @@ public enum WaterlineCLI {
           connect <provider> [--json]
           source enable|disable|check <source> [--json]
           source list [--json]
-          sources: deepseek-env, deepseek-claude-settings, antigravity-cli, zhipu-claude-settings
+          sources: antigravity-cli
           account enable|disable|pin|unpin|remove <id>
           account rename <id> <name>
-          account add <provider> --stdin [--region <region>] [--team <id>] [--json]
-          account key <id> --stdin [--json]
           version
         """
 
@@ -43,7 +41,11 @@ public enum WaterlineCLI {
                     return CLIResult(exitCode: 2, output: "", error: "No saved snapshot. Run waterline refresh.\n")
                 }
                 return CLIResult(
-                    exitCode: 0, output: try render(snapshot, json: arguments.contains("--json")), error: "")
+                    exitCode: 0,
+                    output: try render(
+                        snapshot.includingProviders(
+                            Set(dependencies.adapters.map { type(of: $0).descriptor.provider })),
+                        json: arguments.contains("--json")), error: "")
             } catch { return failure(error) }
         case "refresh":
             var selected: Provider?
@@ -93,7 +95,9 @@ public enum WaterlineCLI {
                                 path: "configuration.json")
                         )
                         .load()?.preferences ?? dependencies.store.load()?.preferences ?? UserPreferences()
-                    let statuses = OptionalCredentialSource.allCases.map { source in
+                    let statuses = OptionalCredentialSource.allCases.filter { source in
+                        dependencies.adapters.contains { type(of: $0).descriptor.provider == source.provider }
+                    }.map { source in
                         SourceStatus(
                             source: source.commandName,
                             enabled: preferences.enabledCredentialSources?.contains(source) == true,
@@ -207,7 +211,8 @@ public enum WaterlineCLI {
         let engine = Engine(dependencies: dependencies)
         do {
             let requestedAccount = try await action(engine)
-            let snapshot = await engine.snapshot()
+            let snapshot = await engine.snapshot().includingProviders(
+                Set(dependencies.adapters.map { type(of: $0).descriptor.provider }))
             let output = try render(snapshot, json: json)
             await engine.stop()
             let failed =
@@ -225,7 +230,8 @@ public enum WaterlineCLI {
                             ? "No account was found for the requested optional source. Check the source configuration.\n"
                             : "One or more requested accounts could not be refreshed.\n") : "")
         } catch {
-            let snapshot = await engine.snapshot()
+            let snapshot = await engine.snapshot().includingProviders(
+                Set(dependencies.adapters.map { type(of: $0).descriptor.provider }))
             await engine.stop()
             let result = failure(error)
             if json, snapshot.storageFailed, let output = try? render(snapshot, json: true) {

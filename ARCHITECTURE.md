@@ -14,17 +14,19 @@ account identifiers go only to the corresponding provider's documented endpoints
 
 As of 2026-09-08, the repository implements the local engine, persisted account management and
 refresh scheduling, manual key flows, balance history, CLI and native notch/settings surfaces.
-Registered adapters are Codex (ChatGPT display), Claude Code, Cursor, DeepSeek, Moonshot,
-Kimi Code, Zhipu, MiniMax, xAI, independent Grok and Antigravity. Scoped real account
-checks exist for Claude Pro, ChatGPT/Codex, Cursor Pro, Moonshot CN, Grok and Antigravity;
-consult the provider contracts for exact scope and later authentication limitations.
-Real failed requests for DeepSeek, GLM CN and MiniMax CN do not establish usable quota
-or balance support. xAI and Kimi Code lack successful real-account validation. Qwen
-has a reviewed capability boundary and remains unregistered. Native multi-account,
-localisation, onboarding and distribution acceptance are still incomplete.
+Current registered providers are Claude Code, ChatGPT/Codex, Cursor, independent
+Grok and Antigravity. The owner deferred all API-account functionality on 2026-09-08.
+DeepSeek, Moonshot, Kimi Code, GLM, MiniMax, xAI and Qwen contracts/adapters are retained
+as inactive work, not currently offered or queried. Existing API account metadata,
+keys, snapshot readings and journals remain locally preserved for future restoration.
+UI and normal CLI views filter the stored snapshot to the active provider set;
+background fetch and old-key cleanup require a registered adapter. Default native-only
+startup does not load the archived balance journal. Account sorting preserves hidden
+record positions while reordering visible native accounts. Real API authentication
+and balance gaps remain deferred rather than reported as solved.
 
 New accounts use opaque UUIDs and optional billing identities, with reconciliation independent of secrets.
-Quota fraction/reset fields are optional. The fetch interface remains `fetch(...) -> Usage`. Snapshot schema 13 carries explicit configuration-source provenance and optional-source consent and distinguishes verification observations and carries balance basis and persists per-account request deadlines and authentication parking, and includes pending app-owned secret cleanup counts and retains account preferences, operation state and last-attempt time, with explicit partial states and component observation metadata, preserves legacy files before
+Quota fraction/reset fields are optional. The fetch interface remains `fetch(...) -> Usage`. Snapshot schema 14 carries explicit configuration-source provenance and optional-source consent and distinguishes verification observations and carries balance basis and persists per-account request deadlines and authentication parking, and includes pending app-owned secret cleanup counts and retains account preferences, operation state and last-attempt time, with explicit partial states and component observation metadata, preserves legacy files before
 upgrade and refuses unsupported versions. Engine regressions now cover repeated start, isolated
 discovery failure, superseded late requests, stop invalidation and writer ownership. Subscriptions are
 bounded and immediately receive state; storage errors do not suppress their updates. These are partial
@@ -371,3 +373,9 @@ A repeated source analysis must contain all previously accepted samples unchange
 target opt-in flow and release network/signature boundaries. The app target now embeds this exact dependency and native controls. No feed/public key
 is configured, so the updater remains uninitialized. Exact feed routing and signed
 installation acceptance remain required.
+
+OpenCode DeepSeek binding uses the named global saved key and explicit source consent.
+Configuration schema 6 tracks retained old manual-key IDs after source binding;
+those copies are not read as fallback or deleted by binding. Snapshot schema 14
+carries the additional credential source. See docs/providers/deepseek.md for the
+supported global configuration boundary and safe same-account matching rules.

@@ -83,13 +83,15 @@ struct ManagedAccount: Codable, Sendable, Hashable {
 }
 
 struct Configuration: Codable, Sendable {
-    var schemaVersion = 5
+    var schemaVersion = 6
     var preferences = UserPreferences()
     var accounts: [ManagedAccount] = []
     var removed: [Account] = []
+    /// Existing manual keys retained when an account follows a tool source. Binding never deletes them.
+    var retainedManualSecrets: Set<AccountID>?
 
     func validate() throws {
-        guard (1...5).contains(schemaVersion) else { throw SnapshotStoreError.unsupportedVersion(schemaVersion) }
+        guard (1...6).contains(schemaVersion) else { throw SnapshotStoreError.unsupportedVersion(schemaVersion) }
         try preferences.validate()
         guard Set(accounts.map(\.account.id)).count == accounts.count else {
             throw SettingsError.invalidLabel

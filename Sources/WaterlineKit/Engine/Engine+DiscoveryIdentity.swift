@@ -3,6 +3,16 @@ import Foundation
 extension Engine {
     func discoveryMatch(_ discovered: Discovered, in managed: [ManagedAccount]) -> Int? {
         let candidate = discovered.account
+        if candidate.optionalCredentialSource == .deepSeekOpenCode, let revision = discovered.secret?.revision {
+            if let exact = managed.firstIndex(where: { sameAccount($0.account, candidate) }) { return exact }
+            let matchingManual = managed.indices.filter {
+                let known = managed[$0]
+                return known.account.provider == candidate.provider && known.account.credential == .manual
+                    && known.account.region == candidate.region && known.account.teamID == candidate.teamID
+                    && known.account.identity == nil && known.credentialRevision == revision
+            }
+            if matchingManual.count == 1 { return matchingManual[0] }
+        }
         let unknownScope = candidate.identity == nil && discovered.secret == nil
         let sameSource = managed.indices.filter {
             candidate.credential != .manual && managed[$0].account.provider == candidate.provider

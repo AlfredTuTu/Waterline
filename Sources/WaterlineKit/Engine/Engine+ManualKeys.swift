@@ -66,6 +66,9 @@ extension Engine {
         else {
             throw ManualKeyError.notManualAccount
         }
+        guard adapters[configuration.accounts[index].account.provider] != nil else {
+            throw ManualKeyError.unsupportedProvider
+        }
         do { try dependencies.ownedSecrets.save(key, for: id) } catch { throw ManualKeyError.saveFailed }
         invalidate(id)
         secrets[id] = key
@@ -89,7 +92,8 @@ extension Engine {
         guard let account = accounts.first(where: { $0.id == id }), account.credential == .manual else {
             throw ManualKeyError.notManualAccount
         }
-        guard !configuration.preferences.disabledProviders.contains(account.provider) else {
+        guard adapters[account.provider] != nil, !configuration.preferences.disabledProviders.contains(account.provider)
+        else {
             throw EngineError.sourceDisabled
         }
         invalidate(id)
@@ -139,7 +143,12 @@ extension Engine {
     }
 
     func cleanRemovedSecrets() {
-        for account in configuration.removed where account.credential == .manual {
+        // Only an explicit account removal authorizes deletion, including a retained old manual key.
+        // Following a source never adds the account to configuration.removed.
+        for account in configuration.removed
+        where adapters[account.provider] != nil
+            && (account.credential == .manual || configuration.retainedManualSecrets?.contains(account.id) == true)
+        {
             do {
                 try dependencies.ownedSecrets.delete(account.id)
                 pendingSecretCleanup.remove(account.id)

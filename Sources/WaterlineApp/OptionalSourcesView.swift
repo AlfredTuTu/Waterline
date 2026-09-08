@@ -7,7 +7,9 @@ struct OptionalSourcesView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Optional sources").font(.headline)
-            ForEach(OptionalCredentialSource.allCases, id: \.self) { source in row(source) }
+            ForEach(
+                OptionalCredentialSource.allCases.filter { Registry.activeProviders.contains($0.provider) }, id: \.self
+            ) { source in row(source) }
         }
     }
 
@@ -29,6 +31,11 @@ struct OptionalSourcesView: View {
                 .font(.caption).foregroundStyle(.secondary)
                 Text("If the variable is unavailable in this app session, add a key manually.")
                     .font(.caption).foregroundStyle(.secondary)
+            } else if source == .deepSeekOpenCode {
+                Text(
+                    "Uses the DeepSeek key already saved in OpenCode. Updates follow that source; no second key entry is needed."
+                )
+                .font(.caption).foregroundStyle(.secondary)
             } else if source == .zhipuClaudeSettings {
                 Text(
                     "Reads personal GLM Coding Plan credentials only for the official China or international endpoint in ~/.claude/settings.json. Team plans are not verified."
@@ -64,6 +71,7 @@ struct OptionalSourcesView: View {
         switch source {
         case .antigravityCLI: "Read Antigravity CLI quota"
         case .zhipuClaudeSettings: "Read GLM from Claude Code settings"
+        case .deepSeekOpenCode: "Use DeepSeek from OpenCode"
         case .deepSeekEnvironment: "Read DEEPSEEK_API_KEY"
         case .deepSeekClaudeSettings: "Read DeepSeek from Claude Code settings"
         }

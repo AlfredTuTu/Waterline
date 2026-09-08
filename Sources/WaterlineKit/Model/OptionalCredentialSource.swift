@@ -3,19 +3,21 @@ import Foundation
 public enum OptionalCredentialSource: String, Codable, CaseIterable, Sendable {
     case deepSeekEnvironment
     case deepSeekClaudeSettings
+    case deepSeekOpenCode
     case antigravityCLI
     case zhipuClaudeSettings
     public var provider: Provider {
         switch self {
         case .antigravityCLI: .antigravity
         case .zhipuClaudeSettings: .zhipu
-        case .deepSeekEnvironment, .deepSeekClaudeSettings: .deepseek
+        case .deepSeekEnvironment, .deepSeekClaudeSettings, .deepSeekOpenCode: .deepseek
         }
     }
     public var commandName: String {
         switch self {
         case .antigravityCLI: "antigravity-cli"
         case .zhipuClaudeSettings: "zhipu-claude-settings"
+        case .deepSeekOpenCode: "deepseek-opencode"
         case .deepSeekEnvironment: "deepseek-env"
         case .deepSeekClaudeSettings: "deepseek-claude-settings"
         }

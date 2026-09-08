@@ -353,3 +353,13 @@ Refresh is automatic at 60 seconds, subject to provider backoff and authenticati
 Only a failed upgrade cleanup may show a temporary Retry cleanup action; there is
 no session listener or activity banner. The quota/balance data and reset boundaries
 remain the core UI. Existing manual refresh remains an explicit retry affordance.
+
+## Native subscriptions only — 2026-09-08
+
+The owner removed API-account functionality from the current product pending future
+work. Overview, Settings, ordering, source controls, connection guide, privacy destinations
+and normal CLI account views show only Claude Code, ChatGPT, Grok, Cursor and Antigravity.
+Multiple accounts of these supported providers remain allowed. Manual-key add/update,
+API-source toggles, Qwen placeholder and API balance-history menu/window are absent.
+Native token records remain separate. API metadata/history/keys are retained locally,
+not erased or re-enabled, and no API adapter is registered for background fetching.
