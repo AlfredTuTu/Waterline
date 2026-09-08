@@ -82,7 +82,7 @@ requires explicit exact-leaf/SAN/date/self-signature checks and native connectio
 BasicX509 alone is not sufficient proof. The temporary CLI was exited normally.
 
 One real Claude Code CLI consultation was attempted but returned a session-limit error,
-not advice. Independent SDK review is recorded under the `design-previews/agy-tls-review/` folder within local `build/archive/design-previews-2026-09-09.zip`.
+not advice. Independent SDK review is recorded under the historical review checkpoint; the temporary consultation drafts have been removed.
 
 Native compatibility verification (2026-09-08): the installed CLI passes the code
 requirement `anchor apple generic and identifier "cli" and certificate leaf[subject.OU]

@@ -48,7 +48,6 @@ Do not expand additional providers, subscription tiers or new features.
 
 ## Historical evidence
 
-[Previous milestone checklists and execution records](docs/archive/acceptance-history-2026-09-08.md)
-are historical evidence only. Later owner decisions supersede retired feature scope;
-retired requirements are not marked as passed. Relative paths in that historical
-record refer to the repository root unless explicitly stated otherwise.
+Superseded milestone logs remain in Git history (for example commit 4e9ca10).
+They are not duplicated in the working directory or treated as current acceptance.
+Key live-verification artifacts are kept locally under `build/verification`.

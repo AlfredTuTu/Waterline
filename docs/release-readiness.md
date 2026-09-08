@@ -34,4 +34,4 @@ support from historical cross-compilation alone. The minimum deployment target
 is macOS 14; tested hardware/OS must be recorded with final verification.
 
 See [acceptance](../ACCEPTANCE.md), [provider contracts](providers/README.md),
-[installation text](../Resources/Install.txt) and [historical readiness](archive/release-readiness-2026-09-08.md).
+and [installation text](../Resources/Install.txt). Historical readiness is retained in Git history.

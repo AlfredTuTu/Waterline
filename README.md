@@ -127,7 +127,7 @@ claimed. Repository visibility remains private unless explicitly changed.
 - `Tests/WaterlineKitTests`: offline logic and regression coverage.
 - `Resources`: localized strings and shipping assets.
 - `Scripts`: reproducible builds, verification, packaging and performance measurement.
-- `docs`: current contracts and decisions; `docs/archive` contains historical records.
+- `docs`: current contracts and decisions. Superseded records remain in Git history.
 
 [Architecture](ARCHITECTURE.md) · [UI behavior](docs/ui.md) ·
 [Decisions](docs/decisions.md) · [License](LICENSE)
