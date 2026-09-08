@@ -1118,3 +1118,21 @@ DeepSeek unauthorized still showed Update key in Settings. No real Keychain
 permission dialog was initiated for this UI check, so authorization-to-fresh
 completion remains unverified on this build. Previous bundle and all account
 configuration were retained; evidence: manual-access-recovery-installation.json.
+
+
+2026-09-08 keyboard ordering: installed Release SHA-256
+`76ec919ed80cf46c6580cdf0c8673797b295327074d0024b152bf8d387b51bb4`
+adds stable List selection, grouped accessible rows and Option-Up/Down reordering.
+Native Down selected ChatGPT; Option-Down moved it to second place and the saved
+snapshot matched. With the sheet closed, native Quit removed PID 87014; relaunch
+created PID 87228, whose snapshot and native sheet retained that order. Option-Up
+restored the original order, independently compared with the before snapshot;
+daily notch selection was unchanged. Full make verify passed. Evidence:
+order-accessibility-native.json under ignored build/verification.
+
+Mouse drag calls on the focused list stopped returning window lookup errors, but
+three attempts did not produce an observed reorder. It is not established whether
+this is event injection or the native drag path; mouse dragging remains unverified
+and is not replaced by keyboard acceptance. Named VoiceOver actions also remain
+unverified by this AX inspection. The keyboard path is an additional accessible
+input, not a scope reduction of the owner's drag requirement.

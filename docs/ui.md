@@ -334,3 +334,7 @@ A manual API account with keychainLocked offers Connect to authorize reading its
 existing saved key, not Update key. The action calls the same account-specific
 manual reconnect used by Settings and shows Connecting while that operation runs.
 Missing/rejected manual credentials still direct users to key management.
+
+Account ordering also exposes named accessibility move actions on grouped rows.
+With the list focused and an account selected, Option-Up/Down uses the same saved
+manual order; ordinary arrow keys remain available for selection navigation.

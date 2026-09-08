@@ -417,3 +417,5 @@
 "Done" = "完成";
 
 "Drag accounts to reorder. Changes save automatically." = "拖拽账号调整顺序，松开后自动保存。";
+
+"Select an account and press Option-Up or Option-Down to reorder." = "选中账号后，按Option＋↑或Option＋↓调整顺序。";

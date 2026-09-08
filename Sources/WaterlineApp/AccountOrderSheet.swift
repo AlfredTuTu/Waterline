@@ -5,6 +5,7 @@ struct AccountOrderSheet: View {
     let model: AppModel
     @Environment(\.dismiss) private var dismiss
     @State private var changing = false
+    @State private var selection: AccountID?
     private var entries: [AccountEntry] { Dashboard.overviewAccounts(model.snapshot) }
 
     var body: some View {
@@ -12,7 +13,7 @@ struct AccountOrderSheet: View {
             Text("Account display order").font(.headline)
             Text("Drag accounts to reorder. Changes save automatically.")
                 .font(.caption).foregroundStyle(.secondary)
-            List {
+            List(selection: $selection) {
                 ForEach(Array(entries.enumerated()), id: \.element.account.id) { index, entry in
                     HStack(spacing: 10) {
                         Text(String(index + 1)).monospacedDigit().foregroundStyle(.secondary).frame(width: 22)
@@ -24,6 +25,8 @@ struct AccountOrderSheet: View {
                     }
                     .padding(.vertical, 5)
                     .contentShape(Rectangle())
+                    .tag(entry.account.id)
+                    .accessibilityElement(children: .combine)
                     .accessibilityAction(named: Text(AppText.format("Move %@ up", label(entry)))) {
                         move(entry.account.id, by: -1)
                     }
@@ -37,7 +40,16 @@ struct AccountOrderSheet: View {
                     ids.move(fromOffsets: source, toOffset: destination)
                     save(ids)
                 }
-            }.listStyle(.plain)
+            }
+            .listStyle(.plain)
+            .onKeyPress(keys: [.upArrow, .downArrow], phases: .down) { event in
+                guard event.modifiers.intersection([.command, .control, .option, .shift]) == .option,
+                    let selection
+                else { return .ignored }
+                move(selection, by: event.key == .upArrow ? -1 : 1)
+                return .handled
+            }
+            .help("Select an account and press Option-Up or Option-Down to reorder.")
             if changing { ProgressView("Saving…").controlSize(.small) }
             if let error = model.error { Text(AppText.text(error)).font(.caption).foregroundStyle(.orange) }
             HStack {
