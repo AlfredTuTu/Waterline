@@ -173,3 +173,13 @@ Later rows explicitly supersede earlier decisions; an old row is not a current r
 | 2026-09-08 | Follow the opted-in OpenCode DeepSeek credential instead of requiring a second key entry. Preserve one unambiguous existing account and retain its old owned key. | Owner prefers using credentials already saved by agents; automatic deletion of the old key was not authorized. |
 
 | 2026-09-08 | Offer only the five native subscription providers; remove API-account UI and default adapters while retaining local records, keys and history. | Owner explicitly requested removing all API-related functionality for now and revisiting it later. This supersedes earlier API rollout requirements. |
+
+| 2026-09-08 | Apply rate-limit fallback to manual refresh too, persisting the effective retry deadline; zero or missing Retry-After cannot bypass it. Partial rate limits wait at least 60 seconds. | Observed Claude rate limiting with Retry-After zero exposed immediate manual retries. Transport failures retain immediate manual retry; valid cached usage remains visible. |
+
+| 2026-09-08 | Put launch-at-login and language controls directly in the menu; replace Settings tabs with an on-demand connection/order utility. Remove notch gear and provider links; show only Waterline in the menu header. | Owner requested eliminating the separate settings page and rarely used chrome while retaining necessary connection recovery. |
+
+| 2026-09-08 | Preserve the failure count for consecutive partial rate limits; back off from 60 seconds to 30 minutes even when independent metrics succeed. | A successful quota component must not reset retry pressure on a persistently limited metadata component. Complete success resets the count. |
+
+| 2026-09-08 | Remove Token records UI and its verification-only view route; preserve stored records. | Owner explicitly rejected the feature as not useful in the current app. Earlier Token window acceptance is superseded, not marked passed. |
+
+| 2026-09-09 | Publish 0.1.0 as an explicitly unnotarized, ad-hoc-signed Release with manual updates and normal macOS Privacy & Security approval instructions. Keep the formal notarization gate separately. | Owner explicitly accepted this distribution model; lack of Developer ID no longer blocks this first Release. No trust-policy bypass is performed or claimed. |

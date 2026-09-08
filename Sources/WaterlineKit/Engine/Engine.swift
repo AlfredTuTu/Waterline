@@ -55,6 +55,9 @@ public actor Engine {
     var suspended = false
     var userActive = false
     func effectiveRefreshInterval(for id: AccountID) -> TimeInterval {
+        if accounts.first(where: { $0.id == id })?.provider == .claudeCode {
+            return max(300, configuration.preferences.refreshInterval)
+        }
         guard userActive, let account = accounts.first(where: { $0.id == id }),
             let adapter = adapters[account.provider], type(of: adapter).descriptor.kind != .balance
         else {

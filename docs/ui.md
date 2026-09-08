@@ -363,3 +363,61 @@ Multiple accounts of these supported providers remain allowed. Manual-key add/up
 API-source toggles, Qwen placeholder and API balance-history menu/window are absent.
 Native token records remain separate. API metadata/history/keys are retained locally,
 not erased or re-enabled, and no API adapter is registered for background fetching.
+
+## Menu-only preferences (2026-09-08 owner revision)
+
+The menu header is Waterline without a version suffix. Launch at login and language
+selection live directly in the menu bar menu; there is no Settings scene. Account
+connection and ordering remain an on-demand utility window, including the first-launch
+connection guide. Permanent provider links and the notch settings gear are removed.
+This supersedes earlier separate General/Accounts/Privacy settings tabs. Release build 11d3c6e1 was installed and the five-account panel, connection utility,
+and order sheet were inspected natively. Menu language and login-toggle runtime
+validation remain pending.
+
+When there is no explicit notch selection, choose the first enabled account in
+the saved display order (or stored account order when unset). Quota changes never
+reorder this fallback selection. Explicit single-account selection still wins.
+
+The collapsed headline uses explicit reset and freshness-boundary updates instead
+of a one-second periodic timeline. New snapshots and language selection still
+invalidate it immediately. The expanded panel retains countdown updates. CPU
+acceptance must be remeasured on the installed Release; this change is not proof
+that the previous 1.57% mean CPU failure is resolved.
+
+Owner revision: rate limits retry silently in the background. Do not display
+rate-limit explanations, retry timestamps or countdowns in quota cards, including
+partial rate limits. Retain the existing per-metric earlier-reading marker and
+show actionable authentication failures. Backoff and data freshness remain enforced.
+
+Owner revision: remove Token records from the native app, including its menu
+entries, import window and retired UI verification route. Existing stored records
+and the independent kit/CLI data facilities are preserved; this feature is deferred.
+
+Owner revision: remove account action menus (reconnect, pause, rename, remove)
+from both the quota cards and connection utility. Retain ordering, daily account
+selection, and conditional connection recovery when authentication is unavailable.
+
+The overview supports native drag-and-drop directly on account cards. Dropping
+one card on another moves it to that position in row-major display order and
+saves through the existing engine account-order command. Only payloads from this
+view session are accepted. The target has a provider-colored outline; dragging
+does not dismiss the island while a mouse button is held. Native verification
+of this interaction is pending; unit ordering tests do not prove pointer behavior.
+
+First-launch connection revision: the visible connection guide automatically
+connects the five registered native providers once loaded, skipping already
+connected or explicitly disabled sources. There is no connect-selected button
+or provider selection step. Required OS authorization remains user-confirmed.
+The guide does not rerun on ordinary subsequent launches; conditional recovery
+remains available. This supersedes the earlier first-use connect button.
+
+The owner subsequently removed the entire connection guide. First launch runs
+one automatic connection attempt for each enabled native provider directly from
+the app lifecycle, without a guide window. Persist the attempt before starting
+so denial or interruption does not cause prompts on every launch. Existing guide
+flags migrate as an already-attempted installation. Only OS authorization and
+conditional account recovery remain visible.
+
+Owner revision: omit the entire overview heading row (Overview, account count,
+Manage accounts). Put Account display order in the island footer Waterline menu,
+opening the existing native ordering utility directly. Card drag-and-drop remains.

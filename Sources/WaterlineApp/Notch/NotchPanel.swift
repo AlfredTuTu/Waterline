@@ -102,6 +102,11 @@ final class NotchPanel: NSPanel {
         hoverTask = Task { [weak self] in
             do { try await Task.sleep(for: .milliseconds(350)) } catch { return }
             guard let self, self.trackingMenus.isEmpty else { return }
+            if NSEvent.pressedMouseButtons != 0 {
+                self.scheduleCollapse()
+                return
+            }
+            guard !self.frame.contains(NSEvent.mouseLocation) else { return }
             self.closeAccounts()
         }
     }

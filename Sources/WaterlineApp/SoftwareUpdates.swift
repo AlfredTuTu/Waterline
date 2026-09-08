@@ -65,30 +65,3 @@ final class SoftwareUpdates: NSObject, ObservableObject, SPUUpdaterDelegate {
         controller?.updater.automaticallyChecksForUpdates = enabled
     }
 }
-
-struct SoftwareUpdateSettings: View {
-    @ObservedObject private var updates = SoftwareUpdates.shared
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Button("Check for updates…") { updates.check() }
-                .disabled(!updates.canCheck)
-            if updates.available {
-                Toggle(
-                    "Automatically check for updates",
-                    isOn: Binding(
-                        get: { updates.automaticChecks },
-                        set: { updates.setAutomaticChecks($0) }))
-                Text("Update checks contact GitHub. Installation requires your confirmation.")
-                    .font(.caption).foregroundStyle(.secondary)
-            } else {
-                Text(
-                    LocalizedStringKey(
-                        updates.failedToStart
-                            ? "Could not start updates. Reopen Waterline and try again."
-                            : "Updates are unavailable in this development build.")
-                ).font(.caption).foregroundStyle(.secondary)
-            }
-        }
-    }
-}

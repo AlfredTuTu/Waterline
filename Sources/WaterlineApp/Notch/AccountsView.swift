@@ -3,7 +3,6 @@ import WaterlineKit
 
 struct AccountsView: View {
     @Environment(\.openWindow) private var openWindow
-    @Environment(\.openSettings) private var openSettings
     let model: AppModel
     let width: CGFloat
     let keyboardActive: Bool
@@ -14,6 +13,9 @@ struct AccountsView: View {
     @State private var frozenOrder: [AccountID] = []
     @State private var navigationUnavailable = false
     @State private var savingNotchSelection = false
+    @State private var dragSession = UUID().uuidString
+    @State private var dropTarget: AccountID?
+    @State private var savingOrder = false
 
     private func accent(_ provider: Provider) -> Color {
         switch provider {
@@ -60,28 +62,13 @@ struct AccountsView: View {
             if navigationUnavailable {
                 Text("Could not open this account.").font(.caption).foregroundStyle(.orange).padding(.bottom, 8)
             }
-            if selectedAccount == nil {
-                HStack(spacing: 16) {
-                    Text("Overview").foregroundStyle(.white)
-                    Text(AppText.format("%@ accounts", String(model.snapshot.accounts.count)))
-                        .foregroundStyle(.secondary)
-                    Spacer()
-                    Button("Manage accounts") {
-                        model.settingsTab = "accounts"
-                        close(); NSApplication.shared.activate(); openSettings()
-                    }
-                    .foregroundStyle(Color.gray)
-                    .disabled(model.isVerification)
-                }.font(.system(size: 11, weight: .medium)).buttonStyle(.plain).padding(.bottom, 18)
-            }
             ScrollView {
                 if waitingForAccount || (!model.loaded && model.snapshot.accounts.isEmpty) {
                     Text("Loading account…").foregroundStyle(.secondary).padding(.vertical, 24)
                 } else if model.snapshot.accounts.isEmpty {
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Connect your accounts").font(.title3.weight(.semibold))
-                        Text("Open Settings to connect your coding tools, then refresh to see their usage.")
-                            .foregroundStyle(.secondary)
+                        Text("Checking saved accounts…").foregroundStyle(.secondary)
                     }.padding(.vertical, 24)
                 } else if let selectedAccount,
                     let entry = model.snapshot.accounts.first(where: { $0.account.id == selectedAccount })
@@ -95,7 +82,28 @@ struct AccountsView: View {
                         alignment: .leading,
                         spacing: 28
                     ) {
-                        ForEach(visibleAccounts, id: \.account.id) { entry in account(entry, detail: false) }
+                        ForEach(visibleAccounts, id: \.account.id) { entry in
+                            account(entry, detail: false)
+                                .contentShape(Rectangle())
+                                .draggable(dragSession + ":" + entry.account.id.rawValue)
+                                .dropDestination(for: String.self) { values, _ in
+                                    reorder(values, onto: entry.account.id)
+                                } isTargeted: { targeted in
+                                    if targeted {
+                                        dropTarget = entry.account.id
+                                    } else if dropTarget == entry.account.id {
+                                        dropTarget = nil
+                                    }
+                                }
+                                .overlay {
+                                    if dropTarget == entry.account.id {
+                                        RoundedRectangle(cornerRadius: 10).stroke(
+                                            accent(entry.account.provider), lineWidth: 2
+                                        )
+                                        .allowsHitTesting(false)
+                                    }
+                                }
+                        }
                     }
                 }
                 ForEach(model.snapshot.sourceFailures, id: \.provider) { failure in
@@ -114,20 +122,12 @@ struct AccountsView: View {
                     }
                     .help("Back to overview").accessibilityLabel("Back to overview")
                 }
-                Button {
-                    close(); NSApplication.shared.activate(); openSettings()
-                } label: {
-                    Image(systemName: "gearshape")
-                }
-                .disabled(model.isVerification)
-                .help("Settings").accessibilityLabel("Settings")
                 notchAccountMenu
                 Menu("Waterline") {
                     Button("Collapse island", action: close).keyboardShortcut(.escape, modifiers: [])
-                    Button("Token records") {
-                        close()
-                        NSApplication.shared.activate(); openWindow(id: "token-history")
-                    }
+                    Button("Account display order") {
+                        close(); NSApplication.shared.activate(); openWindow(id: "account-order")
+                    }.disabled(model.isVerification || visibleAccounts.count < 2)
                     Divider()
                     Button("Quit Waterline") { NSApplication.shared.terminate(nil) }
                 }
@@ -284,33 +284,8 @@ struct AccountsView: View {
                 if !entry.isEnabled(in: model.snapshot.preferences) {
                     Text("Paused").font(.caption).foregroundStyle(.secondary)
                 }
-                Menu {
-                    let notchAccounts = Dashboard.notchAccounts(model.snapshot)
-                    let shownInNotch = notchAccounts.contains { $0.account.id == entry.account.id }
-                    Button(LocalizedStringKey(shownInNotch ? "Remove from notch" : "Show in notch")) {
-                        Task { await model.toggleNotchAccount(entry.account.id) }
-                    }
-                    Button(LocalizedStringKey(entry.preferences.enabled ? "Pause account" : "Resume account")) {
-                        Task { await model.setEnabled(entry, enabled: !entry.preferences.enabled) }
-                    }
-                    if entry.state.reading?.usage.unsupportedReason == nil {
-                        Button("Reconnect") { Task { await model.reconnect(entry) } }
-                    }
-                    Button("Remove", role: .destructive) { Task { await model.remove(entry.account.id) } }
-                } label: {
-                    Image(systemName: "ellipsis")
-                }
-                .menuStyle(.borderlessButton).fixedSize().help("Account actions")
-                .disabled(model.isVerification)
                 Spacer()
-                if let url = Registry.adapters.first(where: {
-                    type(of: $0).descriptor.provider == entry.account.provider
-                })
-                .map({ type(of: $0).descriptor.consoleURL(for: entry.account.region) }) {
-                    Link(destination: url) { Image(systemName: "arrow.up.right") }
-                        .disabled(model.isVerification)
-                        .foregroundStyle(.secondary).help("Open console").accessibilityLabel("Open console")
-                }
+
             }
             if let reading = entry.state.reading {
                 let amountWindows = reading.usage.quotaWindows.filter { $0.unit == "USD" && $0.usedFraction == nil }
@@ -404,7 +379,12 @@ struct AccountsView: View {
                     }.font(.system(size: 10)).buttonStyle(.plain).foregroundStyle(.secondary)
                 }
                 if detail {
-                    ForEach(reading.usage.componentFailures, id: \.id) { failure in
+                    ForEach(
+                        reading.usage.componentFailures.filter { failure in
+                            if case .rateLimited = failure.error { return false }
+                            return true
+                        }, id: \.id
+                    ) { failure in
                         VStack(alignment: .leading, spacing: 6) {
                             Text(
                                 AppText.format(
@@ -420,15 +400,6 @@ struct AccountsView: View {
                             }.font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                         }
                     }
-                    if !reading.usage.componentFailures.isEmpty, let deadline = entry.schedule?.serverDeadline,
-                        deadline > Date()
-                    {
-                        Text(
-                            AppText.format(
-                                "Next allowed refresh: %@", deadline.formatted(date: .abbreviated, time: .shortened))
-                        )
-                        .font(.caption).foregroundStyle(.secondary)
-                    }
                 }
                 if selectedAccount == entry.account.id {
                     if !reading.usage.balances.isEmpty { BalanceHistoryView(entry: entry, model: model) }
@@ -440,11 +411,12 @@ struct AccountsView: View {
             case .unavailable(let error):
                 connectionError(error, entry: entry)
             case .stale(_, let error):
-                Text("Showing the previous reading").foregroundStyle(.secondary)
                 connectionError(error, entry: entry)
             case .expired: Text("Earlier reading · awaiting update").foregroundStyle(.secondary)
             case .partial:
-                if detail { Text("Partial data · some readings are older").foregroundStyle(.orange) }
+                if detail, readingHasNonRateLimitFailure(entry) {
+                    Text("Partial data · some readings are older").foregroundStyle(.orange)
+                }
             case .fresh: EmptyView()
             }
         }
@@ -518,14 +490,12 @@ struct AccountsView: View {
     }
 
     @ViewBuilder private func connectionError(_ error: FetchError, entry: AccountEntry) -> some View {
-        if case .schemaChanged = error, entry.account.optionalCredentialSource != nil {
+        if case .rateLimited = error {
+            EmptyView()
+        } else if case .schemaChanged = error, entry.account.optionalCredentialSource != nil {
             Text("Credential source could not be read.").font(.caption).foregroundStyle(.orange)
         } else {
             Text(AppText.text(error.message)).font(.caption).foregroundStyle(.orange)
-        }
-        if let deadline = entry.schedule?.serverDeadline, deadline > Date() {
-            Text(AppText.format("Next allowed refresh: %@", deadline.formatted(date: .abbreviated, time: .shortened)))
-                .font(.caption).foregroundStyle(.secondary)
         }
         if entry.operation == .connecting {
             ProgressView("Connecting…").controlSize(.small)
@@ -534,16 +504,35 @@ struct AccountsView: View {
                 Text("Check the source configuration, then check this source again.").font(.caption).foregroundStyle(
                     .secondary)
                 Button("Check source") { Task { await model.reconnect(entry) } }.buttonStyle(.bordered)
-            } else if entry.account.credential == .manual && error != .keychainLocked {
-                Button("Update key in Settings") {
-                    close(); NSApplication.shared.activate(); openSettings()
-                }.buttonStyle(.bordered)
             } else {
                 Text("Connect reads the saved login. macOS may ask for access.").font(.caption).foregroundStyle(
                     .secondary)
                 Button("Connect") { Task { await model.reconnect(entry) } }.buttonStyle(.bordered)
             }
         }
+    }
+
+    private func readingHasNonRateLimitFailure(_ entry: AccountEntry) -> Bool {
+        entry.state.reading?.usage.componentFailures.contains {
+            if case .rateLimited = $0.error { return false }
+            return true
+        } ?? false
+    }
+
+    private func reorder(_ values: [String], onto target: AccountID) -> Bool {
+        guard !savingOrder, values.count == 1, let value = values.first,
+            value.hasPrefix(dragSession + ":")
+        else { return false }
+        let source = AccountID(rawValue: String(value.dropFirst(dragSession.count + 1)))
+        let ids = visibleAccounts.map(\.account.id)
+        guard let order = Dashboard.movingAccount(source, onto: target, in: ids), order != ids else { return false }
+        savingOrder = true
+        Task {
+            await model.setAccountOrder(order)
+            savingOrder = false
+            dropTarget = nil
+        }
+        return true
     }
 
     private var visibleAccounts: [AccountEntry] {

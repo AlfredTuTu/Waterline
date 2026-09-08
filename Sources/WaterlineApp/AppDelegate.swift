@@ -109,11 +109,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                         && model.snapshot.accounts.allSatisfy({ $0.state.hasCurrentResponse }) && !model.refreshing
                     {
                         do {
-                            if CommandLine.arguments.contains("--verification-token-render") {
-                                try await TokenVerificationExport.run(model: model)
-                                NSApplication.shared.terminate(nil)
-                                return
-                            }
                             if CommandLine.arguments.contains("--verification-history-render") {
                                 try await HistoryVerificationExport.run(model: model)
                                 NSApplication.shared.terminate(nil)

@@ -4,6 +4,26 @@ import Testing
 @testable import WaterlineKit
 
 struct MetricObservationTests {
+    @Test(arguments: ["grok.subscription-plan", "antigravity.subscription-plan"])
+    func failedPlanLookupPreservesLastPlanAcrossPersistence(scope: String) throws {
+        let now = Date(timeIntervalSince1970: 1800000000)
+        let previous = Reading(usage: .windows(windows: [], plan: "Prior paid plan"), fetchedAt: now)
+        let failure = MetricFailure(id: scope, error: .rateLimited(retryAfter: 120))
+        let response = Usage.metrics(
+            windows: [UsageWindow(label: "5h", usedFraction: 0.25, resetsAt: nil)],
+            balances: [], plan: nil, failures: [failure])
+        let merged = response.accepting(at: now.addingTimeInterval(60), previous: previous)
+        let restored = try JSONDecoder().decode(Usage.self, from: JSONEncoder().encode(merged))
+        #expect(restored.planLabel == "Prior paid plan")
+        #expect(restored.quotaWindows.first?.usedFraction == 0.25)
+        #expect(restored.componentFailures == [failure])
+        #expect(response.accepting(at: now, previous: nil).planLabel == nil)
+        let updated = Usage.windows(windows: [], plan: "New plan")
+        let last = Reading(usage: restored, fetchedAt: now)
+        #expect(updated.accepting(at: now, previous: last).planLabel == "New plan")
+        #expect(Usage.windows(windows: [], plan: nil).accepting(at: now, previous: last).planLabel == nil)
+    }
+
     let earlier = Date(timeIntervalSince1970: 1_800_000_000)
 
     @Test func failedWindowKeepsItsOwnTimestampAcrossRepeatedFailures() throws {

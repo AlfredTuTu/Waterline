@@ -40,3 +40,12 @@ scope; native Waterline discovery and refresh subsequently succeeded, and the Gr
 reached in the complete scrolling overview. Its saved account also remained present
 through the native account-order restart check. Other subscription tiers and expired
 OAuth recovery are not yet live verified.
+
+Subscription metadata revision (2026-09-08): after billing, GET the same host's
+`/v1/user?include=subscription` with identical authentication. Validate `userId`
+against the discovered subject before using `subscriptionTier`. Missing tier remains
+unknown. A failed lookup retains valid billing metrics and emits the separate
+`grok.subscription-plan` failure; it does not prove an inactive subscription.
+Official `auth/model.rs` UserInfo documents this query and field. A bounded live
+read on the owner's account returned HTTP 200, matching identity and `GrokPro`.
+This proves the metadata endpoint; automatic membership visibility is not yet implemented.

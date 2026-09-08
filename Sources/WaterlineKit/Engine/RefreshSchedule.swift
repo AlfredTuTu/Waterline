@@ -62,22 +62,26 @@ public struct RefreshSchedule: Codable, Sendable, Hashable {
         case .credentialMissing, .keychainLocked:
             parked = true
         case .rateLimited(let delay):
-            serverDeadline = delay.map { now.addingTimeInterval($0) }
-            if let serverDeadline { nextAutomatic = max(nextAutomatic, serverDeadline) }
+            // A missing or zero Retry-After must not let manual refresh hammer a limited endpoint.
+            nextAutomatic = now.addingTimeInterval(max(fallback, delay ?? 0))
+            serverDeadline = nextAutomatic
         case .schemaChanged, .transport, .localServiceUnavailable:
             break
         }
     }
 
     mutating func partiallySucceeded(at now: Date, interval: TimeInterval, errors: [FetchError]) {
-        succeeded(at: now, interval: interval)
         let retryDelays = errors.compactMap { error -> TimeInterval? in
             guard case .rateLimited(let delay) = error else { return nil }
-            return delay ?? 60
+            return max(60, delay ?? 0)
         }
-        if let delay = retryDelays.max() {
-            serverDeadline = now.addingTimeInterval(delay)
-            nextAutomatic = max(nextAutomatic, now.addingTimeInterval(delay))
+        guard let delay = retryDelays.max() else {
+            succeeded(at: now, interval: interval)
+            return
         }
+        parked = false
+        authenticationParked = false
+        failed(.rateLimited(retryAfter: delay), at: now)
+        nextAutomatic = max(nextAutomatic, now.addingTimeInterval(interval))
     }
 }

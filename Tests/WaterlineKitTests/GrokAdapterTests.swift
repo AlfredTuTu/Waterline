@@ -7,6 +7,34 @@ struct GrokAdapterTests {
     private let period =
         #"{"type":"USAGE_PERIOD_TYPE_WEEKLY","start":"2026-09-08T00:00:00Z","end":"2026-09-15T00:00:00Z"}"#
 
+    @Test func subscriptionIdentityAndMissingTier() throws {
+        #expect(
+            try GrokAdapter.subscriptionPlan(Data(#"{"userId":"u","subscriptionTier":"GrokPro"}"#.utf8), subject: "u")
+                == "GrokPro")
+        #expect(try GrokAdapter.subscriptionPlan(Data(#"{"userId":"u"}"#.utf8), subject: "u") == nil)
+        #expect(throws: FetchError.credentialMissing) {
+            try GrokAdapter.subscriptionPlan(
+                Data(#"{"userId":"other","subscriptionTier":"GrokPro"}"#.utf8), subject: "u")
+        }
+        #expect(throws: FetchError.self) {
+            try GrokAdapter.subscriptionPlan(Data(#"{"userId":"u","subscriptionTier":12}"#.utf8), subject: "u")
+        }
+    }
+
+    @Test func subscriptionFailureRetainsQuotaAndRateLimit() async throws {
+        let http = GrokHTTP(profileStatus: 429)
+        let account = Account(
+            provider: .grok, credential: .file(path: "/synthetic/auth.json"),
+            identity: BillingIdentity(region: "grok.com", account: "synthetic", subject: "synthetic-user"))
+        let usage = try await GrokAdapter().fetch(account, secret: Secret("synthetic-token"), http: http)
+        #expect(usage.quotaWindows.first?.usedFraction == 0.2)
+        #expect(usage.planLabel == nil)
+        #expect(
+            usage.componentFailures == [
+                MetricFailure(id: "grok.subscription-plan", error: .rateLimited(retryAfter: nil))
+            ])
+    }
+
     @Test func reportedPercentAndUnifiedZeroRemainSeparateFromUnknown() throws {
         let used = try GrokAdapter.parse(
             Data("{\"config\":{\"creditUsagePercent\":37.5,\"currentPeriod\":\(period)}}".utf8))
@@ -55,15 +83,16 @@ struct GrokAdapterTests {
             provider: .grok, credential: .file(path: "/synthetic/.grok/auth.json"), identity: identity)
         _ = try await GrokAdapter().fetch(account, secret: Secret("synthetic-token"), http: http)
         let requests = await http.requests
-        #expect(requests.count == 1)
+        #expect(requests.count == 2)
         #expect(requests.first?.url.absoluteString == "https://cli-chat-proxy.grok.com/v1/billing?format=credits")
+        #expect(requests.last?.url.absoluteString == "https://cli-chat-proxy.grok.com/v1/user?include=subscription")
         #expect(requests.first?.headers["X-XAI-Token-Auth"] == "xai-grok-cli")
         #expect(requests.first?.headers["x-userid"] == "synthetic-user")
         let wrong = Account(provider: .xai, credential: .manual, identity: identity)
         await #expect(throws: FetchError.credentialMissing) {
             try await GrokAdapter().fetch(wrong, secret: Secret("synthetic-token"), http: http)
         }
-        #expect(await http.requests.count == 1)
+        #expect(await http.requests.count == 2)
     }
 }
 
@@ -74,9 +103,17 @@ private struct GrokFiles: FileSystem {
     func modificationDate(of url: URL) throws -> Date { Date(timeIntervalSince1970: 0) }
 }
 private actor GrokHTTP: HTTPClient {
+    let profileStatus: Int
+    init(profileStatus: Int = 200) { self.profileStatus = profileStatus }
     var requests: [HTTPRequest] = []
     func send(_ request: HTTPRequest) async throws -> HTTPResponse {
         requests.append(request)
+        if request.url.path == "/v1/user" {
+            return HTTPResponse(
+                status: profileStatus, headers: [:],
+                body: Data(#"{"userId":"synthetic-user","subscriptionTier":"GrokPro"}"#.utf8)
+            )
+        }
         return HTTPResponse(status: 200, headers: [:], body: Data(#"{"config":{"creditUsagePercent":20}}"#.utf8))
     }
 }

@@ -6,6 +6,24 @@ let arguments = Array(CommandLine.arguments.dropFirst())
 // Retain a silent compatibility exit; never read or broadcast session input.
 if arguments == ["hook-claude-v1"] { exit(0) }
 
+if arguments == ["claude-statusline-v1"] {
+    do {
+        guard isatty(STDIN_FILENO) == 0 else { exit(64) }
+        var input = Data()
+        while let chunk = try FileHandle.standardInput.read(upToCount: 8192), !chunk.isEmpty {
+            input.append(chunk)
+            guard input.count <= 1_048_576 else { throw FileBoundaryError.tooLarge }
+        }
+        try ClaudeStatuslineCapture.run(
+            input: input, home: FileManager.default.homeDirectoryForCurrentUser,
+            environment: ProcessInfo.processInfo.environment)
+        exit(0)
+    } catch {
+        FileHandle.standardError.write(Data("Waterline could not record the local Claude quota.\n".utf8))
+        exit(1)
+    }
+}
+
 if arguments.first == "connect" {
     FileHandle.standardError.write(
         Data("Connect reads the selected tool’s saved login. macOS may request access.\n".utf8))

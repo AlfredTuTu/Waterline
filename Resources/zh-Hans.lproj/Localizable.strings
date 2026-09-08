@@ -431,3 +431,19 @@
 "Connection: local Antigravity CLI" = "连接方式：本机Antigravity CLI";
 
 "Antigravity’s running local CLI. Enable it in Accounts after signing in." = "使用本机正在运行的Antigravity CLI；登录后在账号设置中启用。";
+
+"Enable source" = "启用来源";
+
+"Rename account" = "重命名账号";
+
+"Sign in to the app or CLI, then connect again." = "请先在对应应用或CLI登录，再连接。";
+
+"Connect this account to resume." = "连接此账号以恢复更新。";
+
+"Connecting saved accounts automatically. macOS may ask you to approve access." = "正在自动连接已登录的账号，macOS可能需要你确认访问授权。";
+"Checking saved accounts…" = "正在检测已登录的账号…";
+
+"Could not monitor local Claude quota." = "无法监听Claude本地额度。";
+"Could not read local Claude quota." = "无法读取Claude本地额度。";
+
+"Could not enable local Claude quota." = "无法启用Claude本地额度读取。";

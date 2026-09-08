@@ -23,6 +23,10 @@ extension Usage {
     /// Only explicit component failures revive a previous observation. Optional omissions do not.
     func accepting(at date: Date, previous: Reading?) -> Usage {
         let failures = componentFailures
+        let planFailed = failures.contains {
+            $0.id == "grok.subscription-plan" || $0.id == "antigravity.subscription-plan"
+        }
+        let acceptedPlan = planFailed ? previous?.usage.planLabel : planLabel
         var windows = quotaWindows.map { $0.observed(at: date) }
         var balances = balances.map { $0.observed(at: date) }
         if let previous {
@@ -44,9 +48,9 @@ extension Usage {
         case .unsupported: return self
         case .balance:
             return .balance(balance: balances[0])
-        case .windows: return .windows(windows: windows, plan: planLabel)
+        case .windows: return .windows(windows: windows, plan: acceptedPlan)
         case .both: return .both(windows: windows, balance: balances[0])
-        case .metrics: return .metrics(windows: windows, balances: balances, plan: planLabel, failures: failures)
+        case .metrics: return .metrics(windows: windows, balances: balances, plan: acceptedPlan, failures: failures)
         }
     }
 }

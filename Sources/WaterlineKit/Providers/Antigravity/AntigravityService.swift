@@ -44,11 +44,22 @@ public struct SystemAntigravityService: AntigravityServiceReading {
                 guard before == identity else { continue }
                 let data = try await client.request(
                     .quotaSummary, listener: listener, expectedExecutable: executable, requestBudget: requestBudget)
-                let after = try AntigravityAccountIdentity.parse(
-                    await client.request(
-                        .userStatus, listener: listener, expectedExecutable: executable, requestBudget: requestBudget))
+                let status = try await client.request(
+                    .userStatus, listener: listener, expectedExecutable: executable, requestBudget: requestBudget)
+                let after = try AntigravityAccountIdentity.parse(status)
                 guard after == before else { throw FetchError.credentialMissing }
-                return try AntigravityQuotaSummary.parse(data)
+                let usage = try AntigravityQuotaSummary.parse(data)
+                do {
+                    return .metrics(
+                        windows: usage.quotaWindows, balances: [],
+                        plan: try AntigravitySubscription.plan(status), failures: usage.componentFailures)
+                } catch let error as FetchError {
+                    return .metrics(
+                        windows: usage.quotaWindows, balances: [], plan: nil,
+                        failures: usage.componentFailures + [
+                            MetricFailure(id: "antigravity.subscription-plan", error: error)
+                        ])
+                }
             } catch {
                 try Task.checkCancellation()
                 failure = error

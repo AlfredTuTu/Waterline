@@ -431,3 +431,19 @@
 "Connection: local Antigravity CLI" = "Connection: local Antigravity CLI";
 
 "Antigravity’s running local CLI. Enable it in Accounts after signing in." = "Antigravity’s running local CLI. Enable it in Accounts after signing in.";
+
+"Enable source" = "Enable source";
+
+"Rename account" = "Rename account";
+
+"Sign in to the app or CLI, then connect again." = "Sign in to the app or CLI, then connect again.";
+
+"Connect this account to resume." = "Connect this account to resume.";
+
+"Connecting saved accounts automatically. macOS may ask you to approve access." = "Connecting saved accounts automatically. macOS may ask you to approve access.";
+"Checking saved accounts…" = "Checking saved accounts…";
+
+"Could not monitor local Claude quota." = "Could not monitor local Claude quota.";
+"Could not read local Claude quota." = "Could not read local Claude quota.";
+
+"Could not enable local Claude quota." = "Could not enable local Claude quota.";

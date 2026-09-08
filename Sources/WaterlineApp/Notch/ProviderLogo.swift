@@ -6,7 +6,7 @@ struct ProviderLogo: View {
     let provider: Provider?
 
     private static let images: [Provider: NSImage] = Dictionary(
-        uniqueKeysWithValues: Provider.allCases.compactMap { provider in
+        uniqueKeysWithValues: Registry.activeProviders.compactMap { provider in
             if provider == .codex,
                 let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.openai.codex"),
                 let bundle = Bundle(url: appURL),

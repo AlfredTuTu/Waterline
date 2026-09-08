@@ -7,21 +7,24 @@ struct WaterlineApp: App {
     @State private var localization = AppLocalization.shared
 
     @Environment(\.openWindow) private var openWindow
-    @Environment(\.openSettings) private var openSettings
 
     var body: some Scene {
         MenuBarExtra {
             Group {
-                Text("Waterline \(WaterlineVersion.current)")
+                Text("Waterline")
                 Button("Show accounts") { delegate.showAccounts() }
-                Button("Token records") {
-                    NSApplication.shared.activate(); openWindow(id: "token-history")
-                }
                 Button("Refresh") { Task { await delegate.model.refresh() } }
                     .disabled(delegate.model.refreshing)
-                Button("Settings") {
-                    NSApplication.shared.activate(); openSettings()
+                Button("Manage accounts") {
+                    NSApplication.shared.activate(); openWindow(id: "connections")
                 }.disabled(delegate.model.isVerification)
+                LoginItemSettings()
+                Picker("Language", selection: Binding(get: { localization.language }, set: { localization.select($0) }))
+                {
+                    Text("Follow system").tag(AppLanguage.system)
+                    Text(verbatim: "简体中文").tag(AppLanguage.simplifiedChinese)
+                    Text(verbatim: "English").tag(AppLanguage.english)
+                }
                 Divider()
                 Button("Quit Waterline") { NSApplication.shared.terminate(nil) }
                     .keyboardShortcut("q")
@@ -29,10 +32,11 @@ struct WaterlineApp: App {
         } label: {
             Image(nsImage: WaterlineMark.image).accessibilityLabel("Waterline")
         }
-        Window("Token records", id: "token-history") {
-            TokenHistoryWindow(model: delegate.model).modifier(RecordWindowBehavior()).environment(
-                \.locale, localization.locale)
-        }.defaultSize(width: 780, height: 560)
-        Settings { SettingsView(model: delegate.model).environment(\.locale, localization.locale) }
+        Window("Account display order", id: "account-order") {
+            AccountOrderSheet(model: delegate.model).environment(\.locale, localization.locale)
+        }.windowResizability(.contentSize)
+        Window("Manage accounts", id: "connections") {
+            AccountConnectionsView(model: delegate.model).environment(\.locale, localization.locale)
+        }.windowResizability(.contentSize)
     }
 }

@@ -1,231 +1,125 @@
-# Waterline · 水位
+# Waterline
 
-**中文** · [English](#english)
+A native macOS notch and menu-bar app for checking coding-assistant subscription
+usage. Waterline runs on your Mac without a backend or telemetry.
 
-Waterline是一个开发中的macOS原生刘海/菜单栏应用，目标是自动发现本机已有的AI编程工具账号，
-集中显示服务商报告的**额度使用情况和重置时间**。
+## Everyday use
 
-当前仅保留Claude Code、ChatGPT、Cursor、独立Grok和Antigravity五类原生套餐。API账号功能按用户要求暂时移除，已有密钥、账号记录和历史保留在本机，后续再处理。
+- Keep one chosen account's icon and remaining percentage in the compact island.
+- Click the island to open the account cards; hovering does not enlarge it.
+- Drag cards to change their display order. The footer **Waterline → Account display
+  order** opens the native ordering list. Changes save automatically.
+- Choose the daily account from the pin menu.
+- Launch-at-login and language selection are in the macOS menu-bar menu.
+- Collapse the island or quit from its Waterline menu.
 
-- 一个真实账号一行，凭据可以更换；同一账号的多个来源可以合并，不同地区或计费范围保持独立。
-- 支持服务商原始值和有明确依据的计算；缺失数据不补零，预测值标`≈`。
-- 最小状态常显一个账号的图标与剩余额度，点击展开、移出收起，图钉选择日常账号；无刘海的屏幕使用悬浮胶囊。数据过期时保留上次读数并显示时间。
+There is no separate settings page, Token records window, API-key entry screen or
+connection wizard. The first launch attempts to connect saved native logins.
+macOS may require you to approve access to protected credentials. Later background
+work never presents a Keychain prompt; failed authorization has a conditional
+Connect action. Existing account data is preserved during updates.
 
-### 当前状态
+## Supported sources
 
-截至2026-09-06，已建立SwiftPM工程、基础模型与引擎、快照存储、HTTP/钥匙串边界和刘海占位界面。
-CLI已实现`snapshot`、`version`、`accounts`和初步`refresh`。Codex已完成一次真实只读额度查询及原生Release显示/刷新检查；其余Provider和完整账号管理仍在开发。
-下列服务属于计划范围，不代表已经支持：
+| Account | Source | Current scope |
+| --- | --- | --- |
+| ChatGPT / Codex | Saved Codex login | Reported subscription windows |
+| Claude Code | Saved Claude login and official CLI status-line data | Reported 5h/7d windows and additional server-reported windows |
+| Cursor | Local Cursor login database | Reported plan/model pools and other available usage windows |
+| Grok / SuperGrok | Grok Build's saved consumer login | Consumer subscription usage; not Cursor Grok Bot or developer API billing |
+| Antigravity | Already-running, signed-in native CLI | Reported Gemini and Claude/GPT quota groups |
 
-- v0.1：Claude Code、Codex、Cursor、xAI。
-- v0.2：智谱、Kimi Code、Moonshot、MiniMax、DeepSeek，以及余额历史与估算。
-- v0.3：Antigravity、Qwen能力评估、完整设置与引导、中英文界面。
+Provider contracts and evidence limits are in [docs/providers](docs/providers/README.md).
+Not every tier, OS version or login arrangement has been live-tested. Missing
+values stay unavailable, and old observations retain their age. A zero is only
+shown when the provider reports it or its documented representation implies it.
+Standalone API-balance integrations are deferred; previous local keys, records
+and history are not deleted by this product simplification.
 
-具体指标以验证后的接口能力为准。Provider状态和证据要求见[服务商说明](docs/providers/README.md)，
-目标设计见[架构](ARCHITECTURE.md)，完成标准见[验收](ACCEPTANCE.md)。
+## Claude updates
 
-### 隐私设计
+Waterline's installed CLI can receive the official Claude Code `rate_limits`
+status-line payload. With a supported default login and no existing custom status
+line, Waterline adds its receiver and makes a private backup of Claude's settings.
+Existing status lines and disabled-hook settings are preserved. Custom credential
+or provider overrides are not silently attributed to the default account.
 
-以下是必须实现并验收的约束，尚不代表当前骨架已通过完整隐私验证：
+A new Claude Code session establishes its account binding before the first model
+request. A normal model response can then deliver quota data locally without an
+additional quota HTTP request. Receiving the same cached values again does not
+make them newer. Existing sessions first attached after they have already made
+requests are not guessed into an account; start a new session for local capture.
+Only quotas, reset times and the association needed for correctness are stored,
+with a maximum of 128 session records. No transcript or workspace content is saved.
 
-- 没有Waterline后端、遥测或崩溃上传服务。认证信息和必要账号标识仅发送到对应服务的获准HTTPS地址。
-- 仅读取列明的工具凭据位置；配置文件扫描按来源选择开启，不执行Shell文件。后台钥匙串操作不弹授权框。
-- 不修改其他工具的凭据；手动输入的密钥写入本应用自己的钥匙串条目。
-- 常规状态与历史保存在`~/Library/Application Support/Waterline/`，偏好设置由`UserDefaults`保存。
-  明确请求的诊断导出写入用户选择的位置；原始响应可能含隐私信息，须单独处理、脱敏且不提交。
-- 不以完全磁盘访问权限作为前提。受限来源显示原因；启用真实连接时说明读取范围。
-- 后续自动更新会另行说明下载地址和开关，不属于服务商额度查询。
+Ordinary Claude network fallback runs no more frequently than every five minutes;
+opening the island does not shorten this interval. Reset boundaries and explicit
+manual requests remain subject to backoff. Other providers use their current
+automatic policy, normally 60 seconds. Provider rate limits retry silently and
+progressively back off; cached values remain distinguishable from new observations.
+**Five minutes is Waterline policy, not a published Anthropic API allowance.**
 
-### 开发
+## Build and verify
 
-`make run`通过`Scripts/run-app.sh`只停止当前工作区构建目录中的应用，再构建和启动；
-不会按进程名关闭其他工作区或Applications中的Waterline。若旧实例未退出，停止重建并报错。
+Requires the project's pinned Xcode 26.6 / Swift 6.3 toolchain at
+`/Applications/Xcode.app`. The deployment target is macOS 14; that declaration is
+not a claim that every supported OS has been tested.
 
-参考工具链为Xcode26.6、Swift6.3.x。2026-09-06在本机`/Applications/Xcode.app`验证到
-Xcode26.6（17F113）、Swift6.3.3。`make`默认使用该路径；直接调用`xcrun`需显式指定。
-
-```bash
-DEVELOPER_DIR=/Applications/Xcode.app make verify
-DEVELOPER_DIR=/Applications/Xcode.app make run
-.build/debug/waterline version
-.build/debug/waterline snapshot --json
-.build/debug/waterline source list --json
-make dmg
+```sh
+make verify
+CONFIGURATION=release make app
+make run
 ```
 
-应用已通过共享AppModel连接引擎。已有Codex登录可查询真实额度；无快照时`snapshot`返回无数据。
-本地开发包采用ad-hoc签名，并非已公证发行版；如macOS要求确认，请使用系统提供的打开流程。
-不关闭系统安全检查。完整流程见[项目规则](AGENTS.md)。
+`make verify` builds, runs Swift tests, checks formatting and whitespace, and runs
+repository audit/script checks. Tests inject files, HTTP and Keychain implementations;
+they never query real providers or the real Keychain.
 
----
+The app bundle is generated at `build/Waterline.app`. The CLI's read-only snapshot
+and account commands are useful while the app owns the engine's writer lock:
 
-## English
-
-Waterline is a macOS notch/menu-bar app in development. It aims to discover existing AI coding accounts
-and show provider-reported **allowance usage and reset times** in one place.
-
-Current scope is Claude Code, ChatGPT, Cursor, independent Grok and Antigravity. API-account features are deferred by the owner; existing keys, records and history remain stored locally.
-
-- One row per account; credentials can rotate. Reconcile known duplicate sources, while keeping
-  separate regional and billing identities distinct.
-- Show reported values and documented deterministic calculations. Missing data stays missing;
-  predictions carry `≈`.
-- Keep one account logo and remaining allowance visible; click to expand, leave to close, and use pin to select the daily account. Use a floating capsule on displays without a notch. Stale readings
-  retain their values and observation age.
-
-### Status
-
-As of 2026-09-06, the repository contains the SwiftPM scaffold, initial model/engine, snapshot store,
-HTTP/Keychain boundaries and an initial engine-connected notch panel. The CLI implements `snapshot`,
-`version`, `accounts` and initial `refresh`. Codex has a successful read-only CLI/live native display check.
-The provider registry is empty; no live usage or balance integration has been delivered.
-
-Planned coverage: Claude Code, Codex, Cursor and xAI in v0.1; Zhipu, Kimi Code, Moonshot, MiniMax and
-DeepSeek plus history/estimates in v0.2; Antigravity, a Qwen capability review, full onboarding/Settings
-and zh-Hans/en in v0.3. Actual metrics depend on verified endpoint capabilities.
-
-See [provider evidence](docs/providers/README.md), [target architecture](ARCHITECTURE.md) and
-[acceptance requirements](ACCEPTANCE.md). Planned support is not live verification.
-
-### Privacy design
-
-These are implementation and verification requirements, not a completed privacy audit of the scaffold:
-
-- No Waterline backend, telemetry or crash-upload service. Send authentication and required account
-  identifiers only to the corresponding service's permitted HTTPS endpoints.
-- Read only named tool sources. Config scanning is opt-in per source and never executes shell files.
-  Background Keychain operations never prompt.
-- Never modify another tool's credentials. Manual keys belong in this app's own Keychain service.
-- Normal state/history live under `~/Library/Application Support/Waterline/`; preferences use
-  `UserDefaults`. Explicit diagnostic exports go to a user-selected directory. Raw responses may be
-  private; handle separately, redact before sharing and never commit them.
-- Do not depend on Full Disk Access. Explain inaccessible sources and the access needed for a connection.
-- Future updates need a documented download policy and enable/disable choice beyond provider queries.
-
-### Development
-
-Reference toolchain: Xcode 26.6 / Swift 6.3.x. On 2026-09-06, `/Applications/Xcode.app` reported Xcode
-26.6 (17F113), Swift 6.3.3. `make` defaults to that path; direct `xcrun` calls need the variable explicitly.
-
-```bash
-DEVELOPER_DIR=/Applications/Xcode.app make verify
-DEVELOPER_DIR=/Applications/Xcode.app make run
-.build/debug/waterline version
+```sh
 .build/debug/waterline snapshot --json
+.build/debug/waterline accounts --json
 ```
 
-The app is wired to the engine; without an existing snapshot the last command
-reports no data. Development bundles are ad-hoc signed, not notarised releases; follow the OS-provided
-open flow if confirmation is requested, without disabling system security. See [project rules](AGENTS.md).
+Live refresh/connect commands use real saved logins and must be run intentionally.
+The app and CLI cannot concurrently mutate the same engine state.
 
-`make dmg` builds the Release configuration and creates a locally ad-hoc-signed development image
-under `build/`, with an Applications link, bilingual installation notes and a SHA-256 sidecar. It
-verifies image integrity but does not notarize or publish the artifact. Developer ID signing,
-notarization and clean-machine Gatekeeper/installation checks remain required for distribution.
+## Performance and release status
 
-`make distribution-check` is a separate read-only gate for the existing production app bundle. It
-requires Developer ID Application signing, hardened runtime, a secure timestamp, a stable version,
-a stapled notarization ticket and enabled Gatekeeper assessment without a local override. It is
-expected to fail for the current development artifact. An explicit `WATERLINE_SIGNING_IDENTITY`
-enables Developer ID signing in `CONFIGURATION=release make app`; debug signing is rejected before
-replacing the app. Without it, signing remains ad-hoc. The real identity path
-is not verified on this machine. Secure timestamping is build-time Apple service traffic, not runtime
-app telemetry. This check neither uploads for notarization nor publishes a release.
+Final acceptance is tracked in [ACCEPTANCE.md](ACCEPTANCE.md). Measurements must
+identify the exact installed binary, account configuration and observation period.
+To measure an already-running real-account app without restarting it:
 
-The offline resource harness is separate: `make verification-test` checks its isolated dependencies;
-`make verification-app` builds `build/WaterlineVerification.app` with a distinct bundle identifier.
-Launch it with `--verification-run-id <UUID>` to use that run's directory under the system temporary
-folder's `WaterlineVerification/<UUID>/`. It contains exactly four synthetic accounts and rejects
-network/Keychain operations. Its headline/menu identify test data; connections and external console
-links are disabled. Production builds reject verification flags. Use `Scripts/measure-runtime.py`
-with `--scope fixtures`, the exact process/executable and that run's snapshot to collect the standard
-600 s warm-up plus 600 one-second samples. Real-account measurements use `--scope real`.
+```sh
+python3 Scripts/measure-runtime.py \
+  --pid <WaterlineApp-PID> \
+  --executable /absolute/path/Waterline.app/Contents/MacOS/WaterlineApp \
+  --snapshot "$HOME/Library/Application Support/Waterline/snapshot.json" \
+  --output build/verification/runtime.json --scope real
+```
 
-The verification app also accepts `--verification-render` to export its own synthetic island view
-to `island.png` in the run directory and exit. `--verification-long-labels` exercises truncation;
-process-local `-AppleLanguages '(zh-Hans)'` selects Chinese. This renders only the app's own view,
-not desktop content, and does not validate real hover/focus or screen placement.
-`--verification-unsupported` supplies an explicit synthetic capability-state scenario for rendering;
-it is not the four-kind resource benchmark and does not describe a real provider account.
-`--verification-expired-secondary` renders a current quota alongside an expired supplementary quota
-to inspect text status and compact mixed-freshness layout.
-`--verification-component-failure --verification-detail` renders a named partial failure in account
-details. All such scenarios are synthetic and retain the verification provenance.
-`--verification-route-account` and `--verification-route-missing` exercise the account-navigation
-render states; they do not send notifications or establish OS notification-click behavior.
+The protocol uses a 10-minute warmup and 10-minute sample. The targets are mean CPU
+below 1% of one core and physical memory below 120 MB. Do not substitute RSS for
+physical footprint or divide CPU usage by the number of cores.
 
-### Acknowledgements
+Version 0.1.0 is being prepared as an owner-approved, ad-hoc-signed, unnotarized
+release. If macOS blocks its first launch, use **System Settings → Privacy &
+Security → Open Anyway** and confirm the system prompt. Do not disable Gatekeeper.
+Updates are manual. See [release readiness](docs/release-readiness.md) for artifact
+checks; Developer ID signing, notarization and automatic update delivery are not
+claimed. Repository visibility remains private unless explicitly changed.
 
-Design references, read but not copied: [CodexBar](https://github.com/steipete/CodexBar) (MIT),
-[boring.notch](https://github.com/TheBoredTeam/boring.notch) and
-[open-vibe-island](https://github.com/Octane0411/open-vibe-island) (GPL-3),
-[dsh-provider-balance](https://github.com/aka-danielZhang/dsh-provider-balance) and
-[claude-token-monitor](https://github.com/young1lin/claude-token-monitor).
-Provider contracts must cite the exact evidence used when implemented. Project licence: MIT; review
-third-party licences separately before incorporating code or dependencies.
+## Repository map
 
+- `Sources/WaterlineKit`: model, provider adapters, engine, persistence and presentation logic.
+- `Sources/WaterlineApp`: native scenes, notch panel and thin UI integration.
+- `Sources/WaterlineCLI`: command-line entry point and local quota receiver.
+- `Tests/WaterlineKitTests`: offline logic and regression coverage.
+- `Resources`: localized strings and shipping assets.
+- `Scripts`: reproducible builds, verification, packaging and performance measurement.
+- `docs`: current contracts and decisions; `docs/archive` contains historical records.
 
-### Current CLI exit codes
-
-Optional process sources use `source enable|disable|check deepseek-env [--json]`. Enabling is explicit
-consent for the inherited environment source; it never accepts a key argument. `source list [--json]`
-reads canonical saved consent without discovery/network requests. A missing optional source returns
-exit 2 even if another manual account for that provider is healthy. Disabled sources are shown paused.
-`deepseek-claude-settings` separately enables the direct DeepSeek declaration in global Claude Code
-settings. Both sources remain off by default; source checks never execute shell/config commands.
-
-`0`: command completed; `1`: storage or unexpected operation failure; `2`: no saved data, unknown
-account, or one or more requested refreshes failed (JSON may still contain valid partial data);
-`3`: another engine owns the writer lock; `64`: invalid arguments or unavailable provider command.
-`connect` announces the saved-login read and may show a native Keychain access prompt. It never
-refreshes another tool's authentication credentials.
-
-
-### Manual balance accounts (development build)
-
-Settings → Accounts → DeepSeek → Add key stores a key only in Waterline's own Keychain service.
-Existing manual accounts offer Update key; their ID, name and pin are preserved. The CLI also accepts
-`account add deepseek --stdin [--json]` and `account key <id> --stdin [--json]`, with input piped from
-an appropriate local secret source. It rejects echoing terminal input and never accepts a key argument.
-If key deletion fails, Privacy settings exposes a retry; startup also retries pending cleanup.
-This flow has offline integration coverage. Native Keychain writes and real DeepSeek balances remain
-unverified; this is not a release-readiness claim.
-
-### Notarization preparation
-
-`bash Scripts/notarize-app.sh --check build/Waterline.app` runs submission preflight
-without contacting Apple. It must reject development/ad-hoc bundles. The full
-`make distribution-check` still requires a stapled ticket and Gatekeeper acceptance.
-
-Once a stable Release is signed with the intended Developer ID and an existing
-notarytool Keychain profile is available, invoke `Scripts/notarize-app.sh` with the
-source app, profile name and a new output-app path. It submits a staged ZIP, preserves
-Apple's result beside the output path, staples and validates an accepted app, and leaves
-the source bundle unchanged. This step does not publish a GitHub release, build a
-Homebrew cask or establish clean-install acceptance. Those remain separate requirements.
-
-### Homebrew cask preparation
-
-`python3 Scripts/generate-cask.py SIGNED_DMG --url VERSIONED_RELEASE_URL --output Casks/waterline.rb`
-checks the DMG signature/ticket, mounts it read-only, validates its actual application,
-and generates a cask with the artifact SHA-256, macOS minimum and actual CPU architectures.
-It accepts only this project's versioned HTTPS GitHub asset URLs and never installs or
-publishes anything. The source DMG must already be a validated stable release; development
-DMGs are rejected. Online Homebrew audit and clean installation remain required after
-publication. Format reference: [Homebrew Cask Cookbook](https://docs.brew.sh/Cask-Cookbook).
-
-The application bundle now includes `Contents/MacOS/waterline`, signed before the outer
-app. Its version is checked against the app in local packaging verification; distribution
-checks inspect its signature, signing team, architecture and deployment target without
-executing a downloaded artifact. Generated Homebrew casks link this helper as `waterline`.
-Read-only snapshot commands remain available while the app runs; commands that need the
-writer lock require the running app to exit first.
-
-For this development workflow, a fixed user installation may live at
-`~/Applications/Waterline.app`. The worktree bundle and the installed copy are separate:
-`make run` only relaunches the worktree bundle and does not update an installed copy.
-It refuses to proceed while another Waterline bundle is running and checks that the
-requested executable stays running after launch. A process-inventory failure stops the run.
-When testing an installed build, verify the running executable path and copy/version
-identity rather than assuming a new build replaced the running app. Preserve the prior
-installation before updating it. Account state remains outside the app bundle.
+[Architecture](ARCHITECTURE.md) · [UI behavior](docs/ui.md) ·
+[Decisions](docs/decisions.md) · [License](LICENSE)

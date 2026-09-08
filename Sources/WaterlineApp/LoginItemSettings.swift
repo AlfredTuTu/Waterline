@@ -8,7 +8,7 @@ struct LoginItemSettings: View {
     @State private var errorMessage: String?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        Group {
             Toggle(
                 "Launch at login",
                 isOn: Binding(
@@ -18,8 +18,6 @@ struct LoginItemSettings: View {
             ).disabled(changing)
             if changing {
                 ProgressView("Updating…").controlSize(.small)
-            } else {
-                Text(LocalizedStringKey(statusDescription)).font(.caption).foregroundStyle(.secondary)
             }
             if status == .requiresApproval || errorMessage != nil {
                 Button("Open Login Items Settings") { SMAppService.openSystemSettingsLoginItems() }
@@ -31,16 +29,6 @@ struct LoginItemSettings: View {
         .onAppear { status = SMAppService.mainApp.status }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
             status = SMAppService.mainApp.status
-        }
-    }
-
-    private var statusDescription: String {
-        switch status {
-        case .enabled: "Waterline will open automatically when you log in."
-        case .notRegistered: "Open Waterline manually when you need it."
-        case .requiresApproval: "Allow Waterline in System Settings to finish enabling launch at login."
-        case .notFound: "macOS could not find the login item. Try enabling launch at login."
-        @unknown default: "Login item status is unavailable."
         }
     }
 

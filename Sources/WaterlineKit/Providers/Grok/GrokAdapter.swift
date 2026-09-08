@@ -63,7 +63,46 @@ public struct GrokAdapter: ProviderAdapter {
                     "User-Agent": "Waterline/\(WaterlineVersion.current)",
                 ]))
         try response.validateStatus()
-        return try Self.parse(response.body)
+        let usage = try Self.parse(response.body)
+        do {
+            let profile = try await http.send(
+                HTTPRequest(
+                    url: URL(string: "https://cli-chat-proxy.grok.com/v1/user?include=subscription")!,
+                    headers: [
+                        "Authorization": "Bearer \(secret.value)", "X-XAI-Token-Auth": "xai-grok-cli",
+                        "x-userid": subject, "Accept": "application/json",
+                        "User-Agent": "Waterline/\(WaterlineVersion.current)",
+                    ]))
+            try profile.validateStatus()
+            return .windows(
+                windows: usage.quotaWindows, plan: try Self.subscriptionPlan(profile.body, subject: subject))
+        } catch {
+            try Task.checkCancellation()
+            return .metrics(
+                windows: usage.quotaWindows, balances: [], plan: usage.planLabel,
+                failures: [
+                    MetricFailure(
+                        id: "grok.subscription-plan",
+                        error: error as? FetchError ?? .transport(detail: "Subscription lookup failed"))
+                ])
+        }
+    }
+
+    static func subscriptionPlan(_ data: Data, subject: String) throws -> String? {
+        struct Profile: Decodable { let userId: String; let subscriptionTier: String? }
+        let profile: Profile
+        do { profile = try JSONDecoder().decode(Profile.self, from: data) } catch {
+            throw schemaError(error, prefix: "grok.user")
+        }
+        guard profile.userId == subject else { throw FetchError.credentialMissing }
+        if let tier = profile.subscriptionTier {
+            guard !tier.isEmpty, tier.utf8.count <= 128,
+                !tier.unicodeScalars.contains(where: { CharacterSet.controlCharacters.contains($0) })
+            else {
+                throw FetchError.schemaChanged(detail: "grok.user.subscriptionTier")
+            }
+        }
+        return profile.subscriptionTier
     }
 
     public static func parse(_ data: Data) throws -> Usage {

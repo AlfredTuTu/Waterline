@@ -9,7 +9,7 @@ struct CollapsedBar: View {
     let toggle: () -> Void
 
     var body: some View {
-        TimelineView(.periodic(from: .now, by: 1)) { _ in bar }
+        TimelineView(.explicit(Dashboard.notchHeadlineUpdateDates(model.snapshot, after: Date()))) { _ in bar }
     }
 
     private var bar: some View {

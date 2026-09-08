@@ -21,7 +21,7 @@ extension Engine {
             var schedule = schedules[account.id, default: RefreshSchedule()]
             schedule.requestSooner(
                 at: now, lastFetchedAt: states[account.id]?.reading?.fetchedAt,
-                minimumInterval: minimumInterval)
+                minimumInterval: account.provider == .claudeCode ? max(300, minimumInterval) : minimumInterval)
             schedules[account.id] = schedule
         }
         restartScheduler()

@@ -193,3 +193,15 @@ Evidence: ignored `build/verification/order-and-cadence-native.json` and the
 owner-priority checkpoint in ACCEPTANCE.md. This establishes one real account
 and this display scope, not all plans or inactive-CLI availability. The app still
 does not start the CLI, extract its token or invent data while it is absent.
+
+## Subscription metadata — 2026-09-08
+
+Reuse the post-quota GetUserStatus response after validating the account identity.
+Prefer `userStatus.userTier.name` over `planStatus.planInfo.planName`; the latter is
+less specific. No additional request is introduced. On the owner's current signed
+CLI, a bounded read returned userTier `g1-pro-tier` / `Google AI Pro`, planName `Pro`
+and teamsTier `TEAMS_TIER_PRO`, with valid identity. No personal fields were saved.
+Absent metadata remains unknown; malformed metadata retains quota as a partial
+result with `antigravity.subscription-plan` failure. These names alone do not yet
+implement automatic membership visibility. Higher tiers are synthetic parser
+coverage, not live validation. Native display of this metadata remains pending.

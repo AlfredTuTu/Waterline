@@ -88,3 +88,90 @@ access, not permanent Keychain permission. No credentials or raw response bodies
 
 Max/Fable and other account tiers remain synthetic contract coverage only. The parser accepts
 reported dynamic model scopes; this is not a claim that those scopes exist for the Pro account.
+
+## Official local status-line evidence (2026-09-08)
+
+[Official status-line reference](https://code.claude.com/docs/en/statusline) documents
+`rate_limits.five_hour` and `rate_limits.seven_day`, each containing
+`used_percentage` and Unix `resets_at`. Each window may be absent; windows are
+removed after reset. The payload is available after an API response, and the
+script itself does not consume API tokens. This is independent of context-window
+percentages and session list-price costs. The documented example requires v2.1.251+.
+
+The owner's CLI v2.1.263 was tested with session-only settings; no persistent
+statusLine was installed. A resumed session first emitted no rate_limits. After
+one response it emitted 5h 30% and 7d 31%, with reset epochs. Only quota, version,
+receipt time and API-duration fields were retained in ignored verification evidence.
+The temporary CLI exited normally. `disableAllHooks` also prevented this local
+status-line probe from running, so it was removed from the temporary invocation;
+the user's configuration contained no hook events and was not changed.
+
+`ClaudeStatusline` validates a bounded payload and returns a distinct observation
+DTO, never a live Usage reading. It deliberately lacks account attribution or a
+fabricated provider timestamp: session_id is a session identifier, not an account.
+API-duration progression alone does not prove refreshed quota. Before integrating,
+bind the source to the correct native login and retain observation provenance;
+repeated callbacks and replayed cached windows must not advance freshness.
+The capture/engine flow and idle fallback remain unfinished. The undocumented
+`/api/oauth/usage` query rate limit remains unknown; 60 seconds is app policy,
+not a published provider guarantee.
+
+Local account association: `.claude.json` contains `oauthAccount.accountUuid` and
+`organizationUuid`. A bounded metadata read on the owner's machine matched both
+UUIDs to Waterline's profile-verified identity. `ClaudeLocalLogin` validates both
+and compares UUID values case-insensitively; matching only the user while ignoring
+the organization is not sufficient. No name, email, plan or token is retained by
+this parser. This is association evidence, not live membership evidence. Binding
+at a session's start and rejecting replay across account switches remain necessary
+before enabling persistent status-line ingestion.
+
+The empty-session condition was verified separately on v2.1.263 without sending
+a model request: `rate_limits` absent and `total_api_duration_ms` zero.
+`ClaudeSessionBinding` can initialize only in this state with matching local and
+profile-verified account/organization UUIDs. It rejects later first attachment,
+other sessions, changed logins and regressing API-duration counters; duplicate
+callbacks do not yield another observation. Passing this gate is necessary but
+still does not establish a provider observation timestamp or complete ingestion.
+
+Local observation persistence uses a separate writer lock and atomic private files,
+keyed by validated session UUID. Identical quota values retain their first receipt
+time even after further API activity; missing fields do not become zero. Stored
+records validate account scope, session ID and quota bounds when loaded. This is
+not yet installed capture or engine ingestion; session-file retention limits and
+end-to-end delivery remain outstanding before enabling the source.
+
+The `waterline claude-statusline-v1` receiver now reads bounded stdin, checks the
+default local login against exactly one profile-verified Claude account in the
+Waterline snapshot, and writes the separate private local-observation store. It
+does not open Keychain or make network requests. Custom Claude configuration
+directories, token/API-key overrides and alternative provider environments are
+rejected until their identity routes are supported. The receiver is not installed
+into the owner's persistent Claude settings yet; app ingestion and retention are
+still required before that activation. Injected-home tests verify file integration
+and exclusion of transcript path, workspace and email from stored observations.
+
+App-side ingestion is now implemented: a filesystem event source watches the
+local observation directory, reads the latest matching login observation off the
+main actor, then publishes it through Engine.receiveClaudeObservation. No periodic
+file scan is added. Receipt must be recent and later than the replaced metric;
+expired local windows and cross-account values are rejected. Other provider
+windows remain. Local progress defers the ordinary remote schedule by five minutes
+without clearing server Retry-After or credential parking. This is an app policy,
+not an asserted Anthropic limit. Store retention caps owned session files at 128,
+leaving unrelated files untouched. Persistent Claude configuration activation and
+native delivery verification remain outstanding.
+
+Native owner-account validation — 2026-09-08 23:54: the installed receiver was
+configured once, preserving a private settings backup. A new official CLI session
+created a zero-duration binding, then a normal model response produced local 5h 38%
+and 7d 32%. The app filesystem listener accepted it automatically: snapshot origin
+became local and the native card showed both values without a manual refresh.
+The earlier stale/rate-limited state was replaced by local quota data while the
+server deadline remained stored. CLI exited normally after validation.
+
+Ordinary Claude network fallback now uses a minimum 300-second interval, including
+view-open acceleration; other providers retain their own existing cadence. Reset
+boundaries and explicit manual refresh still respect provider backoff. This is
+Waterline policy, not a published Anthropic request allowance. Persistent source
+activation with an already-customized status line remains preserved/unmodified
+and falls back to server queries; no unsupported universal setup claim is made.

@@ -15,6 +15,7 @@ final class AppLocalization {
     }
 
     var identifier: String {
+        if language != .system { return language.localizationIdentifier(systemLanguages: []) }
         let systemLanguages =
             UserDefaults.standard.persistentDomain(forName: UserDefaults.globalDomain)?[
                 "AppleLanguages"] as? [String] ?? Locale.preferredLanguages

@@ -41,6 +41,22 @@ struct RefreshScheduleTests {
         #expect(schedule.eligible(at: now.addingTimeInterval(120), manual: true))
     }
 
+    @Test func repeatedPartialRateLimitsBackOffAcrossRestartAndRecover() throws {
+        var schedule = RefreshSchedule()
+        var attempt = now
+        for delay in [60.0, 120, 240, 480, 960, 1800, 1800] {
+            schedule.partiallySucceeded(at: attempt, interval: 60, errors: [.rateLimited(retryAfter: 0)])
+            schedule = try JSONDecoder().decode(RefreshSchedule.self, from: JSONEncoder().encode(schedule))
+            #expect(!schedule.parked)
+            #expect(!schedule.eligible(at: attempt.addingTimeInterval(delay - 1), manual: true))
+            attempt = attempt.addingTimeInterval(delay)
+            #expect(schedule.eligible(at: attempt, manual: false))
+        }
+        schedule.succeeded(at: attempt, interval: 60)
+        schedule.partiallySucceeded(at: attempt, interval: 60, errors: [.rateLimited(retryAfter: nil)])
+        #expect(schedule.serverDeadline == attempt.addingTimeInterval(60))
+    }
+
     @Test func fallbackBackoffAndSuccessRecovery() {
         var schedule = RefreshSchedule()
         schedule.failed(.transport(detail: "Offline"), at: now)
@@ -52,6 +68,27 @@ struct RefreshScheduleTests {
         schedule.succeeded(at: now, interval: 300)
         schedule.failed(.transport(detail: "Offline"), at: now)
         #expect(schedule.nextAutomatic == now.addingTimeInterval(60))
+    }
+
+    @Test(arguments: [nil, 0, 1] as [TimeInterval?])
+    func rateLimitFallbackAlsoGatesManualRefresh(delay: TimeInterval?) throws {
+        var schedule = RefreshSchedule()
+        schedule.failed(.rateLimited(retryAfter: delay), at: now)
+        let restored = try JSONDecoder().decode(
+            RefreshSchedule.self, from: JSONEncoder().encode(schedule))
+        #expect(!restored.eligible(at: now.addingTimeInterval(59), manual: true))
+        #expect(restored.eligible(at: now.addingTimeInterval(60), manual: true))
+        schedule.failed(.rateLimited(retryAfter: delay), at: now.addingTimeInterval(60))
+        #expect(!schedule.eligible(at: now.addingTimeInterval(179), manual: true))
+        #expect(schedule.eligible(at: now.addingTimeInterval(180), manual: true))
+    }
+
+    @Test(arguments: [nil, 0] as [TimeInterval?])
+    func partialRateLimitHasMinimumRetryDelay(delay: TimeInterval?) {
+        var schedule = RefreshSchedule()
+        schedule.partiallySucceeded(at: now, interval: 60, errors: [.rateLimited(retryAfter: delay)])
+        #expect(!schedule.eligible(at: now.addingTimeInterval(59), manual: true))
+        #expect(schedule.eligible(at: now.addingTimeInterval(60), manual: false))
     }
 
     @Test func unauthorizedParksManualAndAutomaticRequests() {

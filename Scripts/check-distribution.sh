@@ -4,8 +4,8 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 app="${1:-build/Waterline.app}"
 mode="${2:-complete}"
-if [[ "$mode" != complete && "$mode" != --pre-notarization ]]; then
-    echo "usage: check-distribution.sh [app] [--pre-notarization]" >&2
+if [[ "$mode" != complete && "$mode" != --pre-notarization && "$mode" != --adhoc-release ]]; then
+    echo "usage: check-distribution.sh [app] [--pre-notarization|--adhoc-release]" >&2
     exit 64
 fi
 status=0
@@ -25,6 +25,10 @@ else
     fail "code or sealed-resource integrity"
 fi
 signature=$(codesign -dv --verbose=4 "$app" 2>&1 || true)
+if [[ "$mode" == --adhoc-release ]]; then
+    if [[ "$signature" == *"Signature=adhoc"* ]]; then pass "declared ad-hoc signature"; else fail "expected ad-hoc signature"; fi
+    echo "INFO: owner-approved unnotarized release; Developer ID, secure timestamp and notarization are not claimed."
+else
 if [[ "$signature" == *"Authority=Developer ID Application:"* && "$signature" != *"Signature=adhoc"* ]]; then
     pass "Developer ID Application signature"
 else
@@ -33,6 +37,8 @@ fi
 flags=$(sed -n 's/^CodeDirectory .*flags=//p' <<< "$signature")
 if [[ "$flags" == *runtime* ]]; then pass "hardened runtime"; else fail "hardened runtime required"; fi
 if [[ "$signature" == *"Timestamp="* ]]; then pass "secure signing timestamp"; else fail "secure signing timestamp required"; fi
+
+fi
 
 identifier=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$app/Contents/Info.plist" 2>/dev/null || true)
 version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$app/Contents/Info.plist" 2>/dev/null || true)
@@ -61,11 +67,16 @@ cli_signature=$(codesign -dv --verbose=4 "$cli" 2>&1 || true)
 app_team=$(sed -n 's/^TeamIdentifier=//p' <<< "$signature")
 cli_team=$(sed -n 's/^TeamIdentifier=//p' <<< "$cli_signature")
 cli_flags=$(sed -n 's/^CodeDirectory .*flags=//p' <<< "$cli_signature")
+if [[ "$mode" == --adhoc-release ]]; then
+    if [[ "$cli_signature" == *"Signature=adhoc"* ]]; then pass "bundled CLI ad-hoc signature"; else fail "expected ad-hoc CLI"; fi
+else
 if [[ "$cli_signature" == *"Authority=Developer ID Application:"* && "$cli_signature" == *"Timestamp="* && "$cli_flags" == *runtime* && -n "$app_team" && "$app_team" == "$cli_team" ]]; then
     pass "bundled CLI Developer ID, runtime and signing team"
 else
     fail "bundled CLI needs matching Developer ID, runtime and timestamp"
 fi
+fi
+
 cli_build=$(xcrun vtool -show-build "$cli" 2>/dev/null || true)
 cli_targets=$(awk '$1 == "minos" { print $2 }' <<< "$cli_build")
 cli_targets_match=true
@@ -103,6 +114,13 @@ else
     fail "Sparkle framework or complete license missing/invalid"
 fi
 
+if [[ "$mode" == --adhoc-release ]]; then
+    automatic=$(/usr/libexec/PlistBuddy -c 'Print :SUEnableAutomaticChecks' "$app/Contents/Info.plist")
+    install=$(/usr/libexec/PlistBuddy -c 'Print :SUAllowsAutomaticUpdates' "$app/Contents/Info.plist")
+    if [[ "$automatic" == false && "$install" == false ]]; then pass "automatic updates disabled for manual distribution"; else fail "unexpected automatic update configuration"; fi
+    echo "INFO: Gatekeeper may block first launch; use System Settings > Privacy & Security to allow this app."
+    exit "$status"
+fi
 if ! python3 Scripts/check-update-config.py "$app"; then
     fail "release update configuration required"
 fi

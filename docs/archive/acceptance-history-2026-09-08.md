@@ -1,0 +1,1300 @@
+# Acceptance
+
+Target verification contract. No unchecked item is implemented or verified merely because it appears
+here. A task is complete when its authorised scope and applicable checks hold; a milestone is complete
+only when all its release requirements hold. Documentation changes do not require implementing the
+behaviours they specify. Record unavailable checks honestly, without ticking them or inventing evidence.
+
+Historical `build/verification/` and `design-previews/` references below are ignored local
+evidence, not files included in the public repository or distribution. Public contracts
+record verification scope; private account details stay in local evidence.
+
+## Local development evidence — 2026-09-06
+
+The inherited 22 documentation/template edits were present at task start. Reference toolchain checked:
+Xcode 26.6 (17F113), Swift 6.3.3. Baseline `make verify` passed five tests. Four formal regressions then
+failed against the scaffold: repeated start duplicated an account, a discovery exception hid a healthy
+provider, a late old request replaced balance 20 with 10, and description/reflection/dump exposed a
+synthetic secret. After correction those same behavioural tests pass (the race now explicitly requests
+supersession; normal refreshes coalesce).
+
+Additional isolated tests cover immediate subscription delivery, valid reading delivery despite disk
+failure, diagnostic propagation, legacy backup/version upgrade, newer-schema preservation, forbidden
+HTTP/port/user-info URLs, writer contention/release and stop invalidation. These do not contact a real
+service or Keychain. HTTP redirect policy is implemented but native redirect testing remains open.
+The Keychain global-interaction API has been replaced with per-query LAContext policy; native
+noninteractive/interactive verification remains open. A first Codex CLI query at 2026-09-06T13:26:28Z returned four real quota windows and saved the snapshot.
+This verifies that request path only; no complete Provider or native user-flow acceptance item is checked.
+
+Native Release iteration: one actual Codex account was displayed; the Refresh control updated the
+visible observation time from 23:33 to 23:34. A concurrent CLI refresh returned exit code 3 while the
+app owned the lock. Quitting/relaunching the app restored the same single account, without a duplicate.
+The later black overview iteration opens additional windows through `+3 more windows`, and Back returns
+to overview in the same panel. Multi-account ordering uses 11 synthetic account entries in unit tests;
+11-account native rendering, hover timing, screen transitions and accessibility remain unverified.
+Latest full gate: 26 tests passed, plus strict format, whitespace and audit. Release remains ad-hoc
+signed and development-only; no installed distribution, notarisation or public release is claimed.
+
+Account-management iteration (2026-09-07): native Release Settings opened from the island. Rename,
+pin and disable were reflected in configuration.json and snapshot schema 2. After quit/relaunch,
+Settings restored the test label, pin and disabled state; lastAttemptAt stayed 2026-09-06T14:05:22Z,
+showing no startup refresh of the disabled account. Re-enable obtained another real reading. Lowering
+the warning threshold from 70% to 30% changed the real 36% meter and collapsed dot to orange; restoring
+70% restored the preference. A zero-second interval was rejected with an inline error; 300 seconds
+saved and cleared the error. All test preferences were restored (enabled, unpinned, unnamed, 70/90%).
+The panel's child height was corrected to match its computed content height; the full header/footer
+were visible in the subsequent native screenshot.
+
+New offline tests prove config-write failure leaves the requested account change unapplied; removal
+survives restart until explicit Connect; credential rotation retains stable identity and preferences;
+old cached observations expire without timestamp rewriting. These do not establish every provider's
+reconnection, native Keychain prompt policy, or the complete release checklist.
+
+Visual follow-up (2026-09-07): the owner supplied a native screenshot showing a capsule stacked on a
+rectangular body. Independent child backgrounds were the cause. A shared IslandSilhouette now clips
+and paints both surfaces; the rebuilt Release screenshot shows continuous single-account sides and
+no capsule bottom edge at the junction. Wider curved shoulders are implemented but still need native
+multi-account rendering evidence. Latest gate: 36 tests pass, including synthetic per-account Plus
+5-hour+weekly and other-plan weekly-only shapes. The live account remains a single observed scope.
+
+Component/CLI iteration (2026-09-07): snapshot schema 3 records stable component IDs, per-component
+observation times and errors, plus an explicit partial account state. Offline tests verify repeated
+partial failures retain the original observation date, optional omissions do not revive old values,
+independent currencies stay separate, and a fresh critical component still signals in a partial account.
+Injected CLI tests cover JSON refresh/account mutation/re-read, busy writer, invalid flags and nonzero
+status for discovery failures. The real locked-Claude refresh now exits 2 and prints the access reason;
+other-provider cached readings remain intact and visibly aged. Latest gate: 49 tests pass.
+
+Claude native-boundary evidence: an initial LAContext-only noninteractive read remained blocked inside
+SecItemCopyMatching_osx / SecKeychainItemCopyContent (one-second sample of the exact test process).
+That process was terminated without a credential dump. With serialized legacy UI policy disabled and
+the prior setting restored, the same noninteractive command returned keychainLocked in about 0.2 s.
+Three deprecation warnings for the public legacy get/set functions are expected and retained; tests do
+not touch the real Keychain. The machine then locked; native interactive Connect and Claude profile/
+quota verification remain pending manual unlock and any required OS authorisation. This is not a
+successful Claude quota integration claim. Other development remains possible; the goal is active.
+
+Isolation follow-up (2026-09-07): two new regressions failed before correction. Connect on one
+provider unnecessarily refreshed another provider; refresh now accepts a provider scope and Connect
+uses it. A component-group name that was a prefix of another name revived an unrelated old window;
+retention now uses explicitly declared parent scopes and exact IDs. Positive parent-retention and
+negative similar-name tests cover both sides. DeepSeek's endpoint parser now has offline tests for
+independent CNY/USD balances, zero, malformed totals/gifts and duplicate currencies. Its manual-key
+account flow and live verification remain incomplete; it is intentionally not yet registered.
+
+Manual-key iteration (2026-09-07): DeepSeek is now registered behind a manual-key flow. The engine
+uses a restricted app-owned secret-store interface; config/snapshot tests prove that supplied keys
+are absent from persisted files and output. Isolated tests cover add, replacement with stable identity,
+two manual accounts surviving rediscovery separately, deletion, visible cleanup failure and retry on
+restart, config failure before any secret write, recoverable secret-write failure, and rejected-key
+nonzero CLI status while keeping prior readings. Balance-only headline selection is tested by health
+and currency, without comparing raw mixed-currency amounts. Latest gate: 63 tests pass.
+
+Executable checks: empty piped stdin and a PTY invocation of `--stdin` both returned exit code 64
+before any credential write. Settings now has a SecureField add/update sheet and a pending-cleanup
+retry action. These native surfaces and actual app-owned Keychain writes have not been verified while
+the Mac is locked. No real DeepSeek key was used or balance response obtained in this iteration.
+
+History iteration (2026-09-07): balance recording now happens at engine result acceptance, before
+subscriber consumption. Tests cover distinct unchanged observations, duplicate publication, restart
+loading, 90-day retention, disk failure with valid current readings, and replay after storage recovery.
+The estimator tests exact/sub-24-hour spans, flat values, top-up segmentation and subsequent recovery,
+seven-day exclusion, stale latest data, debt, currency switches and simultaneous currencies. Journal
+subseconds round-trip, and a malformed tail is rejected without overwriting it. A history write failure
+returns CLI exit code 1 while preserving JSON readings. Latest gate: 74 tests pass.
+
+A seven-day trend and labelled average-decrease/days-left estimate are wired into native account
+details. They have not been rendered with real historical balances while the Mac is locked. Long-term
+resource/retention performance, interrupted-write repair and durable outage recovery remain unverified;
+no history/forecast acceptance checkbox is marked complete by the current tests alone.
+
+Regional-provider iteration (2026-09-07): Moonshot CN/global is registered with explicit region
+selection in manual entry and `--region` in CLI creation. Primary vendor references document CNY/USD
+units and independent keys. Offline tests verify missing-region rejection before storage/HTTP, exact
+selected-host routing, currency mapping, zero, negative-cash non-double-counting, optional voucher
+failure isolation, dual-region restart recovery and region-specific console links. A separate source-
+lock regression preserves last verified identity through temporary access failure and recovery.
+Neither Moonshot region has a real-key/live balance check yet; native regional entry remains unverified.
+
+Live regression check (2026-09-07 01:55 Melbourne): after regional-account changes, the actual
+`waterline refresh --provider codex` returned exit 0 in about 0.9 s with four real quota windows.
+The existing Codex local account ID remained unchanged. The stored Claude access-needed row remained
+visible without causing this scoped Codex request to fail. No inference request or plan/billing change
+was made. Moonshot still has no live-key evidence.
+
+Request-persistence iteration (2026-09-07): new regression tests first demonstrated that restart
+and disable/enable bypassed Retry-After, and 401 parking disappeared on restart. Snapshot schema 5 now
+persists per-account schedules; enablement preserves server deadlines. Tests cover waiting before/
+after the exact deadline, persistent authentication parking, explicit Connect recovery, unchanged-
+credential restart, fallback backoff on automatic startup and real credential-revision change. Private
+configuration stores a credential digest for revision comparison; snapshots do not contain that digest
+or plaintext keys. Native profile/discovery backoff and wake/network-recovery coverage remain open.
+
+System-recovery iteration (2026-09-07): NSWorkspace sleep/wake notifications and NWPathMonitor
+unsatisfied-to-satisfied transitions are wired to the shared model/engine. Sleep cancels scheduled and
+in-flight work, invalidates acceptance generations, and retains the writer lock/subscription state.
+Recovery coalesces, uses automatic eligibility (including server waits), and resumes interrupted
+startup discovery. Offline tests cover late old results, paused requests, repeated recovery, waiting
+limits, and discovery interrupted by sleep. An additional manual-key regression keeps the saved
+credential revision aligned after replacement so a rejected new key does not get retried on every
+restart. Native OS event delivery and real sleep/network transitions remain unverified.
+
+Kimi Code iteration (2026-09-07): registered the manual Code API-key flow separately from Moonshot.
+Offline tests cover subscription/window counts, deterministic remaining-to-used conversion, zero
+limits without fabricated percentages, missing reset times, independent malformed windows, membership
+labels and the exact coding endpoint. Native input and real quota checks remain unverified. The default
+CLI credential file was absent in a presence-only check; OAuth/device-header discovery and monthly
+membership enrichment remain open. Derived fractions use decimal division and correctly rounded Double
+conversion; display allows one decimal place near warning boundaries.
+
+Zhipu/Z.ai iteration (2026-09-07): personal Coding Plan manual keys now use explicit CN/global
+regions, matching console links and the existing owned-key lifecycle. Offline tests cover weekly,
+5-hour, credit and MCP components; count-derived percentages; epoch-millisecond reset conversion;
+unknown additions; sibling failure isolation; preservation of a malformed known component; and CLI
+regional creation through a fake HTTP boundary. No actual key or quota request was used. Team scope,
+model statistics, monetary balances, Tier-2 discovery and native/live checks remain open.
+
+MiniMax iteration (2026-09-07): current official CN/global Token Plan endpoint selection replaces
+the original unverified candidate route. Regional manual-key entry uses Subscription Keys. Offline
+tests distinguish legacy remaining-count fields from modern remaining-percent fields, preserve real
+zero/exhaustion semantics, avoid fake percentages for unquantified lanes, isolate weekly failures and
+exercise the CLI path through a fake exact-host HTTP boundary. No live Subscription Key was used;
+credits, browser sessions, native input and real quota comparisons remain unverified.
+
+History-retry follow-up (2026-09-07): Privacy settings now invokes a dedicated engine persistence
+retry that performs no Provider fetch. A test first leaves storage unavailable and verifies a failure,
+then restores storage and advances the clock; the pending observation is written with its original
+time and lastAttemptAt is unchanged. This removes the dependency on another successful network query
+for in-process recovery. Native button delivery and damaged-journal repair remain unverified.
+
+History-tail recovery (2026-09-07): explicit persistence retry now validates all complete records,
+backs up the exact original file, and repairs a non-newline-terminated tail. A complete final record
+is retained; a syntactically incomplete fragment is preserved in the backup. Tests confirm byte-identical
+backup, unchanged observation times, no additional Provider request, and refusal to discard malformed
+interior records or well-formed unknown schemas. Recovery produces a visible notice. Native button
+interaction and actual process-kill/power-loss scenarios remain unverified.
+
+xAI iteration (2026-09-07): Management Key and validated Team ID are wired through native manual
+entry, CLI `--team`, configuration and the exact read-only team-balance endpoint. Offline tests verify
+signed-cent conversion, missing-total errors, path-injection rejection, 403 permission classification,
+team persistence, and exclusion of posted-ledger values from available-balance health/headlines and
+history forecasts. The UI/CLI explicitly label the posted basis. No actual Management Key or live
+Console reconciliation has been performed; real available credit and spend analytics remain open.
+
+## Automated gate — `make verify`
+
+| Gate | Command | Passes when |
+|---|---|---|
+| Build | `xcrun swift build` | No errors; new warnings are explained in the delivery record. |
+| Tests | `xcrun swift test` | All tests pass; no live service, network socket or real Keychain access. |
+| Format | `xcrun swift-format lint --strict --recursive Package.swift Sources Tests` | No findings. |
+| Whitespace | `git diff --check`, `git diff --cached --check` | No whitespace errors or conflict markers. |
+| Audit | `Scripts/audit.sh` | Current import, secret-pattern and dependency checks pass. Review remains necessary for redaction and dependencies the pattern checks might miss. |
+
+The gate is configured in `.github/workflows/ci.yml` for `macos-26`, Xcode 26.6. Locally, use
+`DEVELOPER_DIR=/Applications/Xcode.app make verify`; record the actual Xcode/Swift versions. Direct
+`xcrun` commands also need this variable. A local pass does not establish remote CI status.
+
+## Verification appropriate to the change
+
+- Logic changes: tests for meaningful behaviour and failures, using boundary fixtures/fakes. Prefer
+  a regression test that fails without the fix; do not add tests merely restating implementation.
+- UI and OS integration: test pure derivations, then inspect the exact native app build and record
+  the relevant interactions/screenshots. Unit tests do not prove Keychain prompt or window behaviour.
+- Documentation only: check consistency, file/section references, target-versus-current claims and
+  the existing gate. No new behavioural tests or live account calls are needed.
+- Live checks: only with task/owner authorisation, using the implemented CLI. Record provider,
+  date, region, account/plan kind without private identifiers, observed capabilities and limitations.
+  Fixture tests do not prove that a live endpoint remains available.
+
+## Standards every applicable change meets
+
+- Provider values and deterministic calculations have documented units and provenance. Estimates
+  are distinct and labelled `≈`. Unknown fields never become zero; genuine zero remains valid.
+- Required-field schema errors name a field path. Added unrelated fields are tolerated; optional
+  missing values and independent component failures follow the provider's partial-result contract.
+- Credentials go only to the account's permitted HTTPS endpoint, including redirect handling. No
+  credentials in normal logs, snapshots or copied tool databases; explicit raw-capture exceptions
+  follow `docs/providers/README.md`. No writes to another tool's credentials.
+- Background Keychain access never prompts; interactive reads occur only after Connect announces them.
+- One provider/source failure does not suppress other accounts. Last good readings keep their own age.
+- Support-directory state, preferences, app-owned Keychain entries and explicit exports match
+  `ARCHITECTURE.md`. Review secret/identity redaction in addition to running the audit script.
+
+## Complete frontend/backend flows
+
+Acceptance must follow the actual user action through the local backend and back to the rendered app.
+Screenshots, mock-only interaction and isolated backend tests are supporting evidence, not substitutes.
+For each applicable flow, verify action, validation, progress, result/error, recovery and persistence:
+
+| Flow | End-to-end result |
+|---|---|
+| Discover/connect/add account | The intended source is read under the correct access policy, identity is reconciled, a real supported reading or an accurate connection reason reaches the row, and account configuration survives relaunch. |
+| Refresh and recover | UI and CLI invoke the same engine rules; progress completes, fresh/stale/partial outcomes are visible, server backoff is respected, and stored state agrees with the rendered result. |
+| Change settings | Threshold, interval, language and source/account enablement changes affect actual behaviour immediately or at the documented boundary and survive relaunch. |
+| Disable/remove/reconnect | Scheduling and row state change as expected; manual app-owned credentials are handled correctly, external tool credentials stay untouched, and reconnection preserves a known account identity. |
+| History and notifications | Eligible readings enter history once, estimates and charts match the stored observations, threshold crossings respect preferences and notification permission, and user-pinned views retain their state. |
+
+Check these flows in the native Release app, including failures and restart. Use synthetic inputs to
+exercise otherwise unavailable edge cases and clearly distinguish them from real-account checks.
+Claude Code and Grok explicitly selected through Cursor CLI may advise on backend and frontend work;
+Antigravity and Figma are frontend design aids
+only. All accepted behaviour must still work through the actual app and local engine. Record a concrete external dependency
+only after investigation; do not treat ordinary implementation uncertainty as a blocker.
+
+For every resolved problem, record the original symptom or unmet requirement, cause, correction and
+verification of the same scenario plus the affected user flow. Keep these records in the existing
+task/delivery evidence, not a duplicate tracking system. A workaround, hidden error, disabled feature,
+mock replacement or weakened check cannot be labelled a fix. Correct failure presentation is necessary
+but does not by itself establish successful integration. If the original failure cannot be reproduced,
+state that limit and show the alternative evidence; do not claim an observed before/after result.
+
+## v0.1 — engine, CLI, usable notch, initial providers
+
+- [ ] `make verify` passes; release code is green on CI before tagging.
+- [ ] Stable account IDs survive same-account credential rotation/reconnect; locked sources can be listed without reading secrets. Known duplicate identities reconcile; different regions/teams stay separate. Legacy snapshot migration preserves unmatched data without guessing.
+- [ ] HTTP tests cover 401/403, 429 numeric/date/missing `Retry-After`, 5xx, success, timeout, HTTP rejection, disallowed host and redirect rejection/revalidation. A key cannot be tried against another region merely because both hosts are allowlisted.
+- [ ] Parser tests cover reported zero, optional absent reset/fraction, extra unrelated fields, invalid required fields, multi-currency balances, both kinds and partial success. Overage is retained only where documented.
+- [ ] Engine tests cover isolation of discovery/fetch errors, observation-time freshness, reset expiry, 60 s active / 5 min idle cadence, rate-limit/backoff, 401 parking, manual refresh constraints, coalescing, wake/recovery, stop/cancellation and persistence failure.
+- [ ] Cached data appears without waiting for discovery/network; stale components are visibly aged. A local provider record never becomes fresh solely because Waterline read it now.
+- [ ] A second engine cannot fetch or mutate shared state while the app owns the writer lock. Snapshot reads remain available. Test lock release on exit, atomic writes, legacy migration and refusal to overwrite an unsupported newer schema.
+- [ ] CLI `snapshot`, `version`, `accounts`, `refresh`, `account add/remove` have injected entry-point tests, documented exit codes and plain errors. Manual keys come from non-echoing terminal input or stdin, never command arguments; empty input is rejected without a Keychain write. `--json` conforms to the supported snapshot schema.
+- [ ] Claude Code, Codex, Cursor and xAI each have a documented supported scope, adapter registration, reviewed fixtures and authorised live evidence. Display only verified metrics; billing spend is not automatically an allowance percentage. An unavailable live account or unsupported promised capability is recorded as a release gap, not a passed check.
+- [ ] Offline: previous readings remain greyed with age and an offline reason; no fabricated zero. A failed refresh does not erase valid independent components.
+- [ ] A protected Keychain item causes no background dialog and exposes Connect. An already-authorised item may read without prompting. Connect/cancel/reconnect are checked on native macOS; no automated test touches the real Keychain.
+- [ ] On a notch screen, collapsed height equals `safeAreaInsets.top`; on a screen without a notch, the 136×32 pt capsule fits. Click-to-expand, single-account selection, display switching and full-screen/Spaces behaviour match `docs/ui.md`; only one panel exists and adjacent menu items remain usable.
+- [ ] Collapsed display uses the selected single account and its shortest primary cadence; reset expiry shows Awaiting update. Automatic account choice uses health and stable ordering. Mixed CNY/USD amounts are never ranked numerically. Threshold equality, unknown currency threshold and all non-fresh/empty states have tests.
+- [ ] Expanded UI covers no accounts, source errors, pending, partial, both kinds, multi-currency, stale, unavailable and unsupported states. Many accounts scroll without hiding controls; the collapsed provider logo matches the selected headline account. Long names, keyboard-only use, VoiceOver, Reduce Motion and explicit console/Connect actions are checked.
+- [ ] Basic connection guidance works before full Settings exists. No disabled Settings placeholder. The app has no Dock icon; menu actions include Show accounts, Refresh and Quit.
+- [ ] Runtime storage and resource usage meet the protocol below; report tested OS versions and hardware. A macOS 14 minimum declaration alone is not evidence of testing macOS 14.
+- [ ] Initial-provider contracts link evidence, map fields/errors, and record actual live-verification dates and supported metric scope.
+- [ ] `v0.1.0` is tagged only after these requirements hold; changing release scope requires an explicit owner decision.
+
+## Runtime verification protocol
+
+2026-09-07 real-account measurement started using Release PID 55022 on macOS 27.0 (26A5425a),
+Mac17,9 with 48 GiB RAM and the built-in 3024×1964 Retina main display (mirroring off). Three accounts
+are enabled at 300 s cadence: Codex/ Cursor fresh and Claude unavailable at startup. Initial external
+`footprint` returned 25,871,392 physical bytes; this is not the acceptance peak. The bounded runner
+`Scripts/measure-runtime.py` performs the required ten-minute warm-up and ten-minute one-second
+sampling, recording CPU-time deltas and physical footprint rather than RSS. Its output is
+`build/verification/runtime-real-20260907.json`. Completed: 600 samples after warm-up, mean process
+CPU 0.0349997%, sampled physical peak 25,166,880 bytes and lifetime physical peak 26,117,152 bytes.
+Largest sample gap was 1.029 s; configuration and executable remained unchanged. The executable SHA-256
+was `f1b094c3901e214653e05334f7b0366175aa309e51eea7948a03e9bf95c28ae8`.
+These numerical observations meet the thresholds for that baseline build. The later global limiter
+and one-second freshness UI changes were not in the measured executable and require remeasurement.
+The four-fixture offline baseline and native collapsed/idle observation still require separate evidence.
+
+2026-09-07 current fixture remeasurement started: archived Release executable SHA-256
+`596c6c6b93875eb49af63a15b0d49d7013de079564bde9592d234c3ac354ac88`,
+`build/verification/runtime-596c6c6b9387.app`, PID 27095. Native AX inspection before warm-up showed
+only the collapsed headline, with no expanded account content. The four isolated fixture accounts
+use run ID `86E4B6D5-7A10-4FC1-9B3A-01DA4DF53467`. The live measurement controller owns cleanup;
+target/configuration metadata is in `runtime-current-target.json`, final measurements will be in
+`runtime-current-fixtures.json`, and process-exit evidence in `runtime-current-cleanup.json`, all under
+`build/verification/`. Completed with 600 samples after the ten-minute warm-up: mean process CPU
+0.1933317%, sampled physical peak 35,603,584 bytes, lifetime physical peak 37,815,472 bytes, and
+maximum sample gap 1.0722 seconds. Configuration and archived executable remained unchanged; both
+numeric thresholds passed for this four-fixture build on macOS 27.0 (26A5425a), Mac17,9, 48 GiB RAM.
+The controller exited the test app and process inventory independently confirmed its absence.
+Summary: `runtime-current-summary.json`; the final synthetic snapshot was archived and temporary
+fixture storage removed. This does not replace current real-account remeasurement, other supported
+macOS/display testing, or the complete native interaction matrix.
+
+Use a Release bundle built with the reference toolchain. Record commit/build, macOS version, Mac model,
+RAM, display setup, enabled accounts, refresh intervals and measurement tool. For the standard idle
+check, use four fixture-backed accounts (two windows, one balance, one both-kind), no recent harness
+activity, collapsed panel and no user input; the fixture mode must make no live calls. The separate
+`make verification-app` / `make verification-test` harness implements these four account types with
+explicit verification provenance and isolated dependencies. Rendered state still needs native checking.
+
+2026-09-07 fixture harness checkpoint: its dedicated release test passes the four-type/account
+restoration and denied network/Keychain checks. Native launch produced four fresh `verification`
+readings in a new temporary directory; production data-file hashes were unchanged during the startup
+check. Invalid verification run IDs and verification flags passed to the normal app exit 64. Normal
+`make verify` passed 165 tests at this checkpoint. PID 71053 completed the four-account measurement in
+`build/verification/runtime-fixtures-20260907.json`: 600 samples, mean CPU 0.1216654%, sampled physical
+peak 23,135,240 bytes and lifetime peak 23,200,800 bytes, maximum sample gap 1.032 s. Configuration and
+executable were unchanged; SHA-256 was `921ee55fb24d475684f8f62768697e39065cc7376e0b4b1002672943caedf50b`.
+The matching bundle was archived at `build/verification/measured-fixtures-921ee55f.app`. Numeric
+thresholds were met for this fixture build, which includes the one-second freshness timeline. Later
+interaction-order source changes were not in it. Mac remained locked, so visual collapsed/idle and
+interactive behavior remain unverified; this is not complete current-release performance acceptance.
+
+After ten minutes of warm-up, sample another ten minutes at one-second intervals: mean process CPU
+below 1% (100% means one fully used core), peak physical memory footprint below 120 MB. Include ordinary
+refreshes; report peaks and any excluded event separately. Repeat with the authorised real-account
+configuration for release evidence, recording its actual account count. Do not lower thresholds or
+change measurement definitions silently to pass.
+
+Use filesystem tracing across launch, refresh, preference change and a manual-key action. Classify
+app state, preferences, Keychain operations, explicit exports and OS-managed writes separately. Confirm
+no app-directed credential copies, persistent HTTP bodies/cookies, or unexplained state outside the
+listed locations. No export is expected during a normal refresh.
+
+## v0.2 — additional providers, discovery, gateways, estimates
+
+2026-09-07 native layout follow-up: the owner-requested orange verification banner is removed from
+the account panel, history windows and menus. Collapsed/expanded header wings now place the logo
+and metric 18pt from their respective outer black edges. Native offscreen inspection verified both
+`build/verification/collapsed-symmetric-zh.png` and `expanded-symmetric-zh.png`. Data remains synthetic.
+The Token record window also completed a native full-screen entry and return to ordinary titlebar
+controls after applying fullScreenPrimary to record windows; other full-screen scenarios remain open.
+No true-provider run was started. `make verify` passed 234 tests; the local bundle was rebuilt.
+
+2026-09-07 provider asset integrity: the resource test covers every Provider case, verifies the
+reviewed SHA-256 manifest, decodes each PNG through ImageIO and checks license presence. Distribution
+checks compare packaged logos/license against reviewed source resources. Temporary negative cases
+with a missing Claude image and missing license were correctly rejected; the current bundle passes
+this resource check. Evidence: `build/verification/provider-resource-check.json`. `make verify` passed
+234 tests in 49 suites. No applications or live-provider requests were started in this check.
+
+2026-09-07 Escape native repeat completed: the current isolated bundle was expanded and explicitly
+pinned, then Escape removed the expanded content. A separate Codex-detail route also collapsed on
+Escape; reopening showed Overview and an unpinned footer, not the previous detail. Cmd+Q exited,
+process inventory confirmed no matching verification process, and the run directory was removed.
+Evidence: `build/verification/escape-check-verified.json` with the tested executable hash. This closes
+the earlier Escape repeat gap; pointer-leave, Spaces/full-screen and the full keyboard/accessibility
+matrix remain separate acceptance items. No code changed in this verification-only turn.
+
+2026-09-07 collapsed provider attribution: health dots were replaced by the selected headline
+account's brand logo. Value/account selection is atomic, quota ties use stable account IDs, and
+status-only headlines use Waterline's symbol. Expanded rows share the bundled provider images;
+usage alerts retain their source account for matching icons. Two regression tests cover quota
+ownership/ties/expiry and balance currency/source selection. The native offscreen collapsed PNG
+`build/verification/collapsed-provider-logo-zh.png` visibly shows Claude's orange mark paired with
+the synthetic Claude 44% headline. An initial named-resource load rendered no icon; explicit bundle
+URLs with cached NSImage loading corrected it. `make verify` passed 233 tests. Native notification
+delivery/icon behavior and the outstanding Escape repeat check remain open.
+
+2026-09-07 Escape regression under native verification: after explicit pinning, Escape left the
+expanded content visible while the panel dialog had focus. `NotchPanel.cancelOperation` now routes
+the responder-chain cancellation to common collapse. The repeated native check became unavailable
+with ScreenCaptureKit -3812/-3811 errors, so the correction is compiled but its end-to-end effect
+remains unverified. `make verify` passed 231 tests; these are not Escape UI coverage. The exact test
+process was stopped and its temporary directory removed. Evidence: `build/verification/escape-check-pending.json`.
+
+2026-09-07 current development image validation: a read-only mount of the v2-wave-logo DMG
+confirmed all seven application files byte-identical to the current Release bundle, with the expected
+Applications symlink and installation text. The image was unmounted without launching its app.
+Evidence: `build/verification/development-image-v2.json`. Extracted ICNS 32px artwork shows three
+distinct ripple lines; 16px retains the silhouette with weaker detail. This is packaged-image inspection,
+not a claim that Finder rendering or the full visual acceptance is complete.
+
+2026-09-07 deployment-target/package follow-up: current Release declares macOS 14.0 and its
+LC_BUILD_VERSION reports minos 14.0 / SDK 26.5. The distribution checker now compares the declared
+and compiled deployment target and checks LSUIElement. Temporary negative cases with a 15.0 plist
+and an invalid executable were rejected. App icon representations and sealed resources pass;
+`security find-identity -v -p codesigning` returned zero Developer ID Application identities.
+The updated development DMG includes v2 wave artwork and current fixes; its validated image SHA-256
+is `582b725692a35b357a33a7312917b7e5efc5956b3cd488141e9fac613ee8142e`.
+Evidence: `build/verification/deployment-check.json`. This establishes deployment metadata, not
+execution on macOS 14. Signing/notarization/Gatekeeper prerequisites remain unmet. The independently
+archived fixture measurement was left running and was not rebuilt or restarted.
+
+2026-09-07 balance-basis regression: a failing test demonstrated that excluding posted-ledger
+points still reused an earlier available-balance estimate and bridged across a basis interruption.
+The estimator now treats same-currency posted observations as a segment boundary. Tests verify no
+old estimate while posted credit is latest, no estimate from the first resumed available point,
+correct restart after a full day, and independence of another simultaneously available currency.
+`make verify` passed 231 tests in 48 suites; `make app` rebuilt the local debug bundle without launch.
+This is deterministic estimate coverage, not live-provider or full native UI acceptance.
+
+2026-09-07 Token window restart checkpoint: the isolated native app imported 1,000 synthetic
+observations (repeat import added zero), exited, then the fixture source log was removed. A separate
+process used `--verification-token-render --verification-token-restore` with the same run ID and
+the ordinary `TokenHistoryWindow(model:)` initializer, without injecting preloaded view state or
+performing an import. The offscreen native rendering showed 720 recent observations, input 72,000,
+cached input 57,600, output 7,200 and approximately USD 0.56. All 1,000 saved records loaded; the ledger
+SHA-256 stayed identical and the source log remained absent. Evidence: `build/verification/token-restored.json`
+and `token-restored-zh.png`. Both processes exited without ordered windows. This proves the synthetic
+local-ledger restart/render flow, not real-account attribution or completeness of imported logs.
+
+2026-09-07 localization follow-up: corrected the malformed `Loading accountu2026` catalog key and
+added No accounts/Manual key translations. Two catalog tests check direct UI literals and matching
+format arguments/locale keys; dynamic/interpolated keys and full native layout remain outside that
+check. `make verify` passed 229 tests. The owner subsequently replaced the W-shaped logo with three
+water-ripple lines; `Resources/AppIcon.png` now matches `design-previews/brand/waterline-logo-v2.png`.
+The local debug bundle was rebuilt with the new icon and translations. The earlier Release DMG
+still contains v1 artwork and is not current for this revision.
+
+2026-09-07 app icon/release packaging checkpoint: the generated Waterline artwork is now copied
+into project Resources and converted to ICNS before bundle signing. All ten standard/Retina icon
+representations decoded at their expected dimensions. Release and development DMG rebuilt; a read-only
+mount confirmed all seven bundle files byte-identical, the Applications symlink and Read Me correct,
+and sealed-resource verification passed. The image was unmounted without launching the app.
+Evidence: `build/verification/icon-release-package.json`; DMG SHA-256
+`1249655c50062be1eaf97385390c04b95a9451bb2759dc6430587cc845a788d9`.
+`make verify` passed 227 tests; the updated distribution checker passes icon representations but
+still fails Developer ID, hardened runtime, timestamp, stable version, notarization and unavailable
+Gatekeeper assessment. Finder rendering and small-size visual acceptance remain unverified.
+
+2026-09-07 island dismissal follow-up: footer unpin now calls the common collapse path. Native
+fixture-app actions verified the pin label changes and unpin removes the expanded content immediately.
+Hover dismissal now uses that same path to clear navigation rather than only changing visibility.
+The pointer-exit/detail-reset scenario remains unverified: the CUA drag screenshot still showed the
+pointer inside the panel, so its unchanged state does not prove a missed exit event. A trial pointer
+poller was removed. Final `make verify` passed 227 tests; `make app` rebuilt the local debug bundle.
+`build/verification/island-unpin-check.json` records the bounded result. Test processes exited and the
+known temporary run directory was removed. This does not close the full native interaction matrix.
+
+2026-09-07 development launcher isolation: `make run` now delegates to `Scripts/run-app.sh`,
+matches the current checkout's canonical executable path, and waits for its exit before replacing
+the bundle. Two temporary compiled native processes with the same executable basename verified
+that only the target stops and the other checkout survives; build precedes launch. Evidence is
+`build/verification/launcher-isolation.json`. The test substitutes build/launch with markers and
+does not establish native app launch acceptance. Both helper processes and temporary files were
+cleaned. `make verify` passed 227 tests and the format/whitespace/audit gates.
+
+2026-09-07 configured-source monitoring follow-up: enabled DeepSeek global settings now participate
+in the scoped five-minute local check and wake/network recovery. Tests verify changed-file-only
+refresh, no file reads after opt-out, repaired-source recovery and preservation of 401/403 parking
+through disappearance/reappearance of the same key. Authentication pause cause is persisted; legacy
+parked records without the new marker are treated conservatively until credential change or Connect.
+Original authorization failures remain visible across source interruptions. `make verify` passes
+194 tests. No real optional source was enabled; native controls and live key rotation remain open.
+
+2026-09-07 literal configuration-source checkpoint: separate DeepSeek global-Claude-settings consent
+now reaches bounded JSON discovery, validated direct-provider routing, scoped fetch and key rotation.
+Five tests cover no read before consent, unrelated fields, wrong/proxy URL variants, placeholders and
+malformed input, regular-file size/type bounds, and stable identity/source bytes through rotation.
+`make verify` passes 190 tests. Source metadata has explicit provenance in snapshot schema 9. No real
+user settings or credentials were read for these tests. Native controls, live balances, automatic
+monitoring of this new file source and other/project configuration sources remain unverified/open.
+
+2026-09-07 optional-source CLI follow-up: enable/disable/check commands use the same scoped engine
+flow; list reads canonical consent before falling back to legacy snapshot preferences. Three tests
+cover saved flags/pause output, stale-snapshot listing, missing-source failure despite a healthy manual
+account, and rejecting unknown sources/key arguments before storage. `make verify` passes 185 tests.
+A real read-only `source list --json` returned deepseek-env disabled and its provider enabled; no real
+source was activated. Native source controls and live optional-source balance checks remain open.
+
+2026-09-07 optional-source checkpoint: process DEEPSEEK_API_KEY opt-in now persists and reaches scoped
+discovery/fetch, cancellation, presentation, reconnect and restoration. Five tests cover off-by-default
+and invalid input, isolation from manual keys, removal/reconnect, restart/rotation without plaintext
+key storage, old preferences/unknown sources, and an overlapping reconnect/source-disable scenario.
+`make verify` passes 182 tests. Settings copy is localized. No real source was enabled for the user;
+native control and live balance verification remain open. Other optional sources and literal config
+file parsing are still unimplemented, so the full Tier-2 acceptance item below remains unchecked.
+
+- [ ] Zhipu, Kimi Code, Moonshot, MiniMax and DeepSeek meet the same adapter evidence and test bar, for their actually supported account/region/metric scopes.
+- [ ] Separate subscription and platform billing identities remain separate rows. Regional selection is established before sending a key.
+- [ ] Tier-2 sources are off by default; opting in is per source. Discovery records sources, parses supported literal declarations, never executes shell content and reports ambiguous routing without probing hosts.
+- [ ] Recognised gateways use their own documented quota contract and a `via` label. Unknown gateways show unavailable without attributing usage to an upstream account.
+- [ ] History records each successful account/currency observation, including unchanged balances, exactly once; repeated publication creates no duplicate, and data older than 90 days is pruned.
+- [ ] Estimate tests cover fewer than two observations, span below/exactly 24 h, the 7-day window, unchanged balance, top-up/refund, zero/negative rate, debt, stale latest data, currency change and credential rotation. Labels say average decrease per day, not today's spend; no estimate appears without qualifying data.
+
+## v0.3 — onboarding, Settings, localisation, public release
+
+2026-09-07 partial-diagnostics follow-up: details now show a readable affected metric/currency plus
+the safe failure message, collapsed component/schema diagnostics and an applicable server deadline.
+Three tests cover retained-label deduplication, known absent quota/currency labels and a generic main
+label for unknown technical paths. `make verify` passes 174 tests and the dedicated verification test
+passes. A Chinese synthetic detail render (`build/verification/island-failure-detail-zh.png`) confirms
+the named weekly error, collapsed disclosure and full-width thin meter. No-balance history space was
+removed. Native disclosure/keyboard interaction and real integration failures remain separate checks.
+
+2026-09-07 compact expired-state follow-up: secondary metrics now state Awaiting update and combine
+their accessibility children. A shared-freshness ordering regression verifies expired high fractions
+follow current metrics. The synthetic expired-secondary render initially showed duplicated partial
+copy and wrapped badges pushing lower values out of view; a compact header status, single-line
+badges and tighter overview spacing corrected the repeated Chinese render. All four rows and 200 CNY
+are visible in `build/verification/island-expired-secondary-compact-zh.png`. Real VoiceOver/focus and
+all state combinations remain unverified.
+
+2026-09-07 unsupported-view follow-up: the previously empty unsupported reading now renders its
+capability label/reason, and omits the generic Reconnect menu item. Reset and last-check captions
+were made lighter. A dedicated synthetic unsupported scenario was exported and visually inspected
+in Chinese (`build/verification/island-unsupported-zh.png`): the reason is visible and other account
+metrics remain intact. This does not label the real Claude provider unsupported and does not replace
+provider evidence, VoiceOver or native interaction checks.
+
+2026-09-07 own-view rendering checkpoint: the separate verification app can export its synthetic
+NSHostingView via `--verification-render`, without capturing desktop pixels or ordering its panel
+frontmost. The first PNG showed vertically misaligned row headers and a clipped both-kind balance.
+Top-aligned grid items and compact overview supplements corrected the repeated rendered scenario;
+all four accounts, the 200 CNY balance and footer are visible. English, Chinese and long-name PNGs
+were inspected in `build/verification/` (`island-four-accounts-compact.png`,
+`island-four-accounts-zh.png`, `island-long-labels.png`). The verification-only grey backing exposes
+the shared contour; it is not a production background. Native own-view layout evidence does not prove
+hover/focus, physical notch placement, VoiceOver or all account-state combinations.
+
+2026-09-07 balance-freshness follow-up: old component balances were excluded from the headline but
+could still influence health, ordering and alerts. A shared balance freshness predicate now covers
+those paths, expiry presentation and history eligibility; native rows grey old values and show time.
+Three regression tests verify old low balances do not displace a fresh warning or mask valid quota,
+an old crossing cannot notify until fresh confirmation, and an errored balance is not healthy even
+without a separate failure list. `make verify` passes 170 tests. Rendered mixed-age rows remain pending
+native inspection; earlier resource measurements belong to their recorded builds.
+
+2026-09-07 interaction-order follow-up: a stored identity order now applies while the account surface
+is hovered or the panel is key. NSPanel key/resign callbacks feed the observable layout; new/removed
+identities update the frozen order while values stay current. Two tests verify priority changes do
+not move existing identities or freeze their values, and added/removed identities remain unique.
+`make verify` passes 167 tests. Native hover, menu and keyboard focus transitions remain unverified.
+The running four-fixture measurement precedes this source update and retains its own build hash.
+
+2026-09-07 quota-reset follow-up: shared window freshness now excludes passed resets from headline,
+health and alerts; engine presentation distinguishes an expired window from other current metrics.
+Reset deadlines can advance normal refresh but preserve fallback, Retry-After and parked states.
+An unchanged past reset after a fresh fetch does not cause repeated immediate requests. Four added
+tests cover reset boundary/value retention, scheduling constraints, the engine refresh/no-spin flow
+and mixed-current/expired headline/alert behavior. `make verify` passes 165 tests. Header/open-content
+timelines now check once per second, so the earlier running Release resource measurement cannot prove
+the performance of this changed build. Native reset-boundary rendering still needs verification.
+
+2026-09-07 global request-limit follow-up: separate provider refresh groups could each start four
+requests. The engine now shares one four-request limiter across all discovery/usage HTTP clients.
+Two added tests exercise simultaneous five-account refreshes from two providers (peak four, all ten
+complete), and queued cancellation with subsequent capacity reuse. `make verify` passes 161 tests.
+The running resource-measurement Release has deliberately not been replaced yet; its report belongs
+to its recorded executable hash, not this later source change. Rebuild/distribution refresh follows
+completion of that baseline measurement.
+
+2026-09-07 credential-refresh checkpoint: Codex/Cursor file discovery now participates in the five-
+minute scheduler and recovery path. Seven new engine tests verify unchanged-token parking, changed-
+token recovery with stable ID/name, in-flight preservation, unreadable-source cache rejection,
+disabled-source exclusion, Retry-After preservation, and stable repeated logged-out/switched-account
+checks. `make verify` passes 159 tests. Real tool-driven token rotation during an unattended native
+session remains unverified, and other providers' credential/profile scheduling is still open.
+
+2026-09-07 Cursor legacy follow-up: request-count discovery uses `/api/usage` with the validated
+subject/session. Four added tests cover total-count precedence, missing/zero caps, invalid counts and
+the complete three-endpoint adapter path with modern quota replacement. `make verify` passes 152
+tests. A modern Pro live regression at `2026-09-06T18:49:20Z` returned exit 0, fresh main/Grok metrics
+and no invented legacy quota. A real legacy-plan account and its rendered dashboard comparison remain
+unverified; modern-account success does not establish that scope.
+
+2026-09-07 shared transport checkpoint: four additional tests exercise URLSessionHTTPClient through
+its actual ephemeral URLSession with an injected URLProtocol, not a fake HTTPClient. They verify
+status/body/header mapping, same-origin and cross-origin redirects never issuing a second request,
+Set-Cookie not being replayed and non-HTTP response rejection. All responses are in-process; no
+network or real credential is involved. These tests strengthen redirect/cookie boundary evidence,
+but do not establish real-network TLS, timeout/cancellation or provider-specific live behavior.
+
+2026-09-07 connection-guide checkpoint: first Settings presentation shows a localized guide built
+from registered provider destinations and source descriptions. Continue persists guide completion
+and selects the existing Accounts tab; General can reopen it. It neither connects accounts nor
+requests permissions merely by being read. `make verify` passes 144 tests; catalogs have 168 paired
+keys. Native first-open, keyboard dismissal/continuation, completion after relaunch and the subsequent
+real connect/add-key flow remain unverified. Tier-2 discovery remains unimplemented and is described
+as not scanned, with no nonfunctional enable control.
+
+2026-09-07 headline follow-up: the app's fresh-only quota selection excluded valid partial readings.
+Selection now lives in Dashboard and is used by the header, with component freshness and explicit
+paused/pending/unsupported/empty states. A minute timeline rechecks cached snapshot age during
+backoff. Four new regressions cover partial quota plus muted health, time-based expiry without a new
+snapshot, stale balance exclusion and distinct nonnumeric states. `make verify` passes 144 tests.
+Native minute-boundary display and accessibility behavior remain unverified.
+
+2026-09-07 language-choice follow-up: General settings now persists a per-app language override with
+an explicit next-launch boundary and Follow system removal. A native cross-process probe exposed
+that using the app's own bundle ID as a UserDefaults suite is invalid; the app now uses standard
+defaults for its own ID. Repeating the probe successfully saved Chinese, restored Chinese/“刷新” in a
+new process, then saved/restored English/“Refresh”. Probe preferences were removed afterward. The
+unit test covers isolated-domain restoration and removal; `make verify` passes 140 tests. Actual
+Waterline picker interaction and full rendered bilingual layout remain unverified. Catalogs have
+154 paired keys.
+
+2026-09-07 dynamic localisation follow-up: 150 paired keys now include account counts, timestamps,
+usage summaries, notification templates, history estimates and common errors. The compiled AppText
+helper was exercised in a separate native main bundle using Release catalogs: Chinese/English
+account-count formatting passed, and a name containing literal percent placeholders remained data.
+Catalog key/placeholder counts and packaged bytes match. `make verify` still passes 139 tests.
+Manual language choice, remaining source/diagnostic/accessibility copy and native rendered layout
+are not yet accepted.
+
+2026-09-07 initial localisation checkpoint: 99 paired en/zh-Hans strings are included by the bundle
+script before signing. Both catalogs pass plutil, their key sets match and packaged bytes equal source
+bytes. A separate native main-bundle probe using the packaged catalogs selected zh-Hans and returned
+“刷新” with Chinese process language, and selected en/“Refresh” in English. An earlier Swift interpreter
+probe inherited its English host localization, so only the native main-bundle probe supports language
+selection evidence. `make verify` passes 139 tests and now lints both catalogs. Full UI rendering,
+dynamic copy, notification text and a language setting remain open.
+
+2026-09-07 Antigravity discovery review: official quota/credits docs, pinned community transport and
+schemas, local `agy --help` and executable-name process inventory were inspected. No usage subcommand
+or running candidate process was found in that local check. `docs/providers/antigravity.md` now
+distinguishes local status, cloud OAuth and offline observations, with concrete trust/account/mapping
+gates. This is source and capability evidence only; no adapter, live quota or native flow is verified.
+
+2026-09-07 dashboard follow-up: source inspection found used-only values hidden behind a limit check,
+metadata notes treated as missing data, and nested two-column grids in multi-account cards. Amount
+formatting now includes used-only zero/values; fresh quota fractions precede spend/stale metrics in
+overview selection; explanatory notes do not mute valid readings. Multi-account metrics stack within
+cards, with a single account column below 600 pt. `make verify` passes 133 tests including localized
+amounts and quota selection/health regressions. Rendered layouts remain pending native verification.
+
+2026-09-07 Qwen capability review: current primary documentation was checked for Qwen Code OAuth,
+Model Studio API keys, Coding Plan, Token Plan and cloud account balances. The OAuth free tier is
+discontinued; the existing cloud balance API uses a distinct AccessKey/RAM scope. No suitable quota
+query contract for intended DashScope/Coding Plan keys was established. The dated evidence and scoped
+unsupported rationale are in `docs/providers/qwen.md`. Opt-in discovery and an honest unsupported
+account row remain unimplemented; no provider live verification or full milestone completion claimed.
+
+2026-09-07 Cursor recovery follow-up: an exclusive transaction reproduced a busy database being
+misreported as schema change. The SQLite prepare boundary now maps BUSY/LOCKED to a recoverable
+transport error, and the same test reads successfully after rollback. Additional synthetic tests
+verify committed WAL rotation without database/WAL mutation and the real Cursor adapter's engine
+reconnect/restart path with stable ID, name, pin and reading. `make verify` passes 130 tests. This
+extends offline persistence evidence; it does not establish native settings or all Cursor profiles.
+
+2026-09-07 Cursor live follow-up supersedes the earlier no-live checkpoint: scoped CLI discovery and
+query identified one Pro account. The first Grok call returned 403; the reference request's missing
+Origin header was restored and the repeated scenario returned exit 0, fresh main/Grok usage and the
+same account ID at `2026-09-06T18:00:38Z`. The response also demonstrated that reported total quota
+percent differs from USD used/limit; these now occupy separate windows. Grok reported zero with no
+reset date, which remains absent. `make verify` passes 127 tests. Dashboard comparison, native account
+flows, alternative plans and profiles remain open. Partial-response rate limits now retain the longest
+Retry-After deadline without parking the valid components for an optional endpoint's permission error.
+
+2026-09-07 Cursor checkpoint: the registered adapter has seven offline tests, including the scoped
+summary/Grok request chain and SQLite byte preservation/noncreation. `make verify` passes 125 tests.
+No Cursor live fetch or native connection has been verified. Follow `docs/providers/cursor.md` for
+remaining legacy/profile, SQLite lock/WAL, account restoration and current dashboard-comparison work.
+
+2026-09-07 geometry checkpoint: `NotchGeometry.expandedFrame` owns target-display bounds and is used
+by the native panel. Four added regression tests cover translated/negative display coordinates,
+narrow/short screens, count-dependent sizes with a stable top anchor and a housing wider than the
+preferred content. `make verify` passes 118 tests. Actual display switching, Spaces and full-screen
+behaviour remain outside this automated evidence.
+
+2026-09-07 multi-account lifecycle checkpoint: source inspection found that count changes did not
+recompute the native frame and render replaced the hosting view. The panel now installs one host,
+observes account count for layout updates, and clears removed detail/filter identities. Build and
+114 tests pass; native verification must still add/remove accounts while pinned, retain a detail
+or provider filter across resizing, move between displays, and close/reopen to Overview. Unit tests
+do not establish SwiftUI state retention or native hover/focus behaviour.
+
+2026-09-07 implementation checkpoint: General settings calls `SMAppService.mainApp` register and
+async unregister, displays actual registration/approval status and offers the system Login Items
+pane. No local Boolean substitutes for registration, and opening/activating settings re-reads status.
+`make verify` passes 114 tests; these do not exercise ServiceManagement. Native enable/disable,
+system-side changes, restoration after app relaunch and automatic launch after a user login remain
+unverified while native interaction is unavailable. Do not mark the Settings requirement complete.
+
+- [ ] Full onboarding explains each source and destination with Tier 1 on and Tier 2 off. Keychain reads that permit interaction are announced first.
+- [ ] Settings includes accounts/sources, enablement, manual keys, automatic 60-second refresh, privacy destinations, language and launch at login.
+- [ ] Antigravity meets the adapter bar. Review Qwen's current capabilities against linked evidence; show an honest unsupported reason if no suitable contract is verified.
+- [ ] All user-facing strings are localised zh-Hans/en and follow the system; layouts fit both.
+- [ ] Every released supported provider has live verification within 30 days for its declared scope. Planned/unsupported providers instead have a dated capability review and reason; do not fabricate a live date.
+- [ ] Repository is public with contribution guidance and a bug template; privacy text matches implemented behaviour.
+
+## v0.4 — alerts and activity
+
+2026-09-07 notification-navigation checkpoint: local notification payloads now carry an opaque
+account target, with bounded parsing and deferred pre-panel handling. Navigation uses a distinct
+event for repeated targets, preserves pending selection while accounts load and falls back on missing
+accounts. Three tests cover payload bounds, loading/present/missing resolution and repeated events.
+`make verify` passes 177 tests. Own-view Chinese renders confirm target detail and missing-target list
+states (`island-route-account-zh.png`, `island-route-missing-zh.png` in `build/verification/`). No real
+notification was issued; OS delivery/click, cold-launch timing and keyboard behavior remain unverified.
+
+2026-09-07 implementation checkpoint: kit crossing logic and private alert-state persistence are wired
+to the native opt-in control, UserNotifications submission/delegate and 3 s collapsed headline.
+139 tests pass, including initial baselines, duplicate observations, hourly suppression across encode/
+decode, independent metric crossings, stale/disabled/policy-change exclusion, balance equality and
+posted-ledger exclusion, plus corrupt-file preservation. No real permission request or notification
+was issued during tests. OS approval/denial/revocation, banner/sound policy, click-to-panel, relaunch
+and pinned-panel visual behavior remain unverified; the acceptance checkbox below remains open.
+
+- Withdrawn by owner 2026-09-08: threshold notifications and activity view. Historical checks below do not require this retired feature to return.
+- [ ] Balance rows show a 7-day sparkline from actual history, preserving gaps and currency/account separation.
+- Withdrawn by owner 2026-09-08: hook-based activity. Upgrade cleanup must preserve unrelated hooks/configuration and remain retryable.
+
+## v1.0 — distribution
+
+2026-09-07 distribution-gate checkpoint: `make distribution-check` explicitly rejected the current
+ad-hoc development app for missing Developer ID, hardened runtime, secure timestamp, stable version,
+notarization ticket and enabled Gatekeeper assessment. Signature/resource integrity and the production
+bundle ID passed. The checker is read-only and does not turn security on/off or upload anything.
+The bundle script supports an explicitly supplied signing identity with runtime/timestamp options;
+the actual Developer ID path remains unverified because no valid signing identity was found. Shell
+syntax checking is now part of the ordinary verify gate; this is not a completed distribution gate.
+The explicit-identity/debug preflight was exercised with a synthetic identity string: it exited 64
+before signing and the existing executable hash was unchanged. `make verify` passes 174 tests.
+
+2026-09-07 local image checkpoint: `make dmg` builds Release and creates
+`build/Waterline-0.1.0-dev-arm64-development.dmg` plus a SHA-256 sidecar. `hdiutil verify` passed.
+A read-only mount confirmed all six bundled files match the source app by SHA-256, strict code
+signature integrity passed, and the Applications symlink/bilingual readme were correct. The image
+was detached afterward; no installation replacement was performed.
+
+`security find-identity -v -p codesigning` reported zero valid signing identities. The app signature
+is ad-hoc with no team identifier. `spctl` returned accepted with `override=security disabled`; this
+machine's policy override means that result is NOT clean-machine Gatekeeper evidence. No security
+setting was changed by this work. Developer ID/notarization, clean installation, uninstall, cask and
+signed updates remain incomplete; this artifact must remain labelled development.
+
+- [ ] Signed/notarised DMG, Homebrew cask and signed appcast updates are verified on a clean installation. Update destinations/downloads and the enable/disable choice are documented before adding network traffic beyond provider queries.
+- [ ] A new user with a supported signed-in account sees real data within one minute under normal network conditions; otherwise sees an actionable connection or capability reason, never sample values.
+
+### 2026-09-07 provider colours and exit discoverability checkpoint
+
+- `make verify`: 194 tests passed; strict format, whitespace and resource/audit checks passed.
+- Separate verification app built and rendered `build/verification/island-provider-colours-zh.png` from synthetic data. Claude, Codex and Moonshot healthy quota bars now use distinct colours; stale/warning priorities remain in the metric renderer.
+- Native CUA opened the footer Waterline menu and observed separate Collapse island / Quit Waterline entries. Clicking Quit terminated the isolated verification process, confirmed absent from the process list afterward. The production app was not terminated by this check.
+- Region labels are derived from existing adapter manual-region definitions. Real multi-region account rendering remains to be verified; this fixture does not prove it.
+- These checks do not accept the old shoulder silhouette, complete history valuation, provider live coverage, or distribution readiness.
+
+### 2026-09-07 obstruction fix checkpoint
+
+- Owner screenshot identified the still-running Claude design preview. Its exact process was terminated. All design hosts now start without opening a panel and hide an explicitly opened preview after pointer departure; three preview bundles recompiled. The new host hover timer is not yet natively exercised.
+- Production panel no longer pins on showAccounts. An explicit footer pin owns persistence; unpinned resignKey closes the panel, retaining existing hover-exit dismissal.
+- `make verify` passed all 194 tests and existing gates. Native isolated app launched collapsed; clicking opened its content and exposed Keep island open. Sending Cmd-Tab returned its AX tree to the collapsed header alone. This proves the tested app-switch dismissal, not the full pointer-transit/pinning matrix.
+- Test process was terminated after validation and production bundle rebuilt without launching it. No preview/test instance should remain running.
+- The shoulder-free shape compiles; complete new-shape visual and interaction acceptance is still pending.
+
+### 2026-09-07 native balance history checkpoint
+
+- New standalone SwiftUI Balance history window is reachable from footer and menu-bar entries. The footer closes the island before opening it.
+- Engine query offers 7/30/90 days without a new journal or duplicated persistence. A clock-controlled relaunch test seeds boundary observations and proves period selection, retention cutoff, future exclusion and account isolation. All 195 tests and make verify gates pass; local app bundle rebuilt.
+- Native isolated UI: footer history action opened a standard Balance history window with account picker and 7/30/90-day controls; a quota-only account showed the explicit no-balance-history state. Subsequent selection verification was interrupted by foreground changes and remains unverified. Test process terminated, with no verification or design-preview processes left running.
+- New contour rendered offscreen to build/verification/island-unified-outline-zh.png and inspected: no shoulder connector remains.
+- Do not treat this as billed-cost or token valuation implementation. Historical account switching, long-history rendering performance, region-series native checks and final visual/interaction acceptance remain open. The window defaults to an account with available balance data when possible, otherwise an explicit empty state.
+
+### 2026-09-07 long-history rendering checkpoint
+
+- BalanceChart pixel-envelope projection is used by both native balance graph surfaces. A 25,920-observation test retains endpoints and extreme values while bounding a 600-column graph to at most 2,400 samples. Gap tests prove an omitted gap inside one pixel is not bridged and entirely disconnected readings remain disconnected. Persisted data is unchanged.
+- Detail charts now also separate posted-credit from available-balance history, matching the standalone history window.
+- `make verify`: 198 tests in 41 suites passed, plus existing format, whitespace and audit gates. This verifies projection logic, not a measured native 90-day window rendering time; that performance check remains open.
+- Token source evidence and unresolved attribution/pricing gates are recorded in docs/token-history-research.md. Token import/valuation is not implemented or accepted.
+
+### 2026-09-07 refreshed development distribution checkpoint
+
+- Rebuilt Release and `Waterline-0.1.0-dev-arm64-development.dmg` after the unified silhouette, explicit pin/dismissal, exit menu, history window and chart changes. Updated the bundled bilingual daily-use/exit instructions.
+- DMG checksum verification passed. Read-only mount compared all six bundled files byte-for-byte with the Release bundle, checked the Applications symlink and install text, and passed strict sealed-resource verification. Volume detached afterward; no app launched or installation overwritten.
+- Evidence: build/verification/development-image-20260907.json. Image SHA-256: d8e5b6cff9f47654b0c0d41d4f5e1c752ef00e23106d590f9b449e75a50327e7. Executable SHA-256: 2e31c00be93f3b5f4896cb88fb011452a6cdcce6722f1472c4d0e2fb978d2c81.
+- `make distribution-check` intentionally remains failing: no Developer ID signature, hardened runtime, secure timestamp, stable release version or stapled ticket; Gatekeeper assessment is disabled/unavailable and cannot establish trust. No checks were weakened and no system security setting was changed. This artifact is development-only, not a completed public release.
+
+### 2026-09-07 Antigravity official-schema foundation
+
+- Official status-line documentation establishes a quota/account/plan payload separate from context usage. Standalone parser and synthetic tests cover 0/1 boundaries, absent quota/reset, incompatible fractions, malformed reset, wrong product, missing identity and bounded input.
+- Parser returns a noncanonical DTO because the source supplies no quota observation timestamp; it cannot automatically create a fresh reading. No provider registration, status-line configuration mutation, authenticated fetch, account persistence or native integration is claimed.
+- This is implementation groundwork and a narrowed integration path, not completion of the Antigravity provider. See docs/providers/antigravity.md for source and remaining flow requirements.
+
+### 2026-09-07 offscreen native history verification
+
+- Verification-only seed/export path reads a UUID-scoped synthetic journal through the engine and renders the actual SwiftUI HistoryWindow into its own bitmap without ordering a window. No desktop capture, real credential source, network fetch or production history injection is used.
+- First exported images were incomplete; those measurements were rejected. Fixed capture sizing, native layout settling and an explicit verification background, then repeated the same scenarios. Visual inspection found and corrected wrapped period labels, empty-state header displacement, and untranslated region labels (also corrected the manual-key region picker).
+- Final inspected outputs: build/verification/history-90d-usd.png (25,872 records), history-30d-cny.png (720 records, 国内 · CNY), history-empty.png. Their JSON reports record window_visible=false. Single-run USD query ~1.95 ms and bitmap stage ~21.95 ms; total settle/render ~314.68 ms includes a deliberate 250 ms layout wait. CNY bitmap ~59.24 ms. These are local isolated measurements, not a statistical benchmark or full interaction acceptance.
+- make verify passed 202 tests plus all gates; verification-test passed its separate fixture isolation/restoration test. The production bundle was rebuilt; invoking --verification-history-render returned exit 64 before normal startup.
+- Complete scrolling, keyboard/VoiceOver, same-window account changes and real multi-region historical data acceptance remain open. Each run exited automatically; generated temporary journals were removed after retaining evidence PNG/JSON files.
+
+### 2026-09-07 history retry error classification
+
+- Preserved the history-load error category through retry; incompatible complete records now return a data error instead of a generic disk-write error. A regression verifies the original journal bytes remain unchanged and cached current balances survive.
+- Shared retry state prevents overlapping user retries; both History and Settings show progress/disable the action. History retry errors clear on successful recovery and do not clear an unrelated later error. The history window distinguishes unavailable history from an actually empty history.
+- make verify passed 203 tests and gates. An isolated invalid-journal render exercises engine retry, AppModel error mapping and the native view. Its JSON records history_failed=true, original_preserved=true, window_visible=false, with the specific incompatible-record error; final Chinese PNG was inspected in build/verification/history-incompatible-zh.png.
+- This corrects classification and feedback; it does not automatically repair incompatible complete records. Existing incomplete-tail recovery remains separate. No real history file or foreground window was touched. Local app bundle rebuilt.
+
+### 2026-09-07 Token counter foundation
+
+- Added strict Codex cumulative-counter validation and a versioned accumulator checkpoint. Four tests cover duplicate/restored totals, unknown-origin baselines, resets, cache correction, invalid counters/overflow and unsupported checkpoint versions.
+- make verify passed 207 tests in 43 suites plus the existing gates. No log import, ownership mapping, price lookup, bill calculation or native Token history flow is claimed.
+- Requested only service/plan/region names from the owner to plan applicable remaining live verification; no keys requested or sources enabled. Existing provider evidence limits remain open.
+
+### 2026-09-07 read-only Codex log analyzer
+
+- Implemented bounded JSONL reader and analyze-codex-log CLI entry point; source files remain unchanged. Synthetic cases cover metadata/model extraction, stable sample IDs, duplicate/reset handling, partial coverage and inherited-log refusal. No prompt/response body is part of output models.
+- make verify passed 213 tests plus gates. Real current-task log analysis returned unsupported because a 7.2 MB compacted record exceeded the record budget. This remains a compatibility gap, not a passed real-log integration.
+- No automatic scan, source opt-in, persistent Token ledger, historical account assignment, price table or native cost view is implemented by this step. The reader is not public-release acceptance.
+
+### 2026-09-07 large Codex log compatibility
+
+- Replaced whole-line buffering for irrelevant records with bounded streaming JSONL validation. Original relevant-record and file budgets remain; added complete-record syntax/duplicate-key/Unicode/depth/key-memory boundaries and deferred-tail handling.
+- Same real task log that failed at its 7.2 MB compacted record now returns observed samples in Debug and Release. Invalid last-usage metadata is isolated from valid cumulative totals; it cannot acquire a model for pricing.
+- Release evidence: build/verification/token-log-release-read.json (1,028 samples, coverageGaps=0, incompleteTail=false, ~0.738 s, max RSS 70,090,752 bytes). This proves the selected log read only. Account attribution, pricing, persisted import and native cost UI remain incomplete.
+- No source journal, credentials or CLI configuration was changed, and no foreground window was opened.
+
+### 2026-09-07 native Token import/persistence checkpoint
+
+- Engine now owns a separate version-1 token-history.json ledger. Parsing runs in a cancellable utility task; lifecycle checks prevent a late commit after stop/sleep. Reimports are idempotent, appended observations can be added, and conflicting/shorter analyses or unknown saved versions leave existing data intact.
+- Tests initially exposed cached URL file-size metadata: append reads stopped early and truncated inputs failed incorrectly. Refreshing resource metadata before reads fixed the original tests. Three temporary-file tests verify duplicate-byte stability, append, restart load, conflict/future-version preservation and cancellation without a ledger write.
+- Native Token records window has explicit file selection, import progress/cancel, scoped retry, 7/30/90/all filters, cached-input subset labels, latest 100 details and error feedback. It does not scan automatically, assign accounts or price usage.
+- make verify passed 223 tests plus gates. Verification export ran real parser→engine merge→duplicate merge→disk load→SwiftUI against 1,000 synthetic events: imported=1000, duplicate_added=0, loaded_sources=1, window_visible=false. Final Chinese image with column headers was inspected at build/verification/tokens-import-zh.png; JSON evidence is alongside it. Temporary synthetic files were removed after export, and local app bundle rebuilt.
+- Native system-file-picker operation, real user-selected persistence, interactive cancellation and full accessibility remain unverified. Restart persistence is proved by the engine test, not by the offscreen render. No real task log was imported into the user's ledger in this checkpoint.
+
+### 2026-09-07 dated reference valuation
+
+- Added exact GPT-6 Astra Standard API-equivalent Token pricing from the official model page, dated 2026-09-07. Cache writes/read subsets, reasoning inclusion and the per-request >272K multiplier are tested; unrelated models, unproven cache data and invalid subdivisions stay unpriced.
+- Token ledger v2 preserves optional pricing eligibility; v1 loads as unknown and can be reverified without changing observed counts. The existing future-version preservation test now uses v3. Migration/reimport and zero-versus-missing tests pass.
+- make verify passed 226 tests plus gates. Native offscreen scenarios were asserted and visually inspected: all matched 720/720 → USD 0.5616; partial 710/720 → USD 0.5538 with a priced-portion label; none matched 0/720 → unpriced/em dash. PNG/JSON evidence: tokens-priced-zh, tokens-partial-price-zh and tokens-unpriced-zh in build/verification. Every report records window_visible=false.
+- This is a dated Standard reference only, not actual service-tier billing or complete model/provider valuation. Account attribution, additional pricing scopes and real-user native import remain open. Local app bundle rebuilt; no real ledger was populated in these checks.
+
+### 2026-09-07 reference catalog expansion
+
+- Added exact Sol/Terra/Luna base reference rates from the official short/long-context table, with independent cache and output rates. Tests cover each model's short/long arithmetic and unknown alias rejection. Astra rates remain unchanged.
+- make verify passed 227 tests and gates. Mixed-model native offscreen export asserted USD 0.11704 for 720 records; 7-day Luna subset asserted USD 0.0029568 for 168 records. The sub-cent PNG was inspected and shows < USD 0.01. Evidence is tokens-mixed-price-zh and tokens-small-price-zh PNG/JSON in build/verification; both report window_visible=false.
+- These are dated Standard base references, not regional/actual-tier bills. Other models, providers and real account attribution remain open. No real user ledger or foreground window was changed.
+
+### 2026-09-07 native file-picker flow
+
+- Native testing exposed two real interaction problems: keyboard focus could return to the collapsed notch, and the data-only file-type filter disabled Open for JSONL. User-initiated history/settings actions now activate the app; only an expanded notch can become key. The chooser accepts items while the reader still requires a regular, bounded, valid Codex log.
+- Repeated native scenario after fixes: opened Token records from island menu, opened NSOpenPanel, used Cmd-Shift-G to select the temporary JSONL, imported 1 sample (input 100/cache 80/output 10), reimported through the file item and observed Added 0, cancelled another chooser without error/count changes, then Cmd-Q exited the test app. The persisted synthetic ledger contained exactly one source/sample. Evidence: build/verification/native-picker-check.json.
+- Process inspection confirmed no verification/preview app remained. The uniquely matched verification ledger directory and temporary source were removed. No real user log, credential or production ledger was used.
+- make verify passed 227 tests plus gates, and local app bundle rebuilt. This verifies the native file-picker flow on this host with synthetic content; it does not prove every OS/accessibility case or real provider/account verification.
+
+Daily selection follow-up (2026-09-07): explicit empty notch selection now remains empty
+after deselecting the final account and after restart. Removing a selected account prunes
+its ID without enabling Automatic. Offline engine tests verify these transitions, restore
+to Automatic, duplicate and maximum-two validation. `make verify` passes 254 tests.
+This patch has not yet been relaunched or checked through the native empty-selection UI.
+
+Current development image (2026-09-07): Release rebuilt after the selected double-ripple
+app/menu-bar identity and click-only single-account island changes. Read-only mounted
+DMG verification matched all 19 application files and the installation README byte for byte
+against the current bundle; the volume was ejected. Evidence: build/verification/development-image-v3.json.
+Distribution checks pass bundle integrity, platform metadata, provider resources and icon
+representations, but fail Developer ID, hardened runtime, secure timestamp, stable release
+version and stapled notarization; Gatekeeper assessment is disabled/unavailable. This is
+a development installation artifact only, not completed public-release or clean-install acceptance.
+
+Reset display correction (2026-09-07): offline regression reproduced the selected
+5-hour headline becoming weekly 95% exactly at its reset deadline. The corrected
+presentation keeps the shortest cadence and returns Awaiting update. `make verify`
+passes 257 tests; this is reset-boundary logic evidence, not a new live provider reset.
+The earlier development-image-v3 file hashes describe the pre-correction artifact only.
+
+Manual account recovery: 260 tests pass, including account-scoped interactive read
+and no secret rewrite. Native Moonshot Settings Reconnect obtained a fresh response;
+same-binary restart retained fresh account state. Two duplicate checkout app processes
+were found during native checks and removed before restarting one current instance.
+Automatic prevention of duplicate app launch remains to be hardened; writer locking
+protects persistence but does not itself provide a complete single-instance UI flow.
+
+Single-instance follow-up (2026-09-07): current native Release was running as PID 43169.
+Two additional `open -n` launches automatically exited; the original PID survived and
+the last five process samples contained only that original instance. Evidence:
+`build/verification/single-instance-native.json`. The early application delegate guard
+prevents duplicate engine/panel startup by selecting an older matching bundle instance.
+`make verify` passed 260 tests. Simultaneous cold starts and different installed copies
+sharing the production bundle ID have not yet received native verification.
+
+Real-account runtime measurement completed (2026-09-07): PID 43169, Release SHA-256
+`7fe0f38a8369600ba699750801a270d9974d24c696a935eb496a7388d5d2fa93`, four real
+configured accounts. After ten-minute warm-up, 600 one-second samples measured mean
+process CPU 0.1666661%, sampled peak physical footprint 25,216,104 bytes (24.04795 MiB),
+lifetime peak 25,281,640 bytes, maximum sample gap 1.10274 s. Configuration and executable
+remained unchanged. Both numeric thresholds pass for this binary. Evidence:
+`runtime-current-real.json` and `runtime-current-real-summary.json`. This does not prove
+all accounts refreshed successfully, filesystem privacy tracing, other macOS/display
+coverage, or performance of later builds. The new unregistered Antigravity parser/process
+helper was compiled only in debug tests during sampling and is not in this measured Release.
+
+Configuration upgrade check (2026-09-08): offline tests verify exact-byte legacy backup,
+0600 permissions, one backup per upgrade and no overwrite for future/corrupt configuration.
+Full gate passes 281 tests. Read-only production metadata confirms configuration schema 2
+and snapshot schema 10, both mode 0600, with one private configuration legacy backup and
+seven private snapshot legacy backups. Evidence: `live-migration-metadata.json`. No
+credential contents were printed or changed. Native source-toggle acceptance still awaits
+manually unlocked macOS; this metadata check does not replace that flow.
+
+Reconnect cancellation correction (2026-09-08): a delayed injected request reproduced
+a late reconnect completion recreating operation state after Engine.stop(). Reconnect
+now clears only its own still-current generation; stopped/replaced operations are not
+rewritten. The same failing scenario passes and the full gate passes 283 tests. This
+is an offline concurrency regression, not a new native Keychain authorization claim.
+
+Owned-Keychain read isolation (2026-09-08): a controlled blocking key-store read proved
+that pending authorization blocked Engine.snapshot(). Reads now run on a dedicated
+queue while the engine awaits them. Tests verify snapshot responsiveness and rejection
+of read results after stop or sleep; pending generation tokens are cleared for both.
+Manual discovery rechecks lifecycle before reading subsequent keys and before applying
+results. Full gate: 284 tests. These tests use injected stores, not the system Keychain;
+native authorization-dialog responsiveness still requires an unlocked Mac check.
+
+Architecture check (2026-09-08): isolated `x86_64-apple-macosx14.0` Release cross-builds
+for WaterlineApp and waterline succeeded with the reference Xcode. The Intel CLI version
+command ran under already-installed Rosetta and exited 0 (`intel-cli-runtime.json`).
+The Intel test bundle compiled, but SwiftPM's testing helper attempted ARM loading and
+failed with an incompatible-architecture error. Therefore the Intel test suite did NOT
+pass and no Intel hardware/native GUI support is claimed. Current development DMG remains
+arm64. Evidence: `intel-build.log`, `intel-cli-build.log`, `intel-tests.log`.
+
+Bundled CLI check (2026-09-08): the app now includes Contents/MacOS/waterline, signed
+before the outer bundle. The known local build's version command exits 0 and matches
+0.1.0-dev; architecture and macOS 14 metadata match the app. Read-only DMG inspection
+confirmed exact CLI bytes and detached/removed the mount. Evidence: bundled-cli.json
+and bundled-cli-dmg.json. Distribution checks still reject missing Developer ID/runtime/
+notarization; packaging the helper does not satisfy those gates. Generated casks expose
+the bundled CLI without executing it during artifact validation.
+
+Regional source regression (2026-09-08): a new GLM configuration-source test reproduced
+CN -> global reusing one account ID. Region/team-aware source matching now preserves
+both accounts, including restart and later return to CN. Unknown locked credential
+scope can still recover a unique known account; an explicit conflicting region cannot.
+Full local gate: 294 Swift tests plus 2 cask-generator tests. GLM live and native UI
+checks remain open; no real GLM credentials were read.
+
+Fixed local installation (2026-09-08): no prior Waterline app existed in system or user
+Applications. The development bundle was copied to the user's Applications directory;
+all 20 files matched and deep/strict code integrity passed. The worktree instance exited
+and process inventory confirmed only the installed copy running. Its bundled CLI read
+the four existing provider accounts and a valid saved Codex selection. Evidence:
+local-installation.json, installed-startup.json, installed-selection.json. This is an
+existing-profile local install, not a clean-user/Gatekeeper/notarization or login-item
+acceptance result. Those remain open while native interaction is blocked by Mac lock.
+
+2026-09-08 development launch guard: the actual running user installation caused
+`Scripts/run-app.sh` to exit 1 with its bundle path before build/replacement. The
+installed app was not stopped. Process-inventory failure also stops the script;
+post-launch checks now require the checkout executable to remain running. The
+successful relaunch path remains pending native verification while the Mac is locked.
+
+2026-09-08 launch failure regression: process-enumeration errors inside shell process
+substitution/conditions could be treated as an empty process list and allow the build
+to proceed. The script now captures inventories with checked assignments before
+branching. An isolated test injects failures at four pre-build checks and verifies
+that no build is attempted; the previous HEAD fails the regression. This test is
+included in `make verify` and does not inspect or signal real processes.
+
+2026-09-08 real development launch follow-up: with the installed copy temporarily
+closed, `Scripts/run-app.sh` built/bundled the checkout, exited 0 and confirmed its
+exact executable running. The checkout process was then stopped and the fixed user
+installation restored; the final inventory confirmed that restoration and no checkout
+instance. Evidence: worktree-launch.json and worktree-launch.log under local ignored
+verification output. This closes the script's successful-launch check above, not
+locked-screen UI or post-login acceptance.
+
+2026-09-08 native updater integration: pinned Sparkle 2.9.6, added native settings
+controls and startup configuration checks, copied its full license and embedded/signed
+its framework and nested helpers. The current Info.plist has no update feed/public key,
+so the updater is not initialized. Automatic checks/install and profile submission are
+off by default; HTML release notes are disabled. Initial Swift compilation and deep
+bundle signature verification passed. No signed feed, real update request, installation,
+relaunch/data preservation or native Settings interaction has been verified.
+
+Updater packaging follow-up: `make verify` passed 296 Swift tests and 3 Python tests.
+The generated development app linked Sparkle via its embedded runpath and stayed
+running in an actual startup check; the fixed installed copy was restored afterward.
+Evidence: sparkle-verify.log, sparkle-bundle.log and sparkle-startup.json. This proves
+framework loading for this development bundle, not native update controls or signed
+update delivery. The fixed installed copy has not been replaced by this candidate.
+
+2026-09-08 updater policy follow-up: missing or weakened signing/default configuration
+prevents native updater initialization; an explicit delegate suppresses optional
+system-profile fields and rejects non-project/non-DMG initial archive URLs. Two Swift
+regressions pass. Distribution preflight now rejects absent update configuration,
+including the current development bundle; a Python regression covers the gate.
+This is not proof of redirect handling, a genuine signed feed or update installation.
+
+2026-09-08 updater Release packaging: the arm64 Release build and development DMG
+completed. A read-only mount matched all 118 file/symlink entries to the source app
+and passed deep/strict signature integrity, then detached. Evidence:
+sparkle-release-dmg.log and sparkle-release-dmg.json. SHA-256:
+`3bbc20584cdc7817ea949f305caf048994ed639e01f05dff72aa356eedca350e`.
+This remains ad-hoc development distribution, with no update feed/key, notarization,
+clean-install or real signed-update acceptance.
+
+2026-09-08 optional Claude hook implementation: native settings opt-in, bounded CLI
+input, sanitized distributed notifications, independent session activity and owned
+hook cleanup are implemented. Default off; no real Claude settings were changed.
+Four new offline tests cover sensitive-field exclusion, replay/overlap/expiry,
+configuration preservation/idempotence and private-file/symlink behavior. An actual
+CLI-to-isolated-listener test received only hash/kind/time with empty CLI stdout
+(hook-ipc.json). Full gate reached 302 Swift tests and 4 Python tests. Native enable,
+real Claude event support/session execution, disable, pending-cleanup restoration and
+layout remain unverified. The currently installed app has not been replaced.
+
+2026-09-08 real Claude hook event check: installed Claude Code 2.1.263 ran one
+minimal Haiku request with temporary --settings, empty setting sources/tools/MCP
+configuration and no session persistence. It returned exit 0 without a reported
+error. The actual Waterline hook CLI emitted UserPromptSubmit, Stop and SessionEnd
+to the isolated local listener. Temporary settings were removed; persistent user
+hooks were not modified. Evidence: claude-hooks-live.json. StopFailure execution,
+native toggle/banner and cleanup/relaunch UI remain unverified.
+
+2026-09-08 current Release resource measurement: executable SHA-256
+`5e0ce9b3c6b00f3d2c782f080d6e69d68e7535a56d8d8f8de5512a321ffadcdf`
+completed ten minutes of warm-up followed by 600 one-second samples. Four actual
+configured accounts were enabled (Claude Code, Codex, Cursor, Moonshot). Mean process
+CPU was 0.1899979%; sampled physical peak 24,839,248 bytes (23.6886 MiB), lifetime
+physical peak 24,872,016 bytes, maximum sample gap 1.0271 seconds. The executable
+and recorded configuration were unchanged. Environment: macOS 27.0 (26A5425a),
+Mac17,9, 48 GiB RAM, built-in 3024x1964 Retina display, mirroring off. The controller
+then stopped the candidate and restored the fixed installed copy. Evidence:
+runtime-latest-real.json, runtime-latest-summary.json, runtime-latest-target.json and
+runtime-latest-displays.json under ignored build/verification.
+
+The numeric thresholds pass for this binary and background real-account scope. Mac
+lock prevented native collapsed/idle verification; this is not the four-fixture standard
+scenario, enabled-update/hook activity measurement, proof that every account refreshed
+successfully, or acceptance on macOS 14/15/26 and other display arrangements.
+
+2026-09-08 fixed-install update: the exact measured Release candidate (SHA-256
+`5e0ce9b3c6b00f3d2c782f080d6e69d68e7535a56d8d8f8de5512a321ffadcdf`)
+was staged, integrity/contents checked and installed at the fixed user Applications
+location. The previous app was retained in Waterline Backups with a matching file
+inventory. One process was running at the installed path; its bundled CLI could read
+the four existing accounts and the saved daily selection resolved. Evidence:
+measured-installation.json and measured-installation-state.json. This supersedes
+earlier notes that the installed copy lacks the updater/hook candidate. Neither
+feature was enabled by installation. Native UI, signing and clean-user acceptance
+remain open; the Mac was still locked.
+
+2026-09-08 owner-priority account and presentation checkpoint: independent Grok
+consumer OIDC discovery/billing was added separately from xAI API and Cursor Grok Bot.
+The installed app displayed nine configured accounts, with the final Grok card reachable
+by native scrolling. Antigravity detail was visually checked: each model group shows
+5h on the left and 7d on the right. Account display order is adjustable in Settings;
+a native up-move saved, survived application restart, and was restored to the original
+automatic order afterward. Daily notch selection remained unchanged. Evidence:
+order-ui-restart.json, order-ui-restored.json and order-and-cadence-native.json.
+
+Full gate passed 308 Swift tests and 4 Python tests. Final live snapshot showed current
+responses for all five owner-priority providers: Claude Code, ChatGPT/Codex, independent
+Grok, Cursor and Antigravity. The current app binary is retained; further work should
+not reset their identities, reimport credentials or alter their connection settings
+without a concrete fault or owner request. Other API accounts and formal release
+acceptance remain separate, unfinished work. Snapshot/config schemas are now 13/5;
+legacy state and prior application backups were preserved during installation.
+
+
+2026-09-08 drag-order installed follow-up (source e6bbda6): the installed Release
+SHA-256 is `3fa980788c88b6cfdf06b5b208fad9973597b99be799ed194e8342e83e7704b4`.
+Native Settings showed the drag list without automatic/up/down buttons. Moonshot,
+Grok and Cursor marks were visibly present against the light background. Actual
+drag input remains unverified: CUA returned windowNotFoundAtPosition and, on a
+fresh activation, noWindowsAvailable. Accessibility reads and ordinary controls
+worked. No test reorder was applied; saved account order and daily selection were
+unchanged. Local make verify and CI run 34205999412 passed for e6bbda6.
+
+On this same binary, native General settings enabled Claude session activity.
+Read-only inspection found one Waterline command for each of UserPromptSubmit,
+Stop, StopFailure and SessionEnd. A native Quit and relaunch retained the enabled
+checkbox. Disabling through the native checkbox removed the entries and restored
+the original Claude settings JSON semantics, checked by a pre/post canonical JSON
+fingerprint. The original disabled preference was restored. Evidence:
+build/verification/hook-native-lifecycle.json (ignored). This closes native
+opt-in, enabled-state restoration and ordinary cleanup for this build; it does
+not prove the activity banner, StopFailure delivery or interrupted-cleanup UX.
+
+Signing recheck: installed designated requirement is tied to cdhash, and local
+security find-identity reported zero valid code-signing identities. Keychain
+accounts again showed Access needed after the application update. Apple's
+[TN3127](https://developer.apple.com/documentation/technotes/tn3127-inside-code-signing-requirements)
+explains that ad-hoc identity is version-specific. Stable signed-update Keychain
+acceptance therefore remains open; no ACLs or credentials were modified to bypass
+this requirement. Native login-at-launch status also showed notFound despite the
+fixed installed bundle; registration and actual login launch remain unverified.
+
+
+2026-09-08 login-item native follow-up on the same installed e6bbda6 binary:
+starting from SMAppService.mainApp.status notFound, enabling the native switch
+succeeded and changed the visible status to enabled. Native Quit/relaunch retained
+enabled status. Disabling succeeded and changed it to notRegistered, restoring
+the original off setting. This contradicts the earlier implication that the
+application itself was missing; the service status was not a failed registration.
+The notFound explanation is corrected in source to identify the login item and
+suggest enabling it. No forced registration, LaunchAgent fallback or new
+entitlement was introduced. Actual logout/login launch and a signed-update
+registration check remain unverified; this is not full launch-at-login acceptance.
+
+
+2026-09-08 native hook banner follow-up on installed e6bbda6: with activity
+explicitly enabled, the bundled CLI accepted a labelled synthetic UserPromptSubmit
+event (exit 0). Native AX/screenshot showed the island stayed collapsed. Explicit
+expansion then showed the recent-session-activity banner. A matching synthetic
+StopFailure event (exit 0) removed that banner from the expanded native tree.
+The toggle was disabled afterward and the original Claude settings semantics were
+restored by canonical-JSON fingerprint comparison. Evidence:
+`build/verification/hook-native-banner.json`. This proves local IPC and native
+banner behavior for these events, not a real model failure or provider quota change.
+
+
+2026-09-08 manual saved-key recovery: overview no longer routes keychainLocked
+manual accounts to key replacement. It offers Connect, announces the interactive
+read and routes to AppModel.reconnect / Engine.reconnectManualAccount for that
+account. Connecting state suppresses repeated recovery buttons. Missing/rejected
+manual credentials retain key management. Full make verify passed; the existing
+manualReconnectReadsOnlyChosenAccountWithoutRewritingKey regression checks scoped
+interactive read, no key write and fresh completion using injected dependencies.
+The installed Release SHA-256 is
+`a8f314f927be6204d017d4129744fba85ac621a350816566f7aa5c5a6f5dc57d`.
+Native overview showed Connect for Moonshot and MiniMax keychainLocked, while
+DeepSeek unauthorized still showed Update key in Settings. No real Keychain
+permission dialog was initiated for this UI check, so authorization-to-fresh
+completion remains unverified on this build. Previous bundle and all account
+configuration were retained; evidence: manual-access-recovery-installation.json.
+
+
+2026-09-08 keyboard ordering: installed Release SHA-256
+`76ec919ed80cf46c6580cdf0c8673797b295327074d0024b152bf8d387b51bb4`
+adds stable List selection, grouped accessible rows and Option-Up/Down reordering.
+Native Down selected ChatGPT; Option-Down moved it to second place and the saved
+snapshot matched. With the sheet closed, native Quit removed PID 87014; relaunch
+created PID 87228, whose snapshot and native sheet retained that order. Option-Up
+restored the original order, independently compared with the before snapshot;
+daily notch selection was unchanged. Full make verify passed. Evidence:
+order-accessibility-native.json under ignored build/verification.
+
+Mouse drag calls on the focused list stopped returning window lookup errors, but
+three attempts did not produce an observed reorder. It is not established whether
+this is event injection or the native drag path; mouse dragging remains unverified
+and is not replaced by keyboard acceptance. Named VoiceOver actions also remain
+unverified by this AX inspection. The keyboard path is an additional accessible
+input, not a scope reduction of the owner's drag requirement.
+
+
+2026-09-08 drag-input control: CUA dragging across a temporary plain search string
+in the native Settings text field also failed to produce an observed text selection;
+the screenshot pointer remained near the drag start. The temporary query was cleared.
+This independent control makes input injection a plausible contributor, but does not
+prove the list drag path works. A single bounded Claude CLI consultation returned
+only incomplete analysis and is not verification evidence. Real owner mouse behavior
+has been requested to discriminate these cases. Evidence: ignored
+`build/verification/drag-input-control.json`. No drag implementation or acceptance
+criterion was relaxed based on the failed injection.
+
+
+2026-09-08 current development DMG: Waterline-0.1.0-dev-arm64-development.dmg
+SHA-256 `2a2113e10d4e70402849b81e2574a392c731a2b466bcc6e66271f286dfa0410d`
+was built and hdiutil-verified. A read-only mount confirmed every bundled file and
+symlink matched build/Waterline.app, nested signature integrity passed, Read Me
+matched the source, and the Applications link targeted /Applications. The mount
+was detached. Updated bilingual uninstall instructions require disabling Claude
+activity and resolving remaining-hook cleanup before removing the app. Evidence:
+current-dmg-mounted.json under ignored build/verification.
+
+Pre-notarization checks passed sealed resources, app/CLI deployment target and
+architecture consistency, provider icons/license, icon sizes and Sparkle integrity.
+They correctly failed Developer ID, hardened runtime, secure timestamp, matching
+signed CLI, stable release version and update-feed configuration. No ticket or
+Gatekeeper acceptance is claimed. This is an arm64 development image, not a public
+release or a clean-machine installation/upgrade test. Installed account state was
+not modified by packaging or the read-only mount.
+
+
+2026-09-08 empty-onboarding coverage: the separately compiled verification app
+accepts --verification-empty, injecting no adapters while retaining NoNetwork,
+NoKeychain, NoOwnedSecrets and isolated temporary storage. A new test confirms
+empty startup, refresh and engine restart; both verification-environment tests
+passed. Production make verify also passed. Native offscreen rendering in English
+and Simplified Chinese showed the empty connection guidance without truncation or
+sample metrics. The initial render exposed a green footer indicator despite no
+accounts; the UI now omits that indicator when empty and without source problems,
+while retaining refresh progress and warning behavior. Repeated native renders
+confirmed its absence. Before/after images are in ignored
+build/verification/empty-onboarding; both exited render runs' temporary states
+were removed after checking empty snapshots. This is visual/isolation evidence,
+not a successful real onboarding connection: verification mode deliberately
+restricts Settings actions, and live one-minute account discovery remains open.
+
+
+2026-09-08 abnormal-state rendering audit: the current isolated verification app
+rendered partial/component-failure, expired-secondary and unsupported account
+details in English and Simplified Chinese. The component-failure images visibly
+preserved the valid 44% test lane and showed the separate 7d schema error. The
+expired-secondary images retained the old 10% with an earlier-reading/awaiting-update
+label, but omitted the account header and a lane label. Unsupported images showed
+the scoped unsupported reason without a quota bar, but also omitted the account
+header. These incomplete images are not accepted as full layout evidence.
+Results are retained under ignored build/verification/state-render-checks.
+
+A native on-screen comparison was attempted to distinguish rendering defects from
+export capture defects; CUA reported the Mac locked and automatic unlock failed.
+No production UI correction is justified from the export artifacts alone. All
+three export processes exited successfully and their temporary synthetic stores
+were removed, but process success does not establish successful visual acceptance.
+Actual on-screen comparison remains open until the Mac is available.
+
+
+2026-09-08 unlocked follow-up: CUA again read the production app, but repeated
+user-driven window changes prevented a non-disruptive switch to the verification
+instance. The production PID 87228 remained running. The same two offscreen
+scenarios were rerun without showing test windows. Expired-secondary zh-Hans now
+showed the complete header; its English image still omitted part of the header.
+Unsupported English now showed the complete header, while zh-Hans omitted it.
+Metric/status wording remained scoped: old secondary usage was labelled earlier
+and awaiting update, and unsupported contained no quota bar. The changing missing
+regions are evidence of capture/render instability, not proof of an underlying UI
+fix or a known capture-only defect. Preserve both runs and keep visual acceptance
+open until a real on-screen comparison is available. New images and run results
+are under ignored build/verification/state-render-unlocked. No production source,
+installed executable or account configuration was changed in this follow-up.
+
+
+2026-09-08 owner-directed settings simplification supersedes the earlier notification
+and activity milestones. Account Settings no longer shows source paths, observation
+times or a diagnostic disclosure. The interval/threshold tab, usage-alert feature and
+Claude activity feature are removed. Native settings on the owner's installed app
+showed only General, Accounts and Privacy, with no removed controls or permanent
+cleanup panel. Pending/delivered Waterline notifications are cleared on startup;
+there is no notification authorization request or runtime session listener. Owned
+legacy hooks have a retryable cleanup manifest; unmatched hook removal preserves
+exact settings bytes. Retired notification/activity-runtime tests were removed with
+their features; cleanup, refresh, identity and reset checks remain.
+
+Full make verify passed 301 Swift tests. Installed executable SHA-256:
+`50fda4dc8fe1c4e4b302c6084876497e2fcf2d15bf5c8741c878c97e175116ff`.
+Actual persisted refresh interval changed from 300 to 60 seconds; balance thresholds
+were cleared. Account metadata, source consent, order and daily selection were
+unchanged. Claude settings retained the same canonical JSON fingerprint (no owned
+hooks required removal on this machine). Fresh ChatGPT, Cursor, Antigravity and Grok
+schedules each showed 60 seconds between fetchedAt and nextAutomatic. Keychain-bound
+accounts still required access after this ad-hoc binary update; this does not close
+stable-signing acceptance. Evidence: simplification-installation.json and
+simplification-live.json under ignored build/verification. Subsequent verification
+uses the owner's actual accounts, per the explicit instruction to stop separate
+verification applications.
+
+
+Owner scope update — 2026-09-08: all API-account functionality is deferred. Only
+Claude Code, ChatGPT/Codex, Cursor, independent Grok and Antigravity remain active
+provider acceptance targets. Earlier xAI/v0.2 API and Qwen rollout checklists are
+historical/deferred, not requirements to bring those features back into this version.
+Keys/history are retained, not deleted. NativeProviderScopeTests checks the exact
+five-provider registry, no manual-key entry support, deferred fetch/key-access
+exclusion, preserved cached records and visible ordering without dropping hidden IDs.
+
+
+2026-09-08 native-only installed verification: final executable SHA-256
+`61ba8a3491e078b6a79e4e0f830950129893c890faa8cdb6a9a14c696e6a44e0`.
+Native overview, account settings and ordering showed the five owner-selected
+subscription accounts only. API account rows, manual-key controls, API-source
+switches and balance-history entry points were removed. The ordering sheet moved
+ChatGPT down with Option-Down, then restored it with Option-Up; the complete stored
+order including hidden API slots and daily selection matched the before state.
+Normal CLI accounts output contained only the five native providers; source list
+contained only Antigravity CLI. Four deferred API account records and their cached
+observation times were preserved, and the balance-history journal remained byte-for-byte
+unchanged. No key retrieval or API balance query was used for this retention check.
+Full make verify passed 306 tests. Existing API code/contracts remain inactive for
+future work, not a current integration claim. Native Claude still required system
+Keychain access after the development signature changed; current-data validation
+and stable-signing release acceptance remain open. Evidence: native-only-live.json,
+api-deferral-before.json and native-only-final-installation.json under ignored
+build/verification. Only the owner's normal application was used for UI validation.
+
+
+2026-09-08 native-only development image refreshed locally: DMG SHA-256
+`c7f1b44296fc03157bd6f2caaab73026b1fe4ced4874fd8862aac5acca1d3b8e`.
+A read-only mount confirmed app contents, updated instructions, Applications link
+and signature integrity. The contained executable matches the installed native-only
+binary `61ba8a3491e078b6a79e4e0f830950129893c890faa8cdb6a9a14c696e6a44e0`.
+The volume was detached. Evidence: native-only-dmg-mounted.json. This replaces the
+older development image; it is still not a notarized public distribution.
+
+Current real-process resource measurement started against installed PID 9464 after
+native CUA confirmed the collapsed island. The existing read-only measurement runner
+performs 600 seconds of warm-up and 600 one-second samples without changing or
+restarting the app. Context: runtime-native-five-context.json; pending result:
+runtime-native-five-61ba8a34.json under ignored build/verification. The visible registry
+has five native providers; four additional raw snapshot account flags describe archived
+API records, not active queries. Initial Claude state still required Keychain access.
+No performance result is claimed until the runner completes and its evidence is checked.
+
+### Installed Release performance observation — 2026-09-08, e40d7c5b
+
+The existing real-account PID34774 completed 600 seconds warmup followed by 600
+one-second samples with Scripts/measure-runtime.py. Exact mean CPU was
+0.9849977268% (100% = one core); sampled peak physical footprint was 67,224,848
+bytes (64.11MiB), lifetime peak 68,076,816 bytes. Executable and configuration
+were unchanged. Evidence: ignored runtime-optimized-e40d7c5b.json. This sample
+meets <1% CPU and <120MB memory, but CPU margin is narrow. User activity was not
+controlled, compilation occurred during the overall run, and no causal claim
+about a single optimization is justified. This does not prove energy impact,
+startup latency, sustained expanded-view performance, or later source revisions.
+The earlier 1.5667% result remains historical failed evidence, not overwritten.

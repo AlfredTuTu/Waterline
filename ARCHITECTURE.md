@@ -183,8 +183,10 @@ hooks are needed for this cadence.
 
 429 honours numeric or HTTP-date `Retry-After`; without it use 60-second exponential backoff capped
 at 30 minutes. Transport/5xx failures use the same fallback backoff; success resets it. Coalesce
-overlapping refreshes for an account. Manual refresh bypasses the normal interval and fallback backoff,
-but never an active server `Retry-After`, authentication parking or a request already in progress.
+overlapping refreshes for an account. Manual refresh bypasses the normal interval and transport fallback,
+but never rate-limit backoff, authentication parking or a request already in progress. Rate-limit
+deadlines use the greater of exponential fallback and `Retry-After`, including zero or missing headers;
+partial rate limits use the same persisted exponential backoff (60 seconds to 30 minutes). `serverDeadline` persists this effective retry gate.
 
 Implemented request-state persistence stores the usage-fetch deadline, fallback deadline and parked
 state in each snapshot entry. Ordinary startup and account enablement do not clear server deadlines.
@@ -379,3 +381,10 @@ Configuration schema 6 tracks retained old manual-key IDs after source binding;
 those copies are not read as fallback or deleted by binding. Snapshot schema 14
 carries the additional credential source. See docs/providers/deepseek.md for the
 supported global configuration boundary and safe same-account matching rules.
+
+Subscription metadata failures are separate metric failures. For the Grok and
+Antigravity subscription-plan scopes, acceptance retains the last reported plan
+while preserving the failure marker and accepting independently valid quota data.
+A successful response replaces that plan; an optional omission without an explicit
+failure remains unknown. A retained plan must not be presented as newly verified
+membership. Automatic membership visibility still requires explicit state handling.

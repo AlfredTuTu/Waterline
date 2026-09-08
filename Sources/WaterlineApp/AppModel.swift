@@ -13,7 +13,6 @@ final class AppModel {
     var refreshing: Bool { snapshot.accounts.contains { $0.operation != .idle } }
     private(set) var error: String?
     private(set) var loaded = false
-    var settingsTab = "accounts"
     func setNotchAccounts(_ ids: [AccountID]?) async {
         await perform { try await engine.setNotchAccounts(ids) }
     }
@@ -25,6 +24,7 @@ final class AppModel {
     private(set) var changingOptionalSource: OptionalCredentialSource?
     private let engine: Engine
     private var observation: Task<Void, Never>?
+    private var claudeLocalMonitor: ClaudeLocalMonitor?
 
     init() {
         #if WATERLINE_VERIFICATION
@@ -90,8 +90,71 @@ final class AppModel {
                 if automatic != preferences { try await engine.updatePreferences(automatic) }
             } catch { self.error = "Could not load or save account state." }
             loaded = true
+            await connectOnFirstLaunch()
+            await startClaudeLocalMonitor()
+            installClaudeStatusline()
             await refresh(manual: false)
             await engine.startAutomaticRefresh()
+        }
+    }
+
+    private func installClaudeStatusline() {
+        guard !isVerification else { return }
+        let home = FileManager.default.homeDirectoryForCurrentUser
+        guard FileManager.default.fileExists(atPath: home.appending(path: ".claude.json").path),
+            let executable = Bundle.main.executableURL?.deletingLastPathComponent().appending(path: "waterline"),
+            FileManager.default.isExecutableFile(atPath: executable.path)
+        else { return }
+        do {
+            _ = try ClaudeStatuslineSetup.install(
+                settingsURL: home.appending(path: ".claude/settings.json"),
+                executable: executable)
+        } catch { self.error = "Could not enable local Claude quota." }
+    }
+
+    private func startClaudeLocalMonitor() async {
+        guard !isVerification, claudeLocalMonitor == nil else { return }
+        let directory = SnapshotStore.default().url.deletingLastPathComponent().appending(
+            path: "claude-local-observations")
+        do {
+            claudeLocalMonitor = try ClaudeLocalMonitor(directory: directory) { [weak self] in
+                Task { @MainActor in await self?.readClaudeLocalObservations(directory: directory) }
+            }
+            await readClaudeLocalObservations(directory: directory)
+        } catch { self.error = "Could not monitor local Claude quota." }
+    }
+
+    private func readClaudeLocalObservations(directory: URL) async {
+        let identities = snapshot.accounts.filter { $0.account.provider == .claudeCode }.compactMap(\.account.identity)
+        guard !identities.isEmpty else { return }
+        do {
+            let observations = try await Task.detached(priority: .utility) {
+                let store = ClaudeLocalObservationStore(directory: directory)
+                let observations = try identities.compactMap { try store.latest(matching: $0) }
+                guard !observations.isEmpty else { return [ClaudeLocalObservation]() }
+                let url = FileManager.default.homeDirectoryForCurrentUser.appending(path: ".claude.json")
+                let local = try ClaudeLocalLogin.identity(RealFileSystem().contents(of: url, maximumBytes: 4_194_304))
+                return observations.filter { ClaudeLocalLogin.matches(local, verified: $0.identity) }
+            }.value
+            for observation in observations { try await engine.receiveClaudeObservation(observation) }
+        } catch { self.error = "Could not read local Claude quota." }
+    }
+
+    private func connectOnFirstLaunch() async {
+        guard !isVerification else { return }
+        let defaults = UserDefaults.standard
+        guard !defaults.bool(forKey: "initialConnectionAttempted") else { return }
+        defaults.set(true, forKey: "initialConnectionAttempted")
+        // Existing installations have already had their authorization opportunity.
+        guard !defaults.bool(forKey: "connectionGuidePresented"),
+            !defaults.bool(forKey: "connectionGuideCompleted")
+        else { return }
+        for provider in Registry.adapters.map({ type(of: $0).descriptor.provider }) {
+            let current = await engine.snapshot()
+            if current.preferences.disabledProviders.contains(provider) { continue }
+            let accounts = current.accounts.filter { $0.account.provider == provider }
+            if !accounts.isEmpty, accounts.allSatisfy({ $0.state.hasCurrentResponse }) { continue }
+            await connectManagedProvider(provider)
         }
     }
 
@@ -131,19 +194,27 @@ final class AppModel {
         await perform { try await engine.renameAccount(entry.account.id, label: label) }
     }
 
-    func remove(_ id: AccountID) async {
-        await perform { try await engine.removeAccount(id) }
+    func connectManagedProvider(_ provider: Provider) async {
+        await perform {
+            try await engine.start()
+            let preferences = await engine.snapshot().preferences
+            if preferences.disabledProviders.contains(provider) {
+                try await engine.setSource(provider, enabled: true)
+            }
+            if provider == .antigravity {
+                if preferences.enabledCredentialSources?.contains(.antigravityCLI) != true {
+                    try await engine.setOptionalCredentialSource(.antigravityCLI, enabled: true)
+                } else {
+                    try await engine.connectOptionalCredentialSource(.antigravityCLI)
+                }
+            } else {
+                try await engine.connect(provider: provider, interactive: true)
+            }
+        }
     }
 
     func connect(_ provider: Provider) async {
         await perform { try await engine.connect(provider: provider, interactive: true) }
-    }
-
-    func setOptionalSource(_ source: OptionalCredentialSource, enabled: Bool) async {
-        guard changingOptionalSource == nil else { return }
-        changingOptionalSource = source
-        defer { changingOptionalSource = nil }
-        await perform { try await engine.setOptionalCredentialSource(source, enabled: enabled) }
     }
 
     func checkOptionalSource(_ source: OptionalCredentialSource) async {
@@ -161,32 +232,6 @@ final class AppModel {
         } else {
             await connect(entry.account.provider)
         }
-    }
-
-    func setSource(_ provider: Provider, enabled: Bool) async {
-        await perform { try await engine.setSource(provider, enabled: enabled) }
-        if enabled { await refresh() }
-    }
-
-    func saveManualKey(
-        provider: Provider, id: AccountID?, value: String, label: String, region: String? = nil, teamID: String? = nil
-    ) async -> Bool {
-        let before = Set(await engine.snapshot().accounts.map(\.account.id))
-        await perform {
-            if let id {
-                try await engine.replaceManualKey(id, key: Secret(value))
-            } else {
-                _ = try await engine.addManualAccount(
-                    provider: provider, key: Secret(value), label: label.isEmpty ? nil : label, region: region,
-                    teamID: teamID)
-            }
-        }
-        let current = await engine.snapshot()
-        return error == nil || !Set(current.accounts.map(\.account.id)).subtracting(before).isEmpty
-    }
-
-    func retrySecretCleanup() async {
-        await perform { try await engine.retrySecretCleanup() }
     }
 
     func retryHistoryPersistence() async {
@@ -251,7 +296,7 @@ final class AppModel {
             error = "Key could not be saved. Unlock Keychain, then update the pending account’s key."
         } catch ManualKeyError.cleanupPending {
             error = "Account removed; saved-key deletion is pending. Retry cleanup in Privacy settings."
-        } catch EngineError.sourceDisabled { error = "Enable this source in Settings before connecting." } catch {
+        } catch EngineError.sourceDisabled { error = "Connect this account to resume." } catch {
             self.error = "Could not save the change. Check account state and storage."
         }
     }
