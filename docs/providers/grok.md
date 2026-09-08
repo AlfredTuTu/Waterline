@@ -49,3 +49,11 @@ unknown. A failed lookup retains valid billing metrics and emits the separate
 Official `auth/model.rs` UserInfo documents this query and field. A bounded live
 read on the owner's account returned HTTP 200, matching identity and `GrokPro`.
 This proves the metadata endpoint; automatic membership visibility is not yet implemented.
+
+Release-soak correction: include Grok in the existing read-only background
+credential checks. The official CLI renewed its saved token during a long run
+while Waterline still held the old token; this omission caused a stale unauthorized
+state despite a valid local expiry. Discovery itself makes no HTTP request, and
+the existing stable-identity reconciliation adopts a changed secret without
+resetting display order or account history. Final-candidate live recovery remains
+to be checked.

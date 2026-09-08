@@ -2,7 +2,9 @@ import Foundation
 
 extension Engine {
     var fileCredentialChecks: [(provider: Provider, source: OptionalCredentialSource?)] {
-        var checks: [(Provider, OptionalCredentialSource?)] = [(.codex, nil), (.cursor, nil)]
+        var checks: [(Provider, OptionalCredentialSource?)] = [
+            (.codex, nil), (.cursor, nil), (.claudeCode, nil), (.grok, nil),
+        ]
         if configuration.preferences.enabledCredentialSources?.contains(.deepSeekOpenCode) == true {
             checks.append((.deepseek, .deepSeekOpenCode))
         }

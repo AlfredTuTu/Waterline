@@ -175,3 +175,11 @@ boundaries and explicit manual refresh still respect provider backoff. This is
 Waterline policy, not a published Anthropic request allowance. Persistent source
 activation with an already-customized status line remains preserved/unmodified
 and falls back to server queries; no unsupported universal setup claim is made.
+
+Release-soak correction: background credential checks now include Claude with
+user interaction disabled. The adapter caches profile identity by the secret
+revision (bounded to 32 entries), so unchanged saved credentials do not cause a
+profile HTTP request every minute. A changed token requires profile verification;
+profile failures retain backoff with at least a five-minute retry interval.
+This changes neither the CLI credentials nor authorization parking for an unchanged
+failed token. Live refresh-after-rotation must be verified on the final candidate.

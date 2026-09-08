@@ -5,6 +5,8 @@ public struct ClaudeCodeAdapter: ProviderAdapter {
         provider: .claudeCode, kind: .window, docStatus: .community,
         allowedHosts: ["api.anthropic.com"], consoleURL: URL(string: "https://claude.ai/settings/usage")!)
 
+    private let identityCache = ClaudeIdentityCache()
+
     public init() {}
 
     public func discover(in environment: DiscoveryEnvironment, http: any HTTPClient) async throws -> [Discovered] {
@@ -42,12 +44,7 @@ public struct ClaudeCodeAdapter: ProviderAdapter {
                 throw FetchError.credentialMissing
             }
             let secret = Secret(oauth.accessToken)
-            let profile = try await http.send(
-                HTTPRequest(
-                    url: URL(string: "https://api.anthropic.com/api/oauth/profile")!,
-                    headers: Self.oauthHeaders(secret)))
-            try profile.validateStatus()
-            let identity = try Self.parseIdentity(profile.body)
+            let identity = try await identityCache.identity(secret: secret, http: http)
             return Discovered(
                 account: Account(
                     provider: .claudeCode, credential: reference, identity: identity, plan: oauth.subscriptionType),
@@ -71,7 +68,7 @@ public struct ClaudeCodeAdapter: ProviderAdapter {
         return try Self.parse(response.body, plan: account.plan)
     }
 
-    private static func oauthHeaders(_ secret: Secret) -> [String: String] {
+    fileprivate static func oauthHeaders(_ secret: Secret) -> [String: String] {
         [
             "Authorization": "Bearer \(secret.value)", "anthropic-beta": "oauth-2025-04-20",
             "Accept": "application/json", "User-Agent": "Waterline/\(WaterlineVersion.current)",
@@ -146,4 +143,44 @@ public struct ClaudeCodeAdapter: ProviderAdapter {
     private struct Credentials: Decodable { let claudeAiOauth: OAuth? }
     private struct OAuth: Decodable { let accessToken: String; let subscriptionType: String? }
     private struct Window: Decodable { let utilization: Double?; let resets_at: String? }
+}
+
+private actor ClaudeIdentityCache {
+    private struct Entry {
+        var identity: BillingIdentity?
+        var error: FetchError?
+        var schedule = RefreshSchedule()
+    }
+    private var entries: [String: Entry] = [:]
+    private var order: [String] = []
+
+    func identity(secret: Secret, http: any HTTPClient) async throws -> BillingIdentity {
+        let key = secret.revision
+        if let identity = entries[key]?.identity { return identity }
+        let now = Date()
+        if let entry = entries[key], let error = entry.error, entry.schedule.nextAutomatic > now { throw error }
+        if entries[key] == nil {
+            if order.count == 32 { entries[order.removeFirst()] = nil }
+            order.append(key)
+        }
+        do {
+            let profile = try await http.send(
+                HTTPRequest(
+                    url: URL(string: "https://api.anthropic.com/api/oauth/profile")!,
+                    headers: ClaudeCodeAdapter.oauthHeaders(secret)))
+            try profile.validateStatus()
+            let identity = try ClaudeCodeAdapter.parseIdentity(profile.body)
+            entries[key] = Entry(identity: identity)
+            return identity
+        } catch {
+            try Task.checkCancellation()
+            let failure = error as? FetchError ?? FetchError.transport(detail: "Could not read Claude profile")
+            var entry = entries[key] ?? Entry()
+            entry.error = failure
+            entry.schedule.failed(failure, at: now)
+            entry.schedule.nextAutomatic = max(entry.schedule.nextAutomatic, now.addingTimeInterval(300))
+            entries[key] = entry
+            throw failure
+        }
+    }
 }
