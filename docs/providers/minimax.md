@@ -47,3 +47,15 @@ Credits, cash balances, browser-session history and legacy cookie-only endpoint 
 
 Complete field requirements, units, currency source, timestamps, partial-result behaviour and safe
 error mapping before marking this provider implemented or live verified.
+
+## Real CN attempt — 2026-09-08
+
+The owner-authorized OpenCode minimax-cn key import created a distinct CN account.
+The documented Token Plan request returned HTTP 200 with base_resp.status_code
+2062; the observed provider message reported no active Token Plan subscription.
+This is not a successful quota response and does not establish that the key is
+invalid for PAYG inference. PAYG balance and Token Plan quota remain separate
+capabilities; no PAYG balance is inferred from this failure. Native access to the
+CLI-created Keychain item separately required permission. Evidence: ignored
+`build/verification/opencode-regional-queries.json`. Imported keys are one-time
+Waterline-owned entries; later OpenCode key changes are not automatically synced.

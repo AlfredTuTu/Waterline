@@ -68,3 +68,16 @@ unverified and is not inferred from this configuration. Tests cover routing, opt
 malformed fields, missing/invalid keys, regional requests, account separation, rotation
 and restart. Config-source region changes preserve distinct local account IDs instead
 of merging through the shared file path. No real GLM key/query was used for this change.
+
+## Real CN attempt — 2026-09-08
+
+The owner-authorized OpenCode key import created a distinct CN account. A scoped
+request to the documented CN quota endpoint returned HTTP 200 with code 1000 and
+success false. The observed provider message indicated authentication failure.
+This verifies a failed attempt, not quota support or key validity for all APIs.
+Native app access to the CLI-created Keychain item separately required permission.
+No successful real quota mapping is claimed; a compatible authorized plan/key and
+native refresh remain prerequisites. Evidence: ignored
+`build/verification/opencode-regional-queries.json` and
+`build/verification/account-completion-status.json`. Imported keys are one-time
+Waterline-owned entries; later OpenCode key changes are not automatically synced.

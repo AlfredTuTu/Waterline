@@ -181,3 +181,15 @@ stable ID and restored notch selection. Evidence: `antigravity-engine-live.json`
 is real backend/persistence evidence, not mocked data and not native UI verification.
 Mac lock prevented native source-toggle acceptance. The running app exposes the new
 source but no production account was added by the isolated probe.
+
+## Native owner-account verification — 2026-09-08
+
+The earlier Mac-lock limitation was subsequently resolved. The native optional
+source was enabled for an already-running signed-in CLI, and the configured
+account returned fresh readings. Native overview displayed all nine configured
+accounts; Antigravity detail showed Gemini and Claude/GPT groups with 5h on the
+left and 7d on the right. The account persisted in the installed application.
+Evidence: ignored `build/verification/order-and-cadence-native.json` and the
+owner-priority checkpoint in ACCEPTANCE.md. This establishes one real account
+and this display scope, not all plans or inactive-CLI availability. The app still
+does not start the CLI, extract its token or invent data while it is absent.

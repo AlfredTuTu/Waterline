@@ -1091,3 +1091,14 @@ The notFound explanation is corrected in source to identify the login item and
 suggest enabling it. No forced registration, LaunchAgent fallback or new
 entitlement was introduced. Actual logout/login launch and a signed-update
 registration check remain unverified; this is not full launch-at-login acceptance.
+
+
+2026-09-08 native hook banner follow-up on installed e6bbda6: with activity
+explicitly enabled, the bundled CLI accepted a labelled synthetic UserPromptSubmit
+event (exit 0). Native AX/screenshot showed the island stayed collapsed. Explicit
+expansion then showed the recent-session-activity banner. A matching synthetic
+StopFailure event (exit 0) removed that banner from the expanded native tree.
+The toggle was disabled afterward and the original Claude settings semantics were
+restored by canonical-JSON fingerprint comparison. Evidence:
+`build/verification/hook-native-banner.json`. This proves local IPC and native
+banner behavior for these events, not a real model failure or provider quota change.

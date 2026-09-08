@@ -12,15 +12,19 @@ account identifiers go only to the corresponding provider's documented endpoints
 
 ## Implementation status
 
-As of 2026-09-07, the repository implements the local engine, persisted account management and
+As of 2026-09-08, the repository implements the local engine, persisted account management and
 refresh scheduling, manual key flows, balance history, CLI and native notch/settings surfaces.
-Registered adapters are Codex, Claude Code, Cursor, DeepSeek, Moonshot, Kimi Code, Zhipu, MiniMax and
-xAI. Scoped Codex and Cursor Pro live quota queries have been verified; registration and offline tests do not
-establish the other providers' live support. Antigravity and Qwen remain open. Native multi-account,
+Registered adapters are Codex (ChatGPT display), Claude Code, Cursor, DeepSeek, Moonshot,
+Kimi Code, Zhipu, MiniMax, xAI, independent Grok and Antigravity. Scoped real account
+checks exist for Claude Pro, ChatGPT/Codex, Cursor Pro, Moonshot CN, Grok and Antigravity;
+consult the provider contracts for exact scope and later authentication limitations.
+Real failed requests for DeepSeek, GLM CN and MiniMax CN do not establish usable quota
+or balance support. xAI and Kimi Code lack successful real-account validation. Qwen
+has a reviewed capability boundary and remains unregistered. Native multi-account,
 localisation, onboarding, notifications and distribution acceptance are still incomplete.
 
 New accounts use opaque UUIDs and optional billing identities, with reconciliation independent of secrets.
-Quota fraction/reset fields are optional. The fetch interface remains `fetch(...) -> Usage`. Snapshot schema 9 carries explicit configuration-source provenance and optional-source consent and distinguishes verification observations and carries balance basis and persists per-account request deadlines and authentication parking, and includes pending app-owned secret cleanup counts and retains schema 2 account preferences, operation state and last-attempt time, with explicit partial states and component observation metadata, preserves legacy files before
+Quota fraction/reset fields are optional. The fetch interface remains `fetch(...) -> Usage`. Snapshot schema 13 carries explicit configuration-source provenance and optional-source consent and distinguishes verification observations and carries balance basis and persists per-account request deadlines and authentication parking, and includes pending app-owned secret cleanup counts and retains account preferences, operation state and last-attempt time, with explicit partial states and component observation metadata, preserves legacy files before
 upgrade and refuses unsupported versions. Engine regressions now cover repeated start, isolated
 discovery failure, superseded late requests, stop invalidation and writer ownership. Subscriptions are
 bounded and immediately receive state; storage errors do not suppress their updates. These are partial

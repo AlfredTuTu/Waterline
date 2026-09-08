@@ -95,3 +95,12 @@ Primary references reviewed 2026-09-07:
 Five offline tests cover opt-in-before-read, unrelated settings, bad/proxy routes, placeholder/malformed
 input, bounded regular-file reads and scoped key rotation with unchanged source bytes. No user's
 actual settings file or real key was read for this implementation verification.
+
+## Real import and refresh attempt — 2026-09-08
+
+An owner-authorized one-time OpenCode key import created an account, but the
+subsequent balance request returned unauthorized. The account remained unavailable
+with an authentication reason; no balance or successful live-verification date is
+claimed. Evidence: ignored `build/verification/opencode-account-imports.json` and
+`build/verification/account-completion-status.json`. Later OpenCode key changes
+are not automatically synced into the Waterline-owned Keychain entry.
