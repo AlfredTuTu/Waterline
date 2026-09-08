@@ -1,6 +1,48 @@
 import Foundation
 
 extension Engine {
+    @discardableResult
+    public func receiveClaudeDesktopObservation(_ observation: ClaudeDesktopObservation) throws -> Bool {
+        guard started, !suspended else { return false }
+        let now = dependencies.now()
+        guard observation.observedAt <= now, now.timeIntervalSince(observation.observedAt) <= 1800 else { return false }
+        let matching = accounts.filter {
+            $0.provider == .claudeCode && isEnabled($0.id)
+                && $0.identity.map { ClaudeLocalLogin.matches(observation.identity, verified: $0) } == true
+        }
+        guard matching.count == 1, let account = matching.first else { return false }
+        let previous = states[account.id]?.reading
+        var windows = previous?.usage.quotaWindows ?? []
+        var replaced: Set<String> = []
+        for window in observation.windows {
+            guard let id = window.id, ["five_hour", "seven_day"].contains(id),
+                window.observedAt == observation.observedAt, window.maximumAgeSeconds == 1800
+            else {
+                throw FetchError.schemaChanged(detail: "claude.desktop.window")
+            }
+            let existing = windows.firstIndex { $0.id == id }
+            if let existing,
+                (windows[existing].observedAt ?? previous?.observedAt ?? .distantPast) >= observation.observedAt
+            {
+                continue
+            }
+            if let existing { windows[existing] = window } else { windows.append(window) }
+            replaced.insert(id)
+        }
+        guard !replaced.isEmpty else { return false }
+        let usage = Usage.metrics(
+            windows: windows, balances: previous?.usage.balances ?? [],
+            plan: previous?.usage.planLabel ?? account.plan,
+            failures: previous?.usage.componentFailures.filter { !replaced.contains($0.id) } ?? [])
+        let reading = Reading(usage: usage, fetchedAt: now, observedAt: observation.observedAt, origin: .local)
+        states[account.id] = usage.componentFailures.isEmpty ? .fresh(reading: reading) : .partial(reading: reading)
+        schedules[account.id, default: RefreshSchedule()].nextAutomatic = max(
+            schedules[account.id]?.nextAutomatic ?? .distantPast, now.addingTimeInterval(300))
+        try publish()
+        restartScheduler()
+        return true
+    }
+
     /// Accept a validated local callback without un-parking credentials or bypassing provider rate limits.
     @discardableResult
     public func receiveClaudeObservation(_ observation: ClaudeLocalObservation) throws -> Bool {

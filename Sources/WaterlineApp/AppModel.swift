@@ -25,6 +25,7 @@ final class AppModel {
     private let engine: Engine
     private var observation: Task<Void, Never>?
     private var claudeLocalMonitor: ClaudeLocalMonitor?
+    private var claudeDesktopMonitor: ClaudeLocalMonitor?
 
     init() {
         #if WATERLINE_VERIFICATION
@@ -92,6 +93,7 @@ final class AppModel {
             loaded = true
             await connectOnFirstLaunch()
             await startClaudeLocalMonitor()
+            await startClaudeDesktopMonitor()
             installClaudeStatusline()
             await refresh(manual: false)
             await engine.startAutomaticRefresh()
@@ -110,6 +112,39 @@ final class AppModel {
                 settingsURL: home.appending(path: ".claude/settings.json"),
                 executable: executable)
         } catch { self.error = "Could not enable local Claude quota." }
+    }
+
+    private func startClaudeDesktopMonitor() async {
+        guard !isVerification, claudeDesktopMonitor == nil else { return }
+        let directory = FileManager.default.homeDirectoryForCurrentUser.appending(
+            path: "Library/Application Support/Claude")
+        guard FileManager.default.fileExists(atPath: directory.path) else { return }
+        do {
+            claudeDesktopMonitor = try ClaudeLocalMonitor(directory: directory) { [weak self] in
+                Task { @MainActor in await self?.readClaudeDesktopObservations(directory: directory) }
+            }
+            await readClaudeDesktopObservations(directory: directory)
+        } catch { self.error = "Could not monitor local Claude quota." }
+    }
+
+    private func readClaudeDesktopObservations(directory: URL) async {
+        let identities = snapshot.accounts.filter { $0.account.provider == .claudeCode }.compactMap(\.account.identity)
+        guard !identities.isEmpty else { return }
+        do {
+            let observations = try await Task.detached(priority: .utility) {
+                let files = RealFileSystem()
+                let historyURL = directory.appending(path: "plan-usage-history.json")
+                let configURL = directory.appending(path: "config.json")
+                guard files.exists(historyURL), files.exists(configURL) else { return [ClaudeDesktopObservation]() }
+                let history = try files.contents(of: historyURL, maximumBytes: 8_388_608)
+                let configuration = try files.contents(of: configURL, maximumBytes: 4_194_304)
+                return try identities.compactMap {
+                    try ClaudeDesktopUsage.parse(
+                        history: history, configuration: configuration, matching: $0, now: Date())
+                }
+            }.value
+            for observation in observations { try await engine.receiveClaudeDesktopObservation(observation) }
+        } catch { self.error = "Could not read local Claude quota." }
     }
 
     private func startClaudeLocalMonitor() async {

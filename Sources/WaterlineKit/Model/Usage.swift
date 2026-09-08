@@ -18,6 +18,8 @@ public struct UsageWindow: Codable, Sendable, Hashable {
     public let resetsAt: Date?
     /// Reported quota cadence, independent of time remaining until reset.
     public let durationSeconds: TimeInterval?
+    /// Source-specific freshness for timestamped local records; absent uses the normal fetch cadence.
+    public let maximumAgeSeconds: TimeInterval?
 
     public var cadenceSeconds: TimeInterval? {
         if let durationSeconds, durationSeconds.isFinite, durationSeconds > 0 { return durationSeconds }
@@ -28,14 +30,19 @@ public struct UsageWindow: Codable, Sendable, Hashable {
     }
 
     public func isCurrent(at now: Date, fallbackObservation: Date, interval: TimeInterval) -> Bool {
-        error == nil && now.timeIntervalSince(observedAt ?? fallbackObservation) <= interval * 2
+        if let maximumAgeSeconds, !maximumAgeSeconds.isFinite || !(1...1800).contains(maximumAgeSeconds) {
+            return false
+        }
+        return error == nil
+            && now.timeIntervalSince(observedAt ?? fallbackObservation) <= (maximumAgeSeconds ?? interval * 2)
             && (resetsAt.map { $0 > now } ?? true)
     }
 
     public init(
         label: String, usedFraction: Double?, resetsAt: Date?, group: String? = nil, id: String? = nil,
         failureScopes: [String]? = nil, observedAt: Date? = nil, error: FetchError? = nil, used: Decimal? = nil,
-        limit: Decimal? = nil, unit: String? = nil, note: String? = nil, durationSeconds: TimeInterval? = nil
+        limit: Decimal? = nil, unit: String? = nil, note: String? = nil, durationSeconds: TimeInterval? = nil,
+        maximumAgeSeconds: TimeInterval? = nil
     ) {
         self.label = label
         self.note = note
@@ -50,6 +57,7 @@ public struct UsageWindow: Codable, Sendable, Hashable {
         self.usedFraction = usedFraction
         self.resetsAt = resetsAt
         self.durationSeconds = durationSeconds
+        self.maximumAgeSeconds = maximumAgeSeconds
     }
 }
 

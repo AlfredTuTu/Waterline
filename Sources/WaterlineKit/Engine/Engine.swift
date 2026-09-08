@@ -370,9 +370,19 @@ public actor Engine {
     }
 
     func visibleState(_ id: AccountID) -> AccountState {
-        let state = states[id] ?? .pending
+        var state = states[id] ?? .pending
+        if case .stale(let reading, _) = state, reading.origin == .local,
+            reading.usage.quotaWindows.contains(where: {
+                $0.isCurrent(
+                    at: dependencies.now(), fallbackObservation: reading.observedAt,
+                    interval: configuration.preferences.refreshInterval)
+            })
+        {
+            // A failed fallback does not invalidate an independently current local observation.
+            state = reading.usage.componentFailures.isEmpty ? .fresh(reading: reading) : .partial(reading: reading)
+        }
         if state.hasCurrentResponse, let reading = state.reading,
-            dependencies.now().timeIntervalSince(reading.observedAt) > configuration.preferences.refreshInterval * 2
+            !reading.isCurrent(at: dependencies.now(), interval: configuration.preferences.refreshInterval)
         {
             return .expired(reading: reading)
         }

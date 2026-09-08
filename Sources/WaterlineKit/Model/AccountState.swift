@@ -1,6 +1,13 @@
 import Foundation
 
 public struct Reading: Codable, Sendable, Hashable {
+    public func isCurrent(at now: Date, interval: TimeInterval) -> Bool {
+        now.timeIntervalSince(observedAt) <= interval * 2
+            || usage.quotaWindows.contains {
+                $0.maximumAgeSeconds != nil
+                    && $0.isCurrent(at: now, fallbackObservation: observedAt, interval: interval)
+            }
+    }
     public let usage: Usage
     public let fetchedAt: Date
     public let observedAt: Date

@@ -24,7 +24,7 @@ Connect action. Existing account data is preserved during updates.
 | Account | Source | Current scope |
 | --- | --- | --- |
 | ChatGPT / Codex | Saved Codex login | Reported subscription windows |
-| Claude Code | Saved Claude login and official CLI status-line data | Reported 5h/7d windows and additional server-reported windows |
+| Claude Code | Saved login, matching desktop GUI history and official CLI status-line data | Reported 5h/7d windows and additional server-reported windows |
 | Cursor | Local Cursor login database | Reported plan/model pools and other available usage windows |
 | Grok / SuperGrok | Grok Build's saved consumer login | Consumer subscription usage; not Cursor Grok Bot or developer API billing |
 | Antigravity | Already-running, signed-in native CLI | Reported Gemini and Claude/GPT quota groups |
@@ -37,6 +37,14 @@ Standalone API-balance integrations are deferred; previous local keys, records
 and history are not deleted by this product simplification.
 
 ## Claude updates
+
+For an identified Claude account, Waterline also reads the matching desktop app's
+local usage history. It checks both the current desktop user and the latest sample's
+organization, keeps the original sample time, and never fabricates reset times.
+The desktop app controls its own updates (observed 5-minute active / 15-minute idle
+polling with additional native pause conditions). GUI records expire after 30 minutes;
+unchanged file reads do not extend freshness. Valid local data is not invalidated
+merely because a fallback server request fails.
 
 Waterline's installed CLI can receive the official Claude Code `rate_limits`
 status-line payload. With a supported default login and no existing custom status

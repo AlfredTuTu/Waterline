@@ -35,7 +35,7 @@ extension Dashboard {
         let current = active.filter { entry in
             entry.state.hasCurrentResponse
                 && entry.state.reading.map {
-                    now.timeIntervalSince($0.observedAt) <= snapshot.preferences.refreshInterval * 2
+                    $0.isCurrent(at: now, interval: snapshot.preferences.refreshInterval)
                 } == true
         }
         let fractions = current.flatMap { entry -> [(AccountID, Double)] in

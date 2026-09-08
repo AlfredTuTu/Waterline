@@ -16,7 +16,9 @@ extension Dashboard {
             guard let reading = entry.state.reading else { return [] }
             var dates = [reading.observedAt.addingTimeInterval(age + 0.001)]
             for window in reading.usage.quotaWindows {
-                dates.append((window.observedAt ?? reading.observedAt).addingTimeInterval(age + 0.001))
+                dates.append(
+                    (window.observedAt ?? reading.observedAt).addingTimeInterval(
+                        (window.maximumAgeSeconds ?? age) + 0.001))
                 if let reset = window.resetsAt { dates.append(reset) }
             }
             for balance in reading.usage.balances {
@@ -44,7 +46,7 @@ extension Dashboard {
         _ entry: AccountEntry, preferences: UserPreferences, now: Date
     ) -> DashboardHeadline {
         if entry.isEnabled(in: preferences), entry.state.hasCurrentResponse, let reading = entry.state.reading,
-            now.timeIntervalSince(reading.observedAt) <= preferences.refreshInterval * 2,
+            reading.isCurrent(at: now, interval: preferences.refreshInterval),
             let window = overviewWindows(
                 reading.usage, now: now, fallbackObservation: reading.observedAt,
                 interval: preferences.refreshInterval, prioritizeCurrent: false

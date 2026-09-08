@@ -183,3 +183,39 @@ profile HTTP request every minute. A changed token requires profile verification
 profile failures retain backoff with at least a five-minute retry interval.
 This changes neither the CLI credentials nor authorization parking for an unchanged
 failed token. Live refresh-after-rotation must be verified on the final candidate.
+
+## Desktop GUI source — 2026-09-09
+
+Installed Claude 1.46388.4 ships a version 2 `plan-usage-history.json` store under
+its Application Support directory. Static inspection of its bundled usage code
+shows samples `{t,org,u}` written only after successful authenticated usage
+responses; `t` is epoch milliseconds, `fh` and `sd` are percentage utilization.
+History is retained for 30 days, appends are limited to one per organization per
+270 seconds, and native polling uses 300 seconds after recent interaction or 900
+seconds while idle, with additional native tray/idle gating. These are this desktop
+version's implementation details, not a published universal HTTP rate limit.
+
+Waterline reads this file and only `lastKnownAccountUuid` from desktop `config.json`.
+It does not decrypt token caches, read browser cookies or call GUI-private IPC.
+Both the user and latest sample's organization must match the known Waterline
+account. Version 1 unscoped history is not used. The owner's latest sample matched
+both identifiers and reported 5h 0%, 7d 33% at 08:14:37, replacing the obsolete overnight
+CLI observation. This source has no reset timestamp, so it cannot manufacture one.
+
+Desktop records carry their actual sample time and a 30-minute maximum age (twice
+the observed idle poll interval). Re-reading or receiving unrelated filesystem
+events does not change that sample time. Older desktop samples cannot replace
+newer CLI/server observations. An independently current local reading remains
+visible if a fallback request fails; the fallback failure and scheduling limits
+remain in the engine. Missing/outdated GUI data is not treated as fresh or zero.
+The desktop app's own background pause behavior can limit new samples; CLI data
+and normal server fallback remain complementary. Final native verification of
+this addition is still required before release.
+
+Native recovery verified on the installed GUI-source candidate: the card changed
+from the obsolete 5h 38% / login error to 5h 2%, 7d 33%, observed by Claude Desktop at
+08:30:07. Waterline persisted that original time and no fabricated reset timestamp.
+Relaunching the same binary restored the same data; corresponding synthetic tests
+confirm that a failed fallback retains authentication parking while the valid local
+windows remain available. Further automatic-cycle and final-release verification
+are still required.

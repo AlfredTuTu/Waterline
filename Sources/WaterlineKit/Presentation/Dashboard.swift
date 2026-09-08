@@ -94,7 +94,7 @@ public enum Dashboard {
             return 0
         }
         guard let reading = entry.state.reading, entry.state.hasCurrentResponse,
-            now.timeIntervalSince(reading.observedAt) <= preferences.refreshInterval * 2
+            reading.isCurrent(at: now, interval: preferences.refreshInterval)
         else { return 2 }
         if let fraction = reading.usage.quotaWindows.filter({
             $0.isCurrent(
@@ -133,7 +133,7 @@ extension Dashboard {
     {
         guard entry.isEnabled(in: preferences),
             let reading = entry.state.reading, entry.state.hasCurrentResponse,
-            now.timeIntervalSince(reading.observedAt) <= preferences.refreshInterval * 2
+            reading.isCurrent(at: now, interval: preferences.refreshInterval)
         else { return .muted }
         let fraction = reading.usage.quotaWindows.filter {
             $0.isCurrent(at: now, fallbackObservation: reading.observedAt, interval: preferences.refreshInterval)

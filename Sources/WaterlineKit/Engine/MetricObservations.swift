@@ -6,7 +6,7 @@ extension UsageWindow {
             label: label, usedFraction: usedFraction, resetsAt: resetsAt, group: group, id: id,
             failureScopes: failureScopes,
             observedAt: observedAt ?? date, error: error ?? self.error, used: used, limit: limit, unit: unit,
-            note: note, durationSeconds: durationSeconds
+            note: note, durationSeconds: durationSeconds, maximumAgeSeconds: maximumAgeSeconds
         )
     }
 }
