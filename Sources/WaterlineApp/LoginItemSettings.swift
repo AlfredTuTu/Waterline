@@ -39,7 +39,7 @@ struct LoginItemSettings: View {
         case .enabled: "Waterline will open automatically when you log in."
         case .notRegistered: "Open Waterline manually when you need it."
         case .requiresApproval: "Allow Waterline in System Settings to finish enabling launch at login."
-        case .notFound: "macOS could not locate the app. Install Waterline and try again."
+        case .notFound: "macOS could not find the login item. Try enabling launch at login."
         @unknown default: "Login item status is unavailable."
         }
     }

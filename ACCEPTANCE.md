@@ -1050,3 +1050,44 @@ not reset their identities, reimport credentials or alter their connection setti
 without a concrete fault or owner request. Other API accounts and formal release
 acceptance remain separate, unfinished work. Snapshot/config schemas are now 13/5;
 legacy state and prior application backups were preserved during installation.
+
+
+2026-09-08 drag-order installed follow-up (source e6bbda6): the installed Release
+SHA-256 is `3fa980788c88b6cfdf06b5b208fad9973597b99be799ed194e8342e83e7704b4`.
+Native Settings showed the drag list without automatic/up/down buttons. Moonshot,
+Grok and Cursor marks were visibly present against the light background. Actual
+drag input remains unverified: CUA returned windowNotFoundAtPosition and, on a
+fresh activation, noWindowsAvailable. Accessibility reads and ordinary controls
+worked. No test reorder was applied; saved account order and daily selection were
+unchanged. Local make verify and CI run 34205999412 passed for e6bbda6.
+
+On this same binary, native General settings enabled Claude session activity.
+Read-only inspection found one Waterline command for each of UserPromptSubmit,
+Stop, StopFailure and SessionEnd. A native Quit and relaunch retained the enabled
+checkbox. Disabling through the native checkbox removed the entries and restored
+the original Claude settings JSON semantics, checked by a pre/post canonical JSON
+fingerprint. The original disabled preference was restored. Evidence:
+build/verification/hook-native-lifecycle.json (ignored). This closes native
+opt-in, enabled-state restoration and ordinary cleanup for this build; it does
+not prove the activity banner, StopFailure delivery or interrupted-cleanup UX.
+
+Signing recheck: installed designated requirement is tied to cdhash, and local
+security find-identity reported zero valid code-signing identities. Keychain
+accounts again showed Access needed after the application update. Apple's
+[TN3127](https://developer.apple.com/documentation/technotes/tn3127-inside-code-signing-requirements)
+explains that ad-hoc identity is version-specific. Stable signed-update Keychain
+acceptance therefore remains open; no ACLs or credentials were modified to bypass
+this requirement. Native login-at-launch status also showed notFound despite the
+fixed installed bundle; registration and actual login launch remain unverified.
+
+
+2026-09-08 login-item native follow-up on the same installed e6bbda6 binary:
+starting from SMAppService.mainApp.status notFound, enabling the native switch
+succeeded and changed the visible status to enabled. Native Quit/relaunch retained
+enabled status. Disabling succeeded and changed it to notRegistered, restoring
+the original off setting. This contradicts the earlier implication that the
+application itself was missing; the service status was not a failed registration.
+The notFound explanation is corrected in source to identify the login item and
+suggest enabling it. No forced registration, LaunchAgent fallback or new
+entitlement was introduced. Actual logout/login launch and a signed-update
+registration check remain unverified; this is not full launch-at-login acceptance.

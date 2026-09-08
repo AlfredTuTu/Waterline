@@ -194,7 +194,7 @@
 "Waterline will open automatically when you log in." = "登录后将自动打开Waterline。";
 "Your account data stays on this Mac" = "账号数据保存在这台Mac上";
 "Your accounts, in one place" = "在一个地方查看所有账号";
-"macOS could not locate the app. Install Waterline and try again." = "macOS未找到应用，请安装Waterline后重试。";
+"macOS could not find the login item. Try enabling launch at login." = "macOS未找到登录项，请尝试开启“登录时启动”。";
 "macOS could not show a usage notification." = "macOS未能显示用量通知。";
 "≈ %@ %@/day average decrease" = "≈ 平均每日减少%@ %@";
 "≈ %@ days left" = "≈ 剩余%@天";

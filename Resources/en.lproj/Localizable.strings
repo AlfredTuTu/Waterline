@@ -194,7 +194,7 @@
 "Waterline will open automatically when you log in." = "Waterline will open automatically when you log in.";
 "Your account data stays on this Mac" = "Your account data stays on this Mac";
 "Your accounts, in one place" = "Your accounts, in one place";
-"macOS could not locate the app. Install Waterline and try again." = "macOS could not locate the app. Install Waterline and try again.";
+"macOS could not find the login item. Try enabling launch at login." = "macOS could not find the login item. Try enabling launch at login.";
 "macOS could not show a usage notification." = "macOS could not show a usage notification.";
 "≈ %@ %@/day average decrease" = "≈ %@ %@/day average decrease";
 "≈ %@ days left" = "≈ %@ days left";
