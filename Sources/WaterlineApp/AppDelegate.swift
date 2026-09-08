@@ -117,7 +117,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         private func exportVerificationView() {
             Task {
                 for _ in 0..<100 {
-                    if model.snapshot.accounts.count == 4
+                    if model.loaded
+                        && model.snapshot.accounts.count
+                            == (CommandLine.arguments.contains("--verification-empty") ? 0 : 4)
                         && model.snapshot.accounts.allSatisfy({ $0.state.hasCurrentResponse }) && !model.refreshing
                     {
                         do {

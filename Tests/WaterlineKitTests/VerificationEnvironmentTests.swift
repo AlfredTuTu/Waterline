@@ -5,6 +5,23 @@
     @testable import WaterlineKit
 
     struct VerificationEnvironmentTests {
+        @Test func emptyOnboardingRemainsEmptyAfterRefreshAndRestart() async throws {
+            let directory = VerificationEnvironment.directory(runID: UUID())
+            defer { try? FileManager.default.removeItem(at: directory) }
+            let dependencies = VerificationEnvironment.dependencies(directory: directory, empty: true)
+            #expect(dependencies.adapters.isEmpty)
+            #expect(!dependencies.environment.allowsUserInteraction)
+            let engine = Engine(dependencies: dependencies)
+            try await engine.start()
+            try await engine.refreshAll()
+            #expect(await engine.snapshot().accounts.isEmpty)
+            await engine.stop()
+            let restored = Engine(dependencies: dependencies)
+            try await restored.start()
+            #expect(await restored.snapshot().accounts.isEmpty)
+            await restored.stop()
+        }
+
         @Test func fourAccountBaselineIsIsolatedAndRestores() async throws {
             let directory = VerificationEnvironment.directory(runID: UUID())
             defer { try? FileManager.default.removeItem(at: directory) }

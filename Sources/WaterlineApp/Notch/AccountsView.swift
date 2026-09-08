@@ -142,7 +142,7 @@ struct AccountsView: View {
                 Spacer()
                 if model.refreshing {
                     ProgressView().controlSize(.mini)
-                } else {
+                } else if model.hasProblems || !model.snapshot.accounts.isEmpty {
                     Circle().fill(model.hasProblems ? Color.orange : Color.green).frame(width: 6, height: 6)
                 }
                 Button {

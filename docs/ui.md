@@ -338,3 +338,6 @@ Missing/rejected manual credentials still direct users to key management.
 Account ordering also exposes named accessibility move actions on grouped rows.
 With the list focused and an account selected, Option-Up/Down uses the same saved
 manual order; ordinary arrow keys remain available for selection navigation.
+
+An empty account list with no source failure shows no green health indicator.
+Source failures retain the warning indicator and active refresh retains progress.

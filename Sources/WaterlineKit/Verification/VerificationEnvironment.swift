@@ -35,9 +35,9 @@
             }
         }
 
-        public static func dependencies(directory: URL) -> Engine.Dependencies {
+        public static func dependencies(directory: URL, empty: Bool = false) -> Engine.Dependencies {
             Engine.Dependencies(
-                adapters: [FixtureCodex(), FixtureClaude(), FixtureBalance(), FixtureBoth()],
+                adapters: empty ? [] : [FixtureCodex(), FixtureClaude(), FixtureBalance(), FixtureBoth()],
                 environment: DiscoveryEnvironment(
                     home: directory.appending(path: "home"), processEnvironment: [:],
                     fileSystem: NoFiles(), keychain: NoKeychain(), allowsUserInteraction: false),

@@ -55,7 +55,9 @@ final class AppModel {
                     exit(1)
                 }
             }
-            engine = Engine(dependencies: VerificationEnvironment.dependencies(directory: directory))
+            engine = Engine(
+                dependencies: VerificationEnvironment.dependencies(
+                    directory: directory, empty: CommandLine.arguments.contains("--verification-empty")))
             notifications = QuotaNotifications(
                 storeURL: directory.appending(path: "alerts.json"), notificationsAllowed: false)
             isVerification = true

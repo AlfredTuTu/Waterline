@@ -1165,3 +1165,19 @@ signed CLI, stable release version and update-feed configuration. No ticket or
 Gatekeeper acceptance is claimed. This is an arm64 development image, not a public
 release or a clean-machine installation/upgrade test. Installed account state was
 not modified by packaging or the read-only mount.
+
+
+2026-09-08 empty-onboarding coverage: the separately compiled verification app
+accepts --verification-empty, injecting no adapters while retaining NoNetwork,
+NoKeychain, NoOwnedSecrets and isolated temporary storage. A new test confirms
+empty startup, refresh and engine restart; both verification-environment tests
+passed. Production make verify also passed. Native offscreen rendering in English
+and Simplified Chinese showed the empty connection guidance without truncation or
+sample metrics. The initial render exposed a green footer indicator despite no
+accounts; the UI now omits that indicator when empty and without source problems,
+while retaining refresh progress and warning behavior. Repeated native renders
+confirmed its absence. Before/after images are in ignored
+build/verification/empty-onboarding; both exited render runs' temporary states
+were removed after checking empty snapshots. This is visual/isolation evidence,
+not a successful real onboarding connection: verification mode deliberately
+restricts Settings actions, and live one-minute account discovery remains open.
