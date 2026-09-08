@@ -10,7 +10,7 @@ usage. Waterline runs on your Mac without a backend or telemetry.
 - Drag cards to change their display order. The footer **Waterline → Account display
   order** opens the native ordering list. Changes save automatically.
 - Choose the daily account from the pin menu.
-- Launch-at-login and language selection are in the macOS menu-bar menu.
+- Language selection is in the macOS menu-bar menu. Waterline does not register for launch at login.
 - Collapse the island or quit from its Waterline menu.
 
 There is no separate settings page, Token records window, API-key entry screen or

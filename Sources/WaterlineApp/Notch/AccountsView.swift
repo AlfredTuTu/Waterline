@@ -172,6 +172,9 @@ struct AccountsView: View {
                     .orange)
             }
             if model.snapshot.storageFailed { Text("Changes could not be saved.").foregroundStyle(.orange) }
+            if model.loginItemCleanupFailed {
+                Text("Could not remove the old Waterline login item.").font(.caption).foregroundStyle(.orange)
+            }
         }
         .padding(.horizontal, 24).padding(.top, 12).padding(.bottom, 18)
         .frame(width: width)

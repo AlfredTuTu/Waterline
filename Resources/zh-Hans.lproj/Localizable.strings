@@ -447,3 +447,5 @@
 "Could not read local Claude quota." = "无法读取Claude本地额度。";
 
 "Could not enable local Claude quota." = "无法启用Claude本地额度读取。";
+
+"Could not remove the old Waterline login item." = "无法移除旧版Waterline的开机启动注册。";

@@ -9,7 +9,7 @@ This release is ad-hoc signed and has not been notarized by Apple.
 
 The island shows one account. Click for all accounts, drag cards to reorder, and
 use the pin menu to select the daily account. The Waterline menu contains ordering,
-collapse and quit. Launch at login and language are in the menu-bar menu.
+collapse and quit. Language selection is in the menu-bar menu. There is no launch-at-login feature.
 
 Saved logins are detected automatically; macOS may ask you to authorize Keychain
 access. Claude's local quota capture starts with a new supported Claude Code
@@ -17,7 +17,7 @@ session and does not replace an existing custom status line. Antigravity require
 its native CLI to be running and signed in. No API balance accounts are offered.
 Updates for this release are manual: quit the app and replace it with a newer copy.
 
-Uninstall: turn off launch at login, then remove Waterline.app. Account records in
+Uninstall: remove Waterline.app. Account records in
 ~/Library/Application Support/Waterline remain. If Waterline installed its Claude
 statusLine command, remove only that matching statusLine entry from
 ~/.claude/settings.json; a settings-waterline-backup-*.json file holds the original.
@@ -30,11 +30,11 @@ Do not restore an old full settings backup over subsequent unrelated changes.
    点击“仍要打开”并按系统提示确认。不需要关闭Gatekeeper；受管理设备可能不允许覆盖策略。
 
 灵动岛显示一个账号，点击查看全部账号，拖动卡片排序，图钉菜单选择日常账号。
-底部Waterline菜单提供排序、收起和退出；菜单栏菜单提供开机启动和语言选择。
+底部Waterline菜单提供排序、收起和退出；菜单栏菜单提供语言选择，不提供开机启动功能。
 首次运行自动检测本机登录，钥匙串可能要求确认授权。Claude本地额度读取需要新建
 受支持的Claude Code会话，不会替换已有的自定义状态栏。Antigravity需要已登录并运行的CLI。
 本版本不提供API余额账号。更新方式为手动退出并替换应用。
 
-卸载前关闭开机启动，再删除应用。本机账号记录会保留。如果Waterline安装了Claude
+卸载时删除应用。本机账号记录会保留。如果Waterline安装了Claude
 statusLine接收命令，请仅删除~/.claude/settings.json中对应Waterline的statusLine项；
 同目录的settings-waterline-backup-*.json保留原设置，不要用旧完整备份覆盖后续其他修改。

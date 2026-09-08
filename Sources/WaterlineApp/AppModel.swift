@@ -1,6 +1,7 @@
 import Darwin
 import Foundation
 import Observation
+import ServiceManagement
 import WaterlineKit
 
 @Observable
@@ -13,6 +14,7 @@ final class AppModel {
     var refreshing: Bool { snapshot.accounts.contains { $0.operation != .idle } }
     private(set) var error: String?
     private(set) var loaded = false
+    private(set) var loginItemCleanupFailed = false
     func setNotchAccounts(_ ids: [AccountID]?) async {
         await perform { try await engine.setNotchAccounts(ids) }
     }
@@ -91,6 +93,7 @@ final class AppModel {
                 if automatic != preferences { try await engine.updatePreferences(automatic) }
             } catch { self.error = "Could not load or save account state." }
             loaded = true
+            await removeRetiredLoginItem()
             await connectOnFirstLaunch()
             await startClaudeLocalMonitor()
             await startClaudeDesktopMonitor()
@@ -98,6 +101,16 @@ final class AppModel {
             await refresh(manual: false)
             await engine.startAutomaticRefresh()
         }
+    }
+
+    private func removeRetiredLoginItem() async {
+        guard !isVerification else { return }
+        let service = SMAppService.mainApp
+        guard service.status == .enabled || service.status == .requiresApproval else { return }
+        do {
+            try await service.unregister()
+            loginItemCleanupFailed = service.status == .enabled || service.status == .requiresApproval
+        } catch { loginItemCleanupFailed = true }
     }
 
     private func installClaudeStatusline() {
@@ -337,7 +350,8 @@ final class AppModel {
     }
 
     var hasProblems: Bool {
-        error != nil || snapshot.storageFailed || snapshot.historyFailed || snapshot.pendingSecretCleanup > 0
+        error != nil || loginItemCleanupFailed || snapshot.storageFailed || snapshot.historyFailed
+            || snapshot.pendingSecretCleanup > 0
             || !snapshot.sourceFailures.isEmpty
             || snapshot.accounts.contains { entry in
                 guard entry.isEnabled(in: snapshot.preferences) else { return false }

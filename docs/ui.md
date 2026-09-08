@@ -421,3 +421,7 @@ conditional account recovery remain visible.
 Owner revision: omit the entire overview heading row (Overview, account count,
 Manage accounts). Put Account display order in the island footer Waterline menu,
 opening the existing native ordering utility directly. Card drag-and-drop remains.
+
+Owner revision: remove launch-at-login entirely, including its menu item. On
+upgrade unregister only Waterline's own existing SMAppService.mainApp registration.
+Do not leave a hidden enabled login item; report an actual cleanup failure.

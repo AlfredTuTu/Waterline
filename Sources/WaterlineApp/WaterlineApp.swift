@@ -18,7 +18,6 @@ struct WaterlineApp: App {
                 Button("Manage accounts") {
                     NSApplication.shared.activate(); openWindow(id: "connections")
                 }.disabled(delegate.model.isVerification)
-                LoginItemSettings()
                 Picker("Language", selection: Binding(get: { localization.language }, set: { localization.select($0) }))
                 {
                     Text("Follow system").tag(AppLanguage.system)

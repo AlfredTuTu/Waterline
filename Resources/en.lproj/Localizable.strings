@@ -447,3 +447,5 @@
 "Could not read local Claude quota." = "Could not read local Claude quota.";
 
 "Could not enable local Claude quota." = "Could not enable local Claude quota.";
+
+"Could not remove the old Waterline login item." = "Could not remove the old Waterline login item.";

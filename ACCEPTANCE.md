@@ -10,8 +10,7 @@ Do not expand additional providers, subscription tiers or new features.
 - [ ] Current UI matches owner decisions: no overview heading, Token records,
   connection guide, redundant account actions or rate-limit explanation. Sorting
   is available directly on cards and in the footer Waterline menu.
-- [ ] Native drag ordering saves and restores; menu language and launch-at-login
-  controls work. First launch connects without a separate guide, with OS
+- [ ] Native drag ordering saves and restores; menu language controls work. Retired launch-at-login registration is removed. First launch connects without a separate guide, with OS
   permission prompts only as required.
 - [ ] Claude CLI local observation -> identity binding -> private bounded storage
   -> engine -> native card is verified with the owner's real account. Duplicate

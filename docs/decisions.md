@@ -183,3 +183,5 @@ Later rows explicitly supersede earlier decisions; an old row is not a current r
 | 2026-09-08 | Remove Token records UI and its verification-only view route; preserve stored records. | Owner explicitly rejected the feature as not useful in the current app. Earlier Token window acceptance is superseded, not marked passed. |
 
 | 2026-09-09 | Publish 0.1.0 as an explicitly unnotarized, ad-hoc-signed Release with manual updates and normal macOS Privacy & Security approval instructions. Keep the formal notarization gate separately. | Owner explicitly accepted this distribution model; lack of Developer ID no longer blocks this first Release. No trust-policy bypass is performed or claimed. |
+
+| 2026-09-09 | Remove launch-at-login and unregister any prior Waterline-owned login item on upgrade. | Owner explicitly rejected this feature after testing it; removing the control must not leave automatic startup enabled. |
