@@ -185,3 +185,5 @@ Later rows explicitly supersede earlier decisions; an old row is not a current r
 | 2026-09-09 | Publish 0.1.0 as an explicitly unnotarized, ad-hoc-signed Release with manual updates and normal macOS Privacy & Security approval instructions. Keep the formal notarization gate separately. | Owner explicitly accepted this distribution model; lack of Developer ID no longer blocks this first Release. No trust-policy bypass is performed or claimed. |
 
 | 2026-09-09 | Remove launch-at-login and unregister any prior Waterline-owned login item on upgrade. | Owner explicitly rejected this feature after testing it; removing the control must not leave automatic startup enabled. |
+
+| 2026-09-09 | Consolidate 56 ignored design-preview files into a verified local ZIP and remove the loose draft directory. | Owner requested project refinement. Earlier design-previews references resolve inside build/archive/design-previews-2026-09-09.zip; this is not a release asset. |

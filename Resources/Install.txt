@@ -12,8 +12,8 @@ use the pin menu to select the daily account. The Waterline menu contains orderi
 collapse and quit. Language selection is in the menu-bar menu. There is no launch-at-login feature.
 
 Saved logins are detected automatically; macOS may ask you to authorize Keychain
-access. Claude's local quota capture starts with a new supported Claude Code
-session and does not replace an existing custom status line. Antigravity requires
+access. Claude usage can come from matching desktop history or a new supported
+Claude Code session. Existing custom status lines are not replaced. Antigravity requires
 its native CLI to be running and signed in. No API balance accounts are offered.
 Updates for this release are manual: quit the app and replace it with a newer copy.
 
@@ -31,8 +31,8 @@ Do not restore an old full settings backup over subsequent unrelated changes.
 
 灵动岛显示一个账号，点击查看全部账号，拖动卡片排序，图钉菜单选择日常账号。
 底部Waterline菜单提供排序、收起和退出；菜单栏菜单提供语言选择，不提供开机启动功能。
-首次运行自动检测本机登录，钥匙串可能要求确认授权。Claude本地额度读取需要新建
-受支持的Claude Code会话，不会替换已有的自定义状态栏。Antigravity需要已登录并运行的CLI。
+首次运行自动检测本机登录，钥匙串可能要求确认授权。Claude额度可读取同一账号的
+桌面版历史记录，或由新建的受支持Claude Code会话提供；不会替换已有的自定义状态栏。Antigravity需要已登录并运行的CLI。
 本版本不提供API余额账号。更新方式为手动退出并替换应用。
 
 卸载时删除应用。本机账号记录会保留。如果Waterline安装了Claude

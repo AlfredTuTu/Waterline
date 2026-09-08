@@ -184,7 +184,7 @@ tile. Bundle scripts generate 16–1024 pixel ICNS representations and declare `
 The menu-bar label and empty-island fallback use a matching native two-stroke template image;
 macOS supplies its monochrome appearance. `LSUIElement` accessory behavior is unchanged.
 The production source and provenance are `Resources/AppIcon.png` and `Resources/AppIcon.md`.
-Exploratory alternatives remain in the ignored local `design-previews/` directory.
+Exploratory alternatives are consolidated in the ignored local `build/archive/design-previews-2026-09-09.zip` archive.
 
 | Trigger | Behaviour |
 |---|---|
