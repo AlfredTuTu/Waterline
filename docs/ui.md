@@ -327,3 +327,10 @@ Quota details retain provider/model groups. Each group starts its own grid row a
 sorts known cadence from shortest to longest, independently of utilization or freshness.
 Thus paired 5h/7d windows stay left/right; a one-window group cannot shift the next
 group's 5h window into the right column. Unknown cadences remain after known ones.
+
+## Saved-key access recovery — 2026-09-08
+
+A manual API account with keychainLocked offers Connect to authorize reading its
+existing saved key, not Update key. The action calls the same account-specific
+manual reconnect used by Settings and shows Connecting while that operation runs.
+Missing/rejected manual credentials still direct users to key management.

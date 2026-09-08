@@ -532,12 +532,14 @@ struct AccountsView: View {
             Text(AppText.format("Next allowed refresh: %@", deadline.formatted(date: .abbreviated, time: .shortened)))
                 .font(.caption).foregroundStyle(.secondary)
         }
-        if error.needsConnect {
+        if entry.operation == .connecting {
+            ProgressView("Connecting…").controlSize(.small)
+        } else if error.needsConnect {
             if entry.account.optionalCredentialSource != nil {
                 Text("Check the source configuration, then check this source again.").font(.caption).foregroundStyle(
                     .secondary)
                 Button("Check source") { Task { await model.reconnect(entry) } }.buttonStyle(.bordered)
-            } else if entry.account.credential == .manual {
+            } else if entry.account.credential == .manual && error != .keychainLocked {
                 Button("Update key in Settings") {
                     close(); NSApplication.shared.activate(); openSettings()
                 }.buttonStyle(.bordered)

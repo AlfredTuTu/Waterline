@@ -1102,3 +1102,19 @@ The toggle was disabled afterward and the original Claude settings semantics wer
 restored by canonical-JSON fingerprint comparison. Evidence:
 `build/verification/hook-native-banner.json`. This proves local IPC and native
 banner behavior for these events, not a real model failure or provider quota change.
+
+
+2026-09-08 manual saved-key recovery: overview no longer routes keychainLocked
+manual accounts to key replacement. It offers Connect, announces the interactive
+read and routes to AppModel.reconnect / Engine.reconnectManualAccount for that
+account. Connecting state suppresses repeated recovery buttons. Missing/rejected
+manual credentials retain key management. Full make verify passed; the existing
+manualReconnectReadsOnlyChosenAccountWithoutRewritingKey regression checks scoped
+interactive read, no key write and fresh completion using injected dependencies.
+The installed Release SHA-256 is
+`a8f314f927be6204d017d4129744fba85ac621a350816566f7aa5c5a6f5dc57d`.
+Native overview showed Connect for Moonshot and MiniMax keychainLocked, while
+DeepSeek unauthorized still showed Update key in Settings. No real Keychain
+permission dialog was initiated for this UI check, so authorization-to-fresh
+completion remains unverified on this build. Previous bundle and all account
+configuration were retained; evidence: manual-access-recovery-installation.json.
