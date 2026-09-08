@@ -165,3 +165,5 @@ Later rows explicitly supersede earlier decisions; an old row is not a current r
 | 2026-09-08 | Persist optional account display order separately from daily selection; sort detailed windows by cadence within independent model groups. Snapshot/config schemas advance to 13/5. | Owner requested configurable account positions and consistent 5h-left/7d-right pairs without hiding accounts or changing credentials. |
 
 | 2026-09-08 | Preserve the verified Claude Code, ChatGPT, independent Grok, Cursor and Antigravity connection configuration while continuing other work. | The owner asked that these five stop being repeatedly reconfigured once working; display order remains independently user-controlled. |
+
+| 2026-09-08 | Replace account-order arrow buttons with native drag-and-drop; remove automatic overview sorting and use configuration order when no explicit order exists. Render monochrome provider marks as adaptive templates. | Owner requested direct manipulation, stable account positions and visible icons in light settings. |

@@ -4,14 +4,14 @@ import Testing
 @testable import WaterlineKit
 
 struct DashboardTests {
-    @Test func overviewShowsAllAccountsWithDailySelectionFirst() {
+    @Test func overviewKeepsAccountPositionsIndependentOfDailySelection() {
         let rows = (0..<6).map { entry("account-\($0)", usage: .windows(windows: [], plan: nil)) }
         let selected = rows[5].account.id
         let snapshot = Snapshot(
             generatedAt: Date(), accounts: rows,
             preferences: UserPreferences(notchAccountIDs: [selected]))
         let visible = Dashboard.overviewAccounts(snapshot, frozenIDs: rows.map(\.account.id))
-        #expect(visible.map(\.account.id) == [selected] + rows.prefix(5).map(\.account.id))
+        #expect(visible.map(\.account.id) == rows.map(\.account.id))
         #expect(Set(visible.map(\.account.id)).count == 6)
     }
 

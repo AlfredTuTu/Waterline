@@ -9,7 +9,7 @@ Data and freshness follow `ARCHITECTURE.md`.
 Use [Agent Island](https://agent-island.dev/zh/) as a visual reference, not a product clone. The owner
 has more providers/accounts: use a black notch-connected surface, generous percent typography and
 segmented meters, with a compact footer. Header and body share one continuous black outer contour; never stack an independently rounded capsule above a rectangular card. Expanded content uses a single full-width surface, with a straight top edge against the display and rounded bottom corners. Floating mode has rounded top and bottom corners. Overview shows all configured accounts in two columns with scrolling and no count cap; paused accounts remain visible with their state.
-critical/warning and unavailable accounts precede healthy accounts. User-pinned accounts precede ordinary health ordering; account pins, labels and enablement are saved by the engine and exposed in Settings. Each summary shows at most two primary windows; additional
+Account positions follow saved manual order, or configuration order before the first reorder. Health changes and daily selection do not move rows; labels and enablement are saved by the engine and exposed in Settings. Each summary shows at most two primary windows; additional
 buckets stay discoverable via the account detail action. Manage accounts opens the scrollable, provider-filtered Settings view. Multiple identities of a provider get a stable-order local ordinal until a safe user label exists.
 
 Hover opens an overview without focus; clicking the header brings keyboard focus without pinning. Leaving the island or switching to another app closes an unpinned panel. Only the explicit footer pin button keeps it open. Account title/more-windows
@@ -135,15 +135,8 @@ or its fingerprint. Quota and balance are sections of that same row when both ex
 | Unsupported | Provider/account and a concise capability reason. No implication that retrying will enable it. |
 | Gateway (v0.2) | Gateway identity with `via <gateway>`; show only its own verified metrics. Unknown gateways show `Usage unavailable`. |
 
-Account order: accounts with fresh eligible window fractions first, descending by worst fraction;
-then accounts with fresh balances, critical/OK/no threshold; then other fresh partial metrics, stale,
-pending, unavailable and unsupported accounts. Break ties with the stable account order above.
-For an account with both kinds, the window determines its group when eligible; its balances stay in
-that account's row. Freeze order while a control has focus or the pointer is interacting with a row.
-The native implementation conservatively freezes the account order while the pointer is inside the
-account surface or the panel is the key window. Values continue updating; new identities append and
-removed identities disappear. Once neither condition holds, normal priority ordering resumes. This
-keeps keyboard descendants covered without replacing the hosting view or freezing provider data.
+Account order remains stable as values and health update. Native dragging in Settings saves
+the user-defined order. New identities append and removed identities disappear.
 
 Show discovery errors as source-level messages even if no account could be identified. Zero discovered
 accounts with no errors shows a short explanation, `Check again` and connection guidance; if a source
@@ -323,12 +316,12 @@ claiming that accounts need connecting.
 
 ## Owner ordering controls — 2026-09-08
 
-Settings → Accounts → Account display order offers up/down controls and automatic
-save. Order is left-to-right, then top-to-bottom in the two-column overview. An
-explicit order overrides health sorting and the daily selection's overview priority;
-the compact island's selected account is unchanged. New accounts append to the saved
-order and removed accounts are pruned. Automatic order restores the existing health
-ordering. All accounts remain visible, including paused accounts.
+Settings → Accounts → Account display order uses native drag-and-drop rows, with
+accessibility move actions. Dropping saves the complete account order. There is no
+automatic sorting control: overview positions do not change with health, usage or
+daily selection. Without a saved order, configuration order is used. New accounts
+append and removed accounts are pruned. All accounts remain visible, including paused
+accounts. Monochrome provider marks use template rendering for light/dark contrast.
 
 Quota details retain provider/model groups. Each group starts its own grid row and
 sorts known cadence from shortest to longest, independently of utilization or freshness.

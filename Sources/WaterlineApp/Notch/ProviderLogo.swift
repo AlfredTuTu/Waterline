@@ -23,7 +23,9 @@ struct ProviderLogo: View {
 
     var body: some View {
         if let provider, let image = Self.images[provider] {
-            Image(nsImage: image).resizable().scaledToFit()
+            Image(nsImage: image)
+                .renderingMode([Provider.moonshot, .cursor, .grok, .xai].contains(provider) ? .template : .original)
+                .resizable().scaledToFit()
                 .accessibilityHidden(true)
         } else {
             Image(nsImage: WaterlineMark.image).resizable().scaledToFit().foregroundStyle(.cyan)

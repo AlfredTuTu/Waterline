@@ -415,3 +415,5 @@
 "Account list changed. Try ordering it again." = "账号列表已变化，请重新调整顺序。";
 
 "Done" = "完成";
+
+"Drag accounts to reorder. Changes save automatically." = "拖拽账号调整顺序，松开后自动保存。";
