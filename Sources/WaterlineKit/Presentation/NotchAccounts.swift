@@ -12,13 +12,14 @@ extension Dashboard {
 
     public static func overviewAccounts(_ snapshot: Snapshot, frozenIDs: [AccountID]? = nil) -> [AccountEntry] {
         let preferred = ordered(snapshot.accounts, preferences: snapshot.preferences)
+        if snapshot.preferences.accountOrder != nil { return preferred }
         let stable = frozenIDs.map { preservingOrder(preferred, ids: $0) } ?? preferred
         let selected = snapshot.preferences.notchAccountIDs == nil ? [] : notchAccounts(snapshot)
         let selectedIDs = Set(selected.map(\.account.id))
         let remaining = stable.filter {
-            !selectedIDs.contains($0.account.id) && $0.isEnabled(in: snapshot.preferences)
+            !selectedIDs.contains($0.account.id)
         }
-        return Array((selected + remaining).prefix(4))
+        return selected + remaining
     }
 
     public static func accountHeadline(

@@ -8,10 +8,9 @@ Data and freshness follow `ARCHITECTURE.md`.
 
 Use [Agent Island](https://agent-island.dev/zh/) as a visual reference, not a product clone. The owner
 has more providers/accounts: use a black notch-connected surface, generous percent typography and
-segmented meters, with a compact footer. Header and body share one continuous black outer contour; never stack an independently rounded capsule above a rectangular card. Expanded content uses a single full-width surface, with a straight top edge against the display and rounded bottom corners. Floating mode has rounded top and bottom corners. Overview shows up to four two-column account summaries;
+segmented meters, with a compact footer. Header and body share one continuous black outer contour; never stack an independently rounded capsule above a rectangular card. Expanded content uses a single full-width surface, with a straight top edge against the display and rounded bottom corners. Floating mode has rounded top and bottom corners. Overview shows all configured accounts in two columns with scrolling and no count cap; paused accounts remain visible with their state.
 critical/warning and unavailable accounts precede healthy accounts. User-pinned accounts precede ordinary health ordering; account pins, labels and enablement are saved by the engine and exposed in Settings. Each summary shows at most two primary windows; additional
-buckets stay discoverable via the account detail action. All accounts is a scrollable, provider-filtered
-view. Multiple identities of a provider get a stable-order local ordinal until a safe user label exists.
+buckets stay discoverable via the account detail action. Manage accounts opens the scrollable, provider-filtered Settings view. Multiple identities of a provider get a stable-order local ordinal until a safe user label exists.
 
 Hover opens an overview without focus; clicking the header brings keyboard focus without pinning. Leaving the island or switching to another app closes an unpinned panel. Only the explicit footer pin button keeps it open. Account title/more-windows
 opens details in that panel with Back. Settings will use a native settings window. Row actions never
@@ -317,8 +316,21 @@ The daily headline keeps its shortest primary cadence at reset boundaries: when 
 window has expired, show Awaiting update until a fresh response arrives, rather than
 switching the unlabelled percentage to a weekly or additional-model window.
 
-An explicitly selected daily account stays first in the four-account overview, even
-when it would otherwise fall beyond the visible limit. Its paused state remains visible
+An explicitly selected daily account stays first in the complete scrollable overview. Its paused state remains visible
 so it can be managed. Other rows keep their interaction-frozen order. With existing
 accounts but no daily selection, the compact control says Choose an account rather than
 claiming that accounts need connecting.
+
+## Owner ordering controls — 2026-09-08
+
+Settings → Accounts → Account display order offers up/down controls and automatic
+save. Order is left-to-right, then top-to-bottom in the two-column overview. An
+explicit order overrides health sorting and the daily selection's overview priority;
+the compact island's selected account is unchanged. New accounts append to the saved
+order and removed accounts are pruned. Automatic order restores the existing health
+ordering. All accounts remain visible, including paused accounts.
+
+Quota details retain provider/model groups. Each group starts its own grid row and
+sorts known cadence from shortest to longest, independently of utilization or freshness.
+Thus paired 5h/7d windows stay left/right; a one-window group cannot shift the next
+group's 5h window into the right column. Unknown cadences remain after known ones.

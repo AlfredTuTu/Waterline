@@ -45,7 +45,7 @@ public struct ClaudeCodeAdapter: ProviderAdapter {
             let profile = try await http.send(
                 HTTPRequest(
                     url: URL(string: "https://api.anthropic.com/api/oauth/profile")!,
-                    headers: ["Authorization": "Bearer \(secret.value)", "Accept": "application/json"]))
+                    headers: Self.oauthHeaders(secret)))
             try profile.validateStatus()
             let identity = try Self.parseIdentity(profile.body)
             return Discovered(
@@ -66,12 +66,16 @@ public struct ClaudeCodeAdapter: ProviderAdapter {
         let response = try await http.send(
             HTTPRequest(
                 url: URL(string: "https://api.anthropic.com/api/oauth/usage")!,
-                headers: [
-                    "Authorization": "Bearer \(secret.value)", "anthropic-beta": "oauth-2025-04-20",
-                    "Accept": "application/json", "User-Agent": "Waterline/\(WaterlineVersion.current)",
-                ]))
+                headers: Self.oauthHeaders(secret)))
         try response.validateStatus()
         return try Self.parse(response.body, plan: account.plan)
+    }
+
+    private static func oauthHeaders(_ secret: Secret) -> [String: String] {
+        [
+            "Authorization": "Bearer \(secret.value)", "anthropic-beta": "oauth-2025-04-20",
+            "Accept": "application/json", "User-Agent": "Waterline/\(WaterlineVersion.current)",
+        ]
     }
 
     static func parseIdentity(_ data: Data) throws -> BillingIdentity {

@@ -59,6 +59,11 @@
       "provider": "qwen",
       "url": "https://unpkg.com/@lobehub/icons-static-png@1.97.0/dark/qwen-color.png",
       "sha256": "de9bc7e285164e0d284a7b9555511c7f7767af7699d6272b3b67b376eeddbfb3"
+    },
+    {
+      "provider": "grok",
+      "url": "https://unpkg.com/@lobehub/icons-static-png@1.97.0/dark/grok.png",
+      "sha256": "dbd7bf8431752d3a1ad00f7b3b28df4ef5bd508cdb8583c3bd9f579936545fa0"
     }
   ]
 }

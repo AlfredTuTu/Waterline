@@ -162,7 +162,14 @@ extension Engine {
 
     func saveConfiguration(_ next: Configuration) throws {
         var next = next
-        next.schemaVersion = 3
+        next.schemaVersion = 5
+        if let order = next.preferences.accountOrder {
+            let ids = next.accounts.map(\.account.id)
+            let known = Set(ids)
+            let retained = order.filter { known.contains($0) }
+            let positioned = Set(retained)
+            next.preferences.accountOrder = retained + ids.filter { !positioned.contains($0) }
+        }
         do { try configurationStore.save(next) } catch { configurationFailed = true; broadcast(); throw error }
         configuration = next
         configurationFailed = false

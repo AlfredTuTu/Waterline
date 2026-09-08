@@ -13,6 +13,7 @@ struct SettingsView: View {
     @State private var accountSearch = ""
     @State private var accountProvider: Provider?
     @State private var showGuide = false
+    @State private var showAccountOrder = false
     @AppStorage("connectionGuideCompleted") private var guideCompleted = false
 
     var body: some View {
@@ -52,6 +53,7 @@ struct SettingsView: View {
         .padding(18).frame(width: 590, height: 480)
         .disabled(model.isVerification)
         .onAppear { if !guideCompleted { showGuide = true } }
+        .sheet(isPresented: $showAccountOrder) { AccountOrderSheet(model: model) }
         .sheet(isPresented: $showGuide) {
             ConnectionGuide(model: model) {
                 guideCompleted = true
@@ -75,7 +77,12 @@ struct SettingsView: View {
     private var accounts: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                Text("Accounts").font(.headline)
+                HStack {
+                    Text("Accounts").font(.headline)
+                    Spacer()
+                    Button("Account display order") { showAccountOrder = true }
+                        .disabled(model.snapshot.accounts.count < 2)
+                }
                 if model.snapshot.accounts.isEmpty { Text("No connected accounts.").foregroundStyle(.secondary) }
                 HStack {
                     TextField("Search accounts", text: $accountSearch)

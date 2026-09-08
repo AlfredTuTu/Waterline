@@ -104,7 +104,7 @@ public struct SourceFailure: Codable, Sendable, Hashable {
 }
 
 public struct Snapshot: Codable, Sendable, Hashable {
-    public static let currentVersion = 11
+    public static let currentVersion = 13
     public let schemaVersion: Int
     public let generatedAt: Date
     public let accounts: [AccountEntry]

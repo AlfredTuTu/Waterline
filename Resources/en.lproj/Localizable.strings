@@ -397,3 +397,21 @@
 "Could not find the bundled Waterline command. Reinstall the app and try again." = "Could not find the bundled Waterline command. Reinstall the app and try again.";
 
 "Claude Code has disabled hooks. Enable them there before connecting activity." = "Claude Code has disabled hooks. Enable them there before connecting activity.";
+
+"%@ accounts" = "%@ accounts";
+
+"Grok Build’s saved OAuth login. Consumer subscription usage, not API billing." = "Grok Build’s saved OAuth login. Consumer subscription usage, not API billing.";
+
+"Account display order" = "Account display order";
+
+"Left to right, top to bottom. Changes save automatically." = "Left to right, top to bottom. Changes save automatically.";
+
+"Move %@ up" = "Move %@ up";
+
+"Move %@ down" = "Move %@ down";
+
+"Automatic order" = "Automatic order";
+
+"Account list changed. Try ordering it again." = "Account list changed. Try ordering it again.";
+
+"Done" = "Done";

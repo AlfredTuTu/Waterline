@@ -6,6 +6,7 @@ public enum SettingsError: Error, Equatable {
     case invalidLabel
     case accountNotFound
     case engineNotStarted
+    case invalidAccountOrder
     case invalidNotchSelection
 }
 
@@ -31,11 +32,13 @@ public struct UserPreferences: Codable, Sendable, Hashable {
     public var enabledCredentialSources: Set<OptionalCredentialSource>?
     /// Nil selects automatically; an empty list explicitly shows no accounts.
     public var notchAccountIDs: [AccountID]?
+    public var accountOrder: [AccountID]?
 
     public init(
         refreshInterval: TimeInterval = 300, windowWarning: Double = 0.7, windowCritical: Double = 0.9,
         balanceThresholds: [String: Decimal] = ["CNY": 50, "USD": 10], disabledProviders: Set<Provider> = [],
-        enabledCredentialSources: Set<OptionalCredentialSource>? = nil, notchAccountIDs: [AccountID]? = nil
+        enabledCredentialSources: Set<OptionalCredentialSource>? = nil, notchAccountIDs: [AccountID]? = nil,
+        accountOrder: [AccountID]? = nil
     ) {
         self.refreshInterval = refreshInterval
         self.windowWarning = windowWarning
@@ -44,9 +47,11 @@ public struct UserPreferences: Codable, Sendable, Hashable {
         self.disabledProviders = disabledProviders
         self.enabledCredentialSources = enabledCredentialSources
         self.notchAccountIDs = notchAccountIDs
+        self.accountOrder = accountOrder
     }
 
     public func validate() throws {
+        if let ids = accountOrder, Set(ids).count != ids.count { throw SettingsError.invalidAccountOrder }
         if let ids = notchAccountIDs, ids.count > 2 || Set(ids).count != ids.count {
             throw SettingsError.invalidNotchSelection
         }
@@ -70,13 +75,13 @@ struct ManagedAccount: Codable, Sendable, Hashable {
 }
 
 struct Configuration: Codable, Sendable {
-    var schemaVersion = 3
+    var schemaVersion = 5
     var preferences = UserPreferences()
     var accounts: [ManagedAccount] = []
     var removed: [Account] = []
 
     func validate() throws {
-        guard (1...3).contains(schemaVersion) else { throw SnapshotStoreError.unsupportedVersion(schemaVersion) }
+        guard (1...5).contains(schemaVersion) else { throw SnapshotStoreError.unsupportedVersion(schemaVersion) }
         try preferences.validate()
         guard Set(accounts.map(\.account.id)).count == accounts.count else {
             throw SettingsError.invalidLabel

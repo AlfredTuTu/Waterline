@@ -397,3 +397,21 @@
 "Could not find the bundled Waterline command. Reinstall the app and try again." = "找不到Waterline内置命令，请重新安装应用后重试。";
 
 "Claude Code has disabled hooks. Enable them there before connecting activity." = "Claude Code已禁用Hook，请先在其中启用，再连接会话活动。";
+
+"%@ accounts" = "%@个账号";
+
+"Grok Build’s saved OAuth login. Consumer subscription usage, not API billing." = "读取Grok Build保存的OAuth登录，查询个人订阅用量，与开发者API账单分开。";
+
+"Account display order" = "账号显示顺序";
+
+"Left to right, top to bottom. Changes save automatically." = "按从左到右、从上到下排列，修改后自动保存。";
+
+"Move %@ up" = "将%@上移";
+
+"Move %@ down" = "将%@下移";
+
+"Automatic order" = "自动排序";
+
+"Account list changed. Try ordering it again." = "账号列表已变化，请重新调整顺序。";
+
+"Done" = "完成";

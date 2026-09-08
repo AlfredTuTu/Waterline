@@ -157,3 +157,11 @@ Later rows explicitly supersede earlier decisions; an old row is not a current r
 | 2026-09-08 | Pin Sparkle 2.9.6 in the app target for signed native updates, ship its full license and embed/sign nested components. No feed/key is configured; missing release configuration keeps the updater uninitialized. | Reuse a maintained native installer instead of writing executable replacement logic; provider credentials never enter the updater. |
 
 | 2026-09-08 | Optional Claude command hooks send only hashed session/kind/time over local distributed notifications. Native opt-in owns exact hook entries; disable stops reception before retryable cleanup. | Tool-session activity must not expose conversations, infer quota identity, or silently modify tool configuration at startup. |
+
+| 2026-09-08 | Overview shows every configured account in two columns, including paused rows, with scrolling instead of a count cap. | The owner explicitly requested all accounts remain visible; prioritizing five integrations does not limit account visibility. |
+
+| 2026-09-08 | Add an independent Grok/SuperGrok provider from the official CLI OIDC cache; keep xAI API billing and Cursor Grok Bot separate. Snapshot/config schemas advance to 12/4 with legacy backups. | The owner explicitly selected the independent consumer account among five priority integrations. |
+
+| 2026-09-08 | Persist optional account display order separately from daily selection; sort detailed windows by cadence within independent model groups. Snapshot/config schemas advance to 13/5. | Owner requested configurable account positions and consistent 5h-left/7d-right pairs without hiding accounts or changing credentials. |
+
+| 2026-09-08 | Preserve the verified Claude Code, ChatGPT, independent Grok, Cursor and Antigravity connection configuration while continuing other work. | The owner asked that these five stop being repeatedly reconfigured once working; display order remains independently user-controlled. |

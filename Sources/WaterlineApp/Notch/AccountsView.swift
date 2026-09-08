@@ -24,7 +24,7 @@ struct AccountsView: View {
         case .deepseek: Color(red: 0.46, green: 0.60, blue: 0.98)
         case .zhipu, .qwen: Color(red: 0.68, green: 0.61, blue: 0.94)
         case .minimax: Color(red: 0.91, green: 0.57, blue: 0.67)
-        case .xai: Color(red: 0.74, green: 0.81, blue: 0.87)
+        case .xai, .grok: Color(red: 0.74, green: 0.81, blue: 0.87)
         case .antigravity: Color(red: 0.57, green: 0.75, blue: 0.93)
         }
     }
@@ -63,6 +63,8 @@ struct AccountsView: View {
             if selectedAccount == nil {
                 HStack(spacing: 16) {
                     Text("Overview").foregroundStyle(.white)
+                    Text(AppText.format("%@ accounts", String(model.snapshot.accounts.count)))
+                        .foregroundStyle(.secondary)
                     Spacer()
                     Button("Manage accounts") {
                         model.settingsTab = "accounts"
@@ -82,8 +84,6 @@ struct AccountsView: View {
                         Text("Open Settings to connect your coding tools, then refresh to see their usage.")
                             .foregroundStyle(.secondary)
                     }.padding(.vertical, 24)
-                } else if selectedAccount == nil && visibleAccounts.isEmpty {
-                    Text("All accounts are paused. Open Manage accounts to resume.").foregroundStyle(.secondary)
                 } else if let selectedAccount,
                     let entry = model.snapshot.accounts.first(where: { $0.account.id == selectedAccount })
                 {
@@ -104,7 +104,7 @@ struct AccountsView: View {
                         .orange)
                 }
             }
-            .scrollIndicators(.hidden)
+            .scrollIndicators(.visible)
             Rectangle().fill(.white.opacity(0.10)).frame(height: 1).padding(.top, 15)
             HStack(spacing: 14) {
                 if selectedAccount != nil {
@@ -319,62 +319,64 @@ struct AccountsView: View {
             }
             if let reading = entry.state.reading {
                 let amountWindows = reading.usage.quotaWindows.filter { $0.unit == "USD" && $0.usedFraction == nil }
-                let detailWindows = reading.usage.quotaWindows.filter { !($0.unit == "USD" && $0.usedFraction == nil) }
+                let detailGroups = Dashboard.detailWindowGroups(reading.usage)
+                    .map { $0.filter { !($0.unit == "USD" && $0.usedFraction == nil) } }
+                    .filter { !$0.isEmpty }
                 if let reason = reading.usage.unsupportedReason {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("Not supported").font(.system(size: 13, weight: .medium))
                         Text(AppText.text(reason)).font(.caption).foregroundStyle(.white.opacity(0.60))
                     }
                 } else if detail {
-                    LazyVGrid(
-                        columns: Array(
-                            repeating: GridItem(.flexible(), spacing: 22, alignment: .topLeading),
-                            count: min(
-                                detail || accountColumns == 1 ? 2 : 1,
-                                max(
-                                    1,
-                                    (detail ? detailWindows : Dashboard.overviewWindows(reading.usage))
-                                        .count))
-                        ),
-                        spacing: 20
-                    ) {
-                        ForEach(
-                            Array(
-                                (detail ? detailWindows : Dashboard.overviewWindows(reading.usage))
-                                    .enumerated()), id: \.offset
-                        ) { _, window in
-                            metric(
-                                window, provider: entry.account.provider,
-                                fresh: isLive(entry)
-                                    && window.isCurrent(
-                                        at: Date(),
-                                        fallbackObservation: reading.observedAt,
-                                        interval: model.snapshot.preferences.refreshInterval)
-                            )
-                        }
-                        ForEach(reading.usage.balances, id: \.currency) { balance in
-                            let current =
-                                isLive(entry)
-                                && balance.isCurrent(
-                                    at: Date(), fallbackObservation: reading.observedAt,
-                                    interval: model.snapshot.preferences.refreshInterval)
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text(
-                                    balance.basis == .postedLedger
-                                        ? AppText.format("Posted prepaid credit · %@", balance.currency)
-                                        : balance.currency
-                                ).font(.caption).foregroundStyle(.secondary)
-                                Text(balance.amount.description).font(.system(size: 23, weight: .medium))
-                                    .monospacedDigit()
-                                    .foregroundStyle(current ? Color.white : .gray)
-                                if !current {
-                                    Text(
-                                        AppText.format(
-                                            "Earlier reading · %@",
-                                            (balance.observedAt ?? reading.observedAt).formatted(
-                                                date: .omitted, time: .shortened))
+                    VStack(spacing: 20) {
+                        ForEach(Array(detailGroups.enumerated()), id: \.offset) { _, windows in
+                            LazyVGrid(
+                                columns: Array(
+                                    repeating: GridItem(.flexible(), spacing: 22, alignment: .topLeading),
+                                    count: min(2, windows.count)),
+                                spacing: 20
+                            ) {
+                                ForEach(Array(windows.enumerated()), id: \.offset) { _, window in
+                                    metric(
+                                        window, provider: entry.account.provider,
+                                        fresh: isLive(entry)
+                                            && window.isCurrent(
+                                                at: Date(), fallbackObservation: reading.observedAt,
+                                                interval: model.snapshot.preferences.refreshInterval)
                                     )
-                                    .font(.caption).foregroundStyle(.secondary)
+                                }
+                            }
+                        }
+                        LazyVGrid(
+                            columns: Array(
+                                repeating: GridItem(.flexible(), spacing: 22, alignment: .topLeading),
+                                count: min(2, max(1, reading.usage.balances.count))),
+                            spacing: 20
+                        ) {
+                            ForEach(reading.usage.balances, id: \.currency) { balance in
+                                let current =
+                                    isLive(entry)
+                                    && balance.isCurrent(
+                                        at: Date(), fallbackObservation: reading.observedAt,
+                                        interval: model.snapshot.preferences.refreshInterval)
+                                VStack(alignment: .leading, spacing: 8) {
+                                    Text(
+                                        balance.basis == .postedLedger
+                                            ? AppText.format("Posted prepaid credit · %@", balance.currency)
+                                            : balance.currency
+                                    ).font(.caption).foregroundStyle(.secondary)
+                                    Text(balance.amount.description).font(.system(size: 23, weight: .medium))
+                                        .monospacedDigit()
+                                        .foregroundStyle(current ? Color.white : .gray)
+                                    if !current {
+                                        Text(
+                                            AppText.format(
+                                                "Earlier reading · %@",
+                                                (balance.observedAt ?? reading.observedAt).formatted(
+                                                    date: .omitted, time: .shortened))
+                                        )
+                                        .font(.caption).foregroundStyle(.secondary)
+                                    }
                                 }
                             }
                         }

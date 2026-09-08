@@ -222,6 +222,10 @@ final class AppModel {
         await engine.balanceHistory(for: id, period: period)
     }
 
+    func setAccountOrder(_ ids: [AccountID]?) async {
+        await perform { try await engine.setAccountOrder(ids) }
+    }
+
     func savePreferences(_ preferences: UserPreferences) async {
         await perform { try await engine.updatePreferences(preferences) }
     }
@@ -232,6 +236,8 @@ final class AppModel {
             error = "Refresh interval must be between 60 and 3600 seconds."
         } catch SettingsError.invalidThresholds {
             error = "Use positive balance thresholds and warning below critical."
+        } catch SettingsError.invalidAccountOrder {
+            error = "Account list changed. Try ordering it again."
         } catch SettingsError.invalidNotchSelection {
             error = "Choose one account for the notch."
         } catch SettingsError.invalidLabel {

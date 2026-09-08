@@ -1033,3 +1033,20 @@ measured-installation.json and measured-installation-state.json. This supersedes
 earlier notes that the installed copy lacks the updater/hook candidate. Neither
 feature was enabled by installation. Native UI, signing and clean-user acceptance
 remain open; the Mac was still locked.
+
+2026-09-08 owner-priority account and presentation checkpoint: independent Grok
+consumer OIDC discovery/billing was added separately from xAI API and Cursor Grok Bot.
+The installed app displayed nine configured accounts, with the final Grok card reachable
+by native scrolling. Antigravity detail was visually checked: each model group shows
+5h on the left and 7d on the right. Account display order is adjustable in Settings;
+a native up-move saved, survived application restart, and was restored to the original
+automatic order afterward. Daily notch selection remained unchanged. Evidence:
+order-ui-restart.json, order-ui-restored.json and order-and-cadence-native.json.
+
+Full gate passed 308 Swift tests and 4 Python tests. Final live snapshot showed current
+responses for all five owner-priority providers: Claude Code, ChatGPT/Codex, independent
+Grok, Cursor and Antigravity. The current app binary is retained; further work should
+not reset their identities, reimport credentials or alter their connection settings
+without a concrete fault or owner request. Other API accounts and formal release
+acceptance remain separate, unfinished work. Snapshot/config schemas are now 13/5;
+legacy state and prior application backups were preserved during installation.

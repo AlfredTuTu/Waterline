@@ -4,15 +4,15 @@ import Testing
 @testable import WaterlineKit
 
 struct DashboardTests {
-    @Test func explicitDailyAccountRemainsVisibleBeyondTheOverviewLimit() {
+    @Test func overviewShowsAllAccountsWithDailySelectionFirst() {
         let rows = (0..<6).map { entry("account-\($0)", usage: .windows(windows: [], plan: nil)) }
         let selected = rows[5].account.id
         let snapshot = Snapshot(
             generatedAt: Date(), accounts: rows,
             preferences: UserPreferences(notchAccountIDs: [selected]))
         let visible = Dashboard.overviewAccounts(snapshot, frozenIDs: rows.map(\.account.id))
-        #expect(visible.map(\.account.id) == [selected, rows[0].account.id, rows[1].account.id, rows[2].account.id])
-        #expect(Set(visible.map(\.account.id)).count == 4)
+        #expect(visible.map(\.account.id) == [selected] + rows.prefix(5).map(\.account.id))
+        #expect(Set(visible.map(\.account.id)).count == 6)
     }
 
     @Test func selectedPausedAccountRemainsAvailableForRecovery() {
@@ -22,7 +22,8 @@ struct DashboardTests {
         #expect(Dashboard.overviewAccounts(selected).map(\.account.id) == [row.account.id])
         let automatic = Snapshot(
             generatedAt: Date(), accounts: [row], preferences: UserPreferences(disabledProviders: [.deepseek]))
-        #expect(Dashboard.overviewAccounts(automatic).isEmpty)
+        #expect(Dashboard.overviewAccounts(automatic).map(\.account.id) == [row.account.id])
+        #expect(Dashboard.notchAccounts(automatic).isEmpty)
     }
 
     @Test func dailySelectionShowsOnlyFirstLegacyAccountAndNeverSubstitutesAnother() {

@@ -94,6 +94,7 @@ struct ConnectionGuide: View {
         case .codex: "Codex’s saved local login file. API-key-only logins do not report subscription quota here."
         case .claudeCode: "Claude Code’s saved Keychain login, or its credentials file when no Keychain item exists."
         case .cursor: "Cursor’s local login database, opened read-only."
+        case .grok: "Grok Build’s saved OAuth login. Consumer subscription usage, not API billing."
         case .deepseek: "Manual key, or explicitly enabled environment and Claude Code settings sources."
         default:
             descriptor.supportsManualKey

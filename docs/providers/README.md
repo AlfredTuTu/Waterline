@@ -14,7 +14,8 @@ establish live support; unreviewed candidate notes remain provisional.
 | [Claude Code](claude-code.md) | `claudeCode` | Registered; Pro 5h/7d live 2026-09-07; renewed source permission can still be required | windows | community | Named Keychain item or credentials file | v0.1 |
 | [Codex](codex.md) | `codex` | Registered; live quota 2026-09-07, one account | windows | community / local records | Tool auth file; local usage records | v0.1 |
 | [Cursor](cursor.md) | `cursor` | Registered; one Pro summary/Grok Bot live 2026-09-07 | separate usage pools and reported caps | community | Read-only tool SQLite | v0.1 |
-| [xAI / Grok](xai.md) | `xai` | Registered posted-ledger/team flow; offline only | billing usage and/or balance; allowance denominator unverified | official candidate | Manual management key, account/team scope | v0.1 |
+| [Grok / SuperGrok](grok.md) | `grok` | Consumer OIDC adapter; direct weekly endpoint and native discovery/refresh live 2026-09-08 | subscription windows | official client source | Grok Build auth file | priority |
+| [xAI API](xai.md) | `xai` | Registered posted-ledger/team flow; offline only | billing usage and/or balance; allowance denominator unverified | official candidate | Manual management key, account/team scope | v0.1 |
 | [Zhipu GLM](zhipu.md) | `zhipu` | Registered personal CN/global; offline only | windows / named quotas | community | Opted-in named config keys or manual key | v0.2 |
 | [Kimi Code](kimi-code.md) | `kimiCode` | Registered manual key; offline only | windows | community | Opted-in named config keys or manual key | v0.2 |
 | [Moonshot](moonshot.md) | `moonshot` | Registered CN/global; CN manual CLI live 2026-09-07, app Keychain restart access pending | balance | official candidate | Regional config/manual key | v0.2 |

@@ -14,7 +14,8 @@ public enum Dashboard {
     public static func ordered(
         _ entries: [AccountEntry], preferences: UserPreferences = UserPreferences(), now: Date = Date()
     ) -> [AccountEntry] {
-        entries.sorted {
+        if let order = preferences.accountOrder { return preservingOrder(entries, ids: order) }
+        return entries.sorted {
             let left = priority($0, preferences: preferences, now: now)
             let right = priority($1, preferences: preferences, now: now)
             if $0.isEnabled(in: preferences) && $1.isEnabled(in: preferences)
@@ -27,6 +28,24 @@ public enum Dashboard {
                 return $0.account.provider.displayName < $1.account.provider.displayName
             }
             return $0.account.id.rawValue < $1.account.id.rawValue
+        }
+    }
+
+    /// Keep provider groups together and place shorter known windows first within each group.
+    public static func detailWindowGroups(_ usage: Usage) -> [[UsageWindow]] {
+        var groups: [String] = []
+        var windows: [String: [UsageWindow]] = [:]
+        for window in usage.quotaWindows {
+            let group = window.group ?? "primary"
+            if windows[group] == nil { groups.append(group) }
+            windows[group, default: []].append(window)
+        }
+        return groups.map { group in
+            (windows[group] ?? []).enumerated().sorted { a, b in
+                let left = a.element.cadenceSeconds ?? .infinity
+                let right = b.element.cadenceSeconds ?? .infinity
+                return left == right ? a.offset < b.offset : left < right
+            }.map(\.element)
         }
     }
 
