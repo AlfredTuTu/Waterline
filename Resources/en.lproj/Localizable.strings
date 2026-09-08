@@ -419,3 +419,7 @@
 "Drag accounts to reorder. Changes save automatically." = "Drag accounts to reorder. Changes save automatically.";
 
 "Select an account and press Option-Up or Option-Down to reorder." = "Select an account and press Option-Up or Option-Down to reorder.";
+
+"Could not remove old Waterline hooks. Retry cleanup." = "Could not remove old Waterline hooks. Retry cleanup.";
+
+"Retry cleanup" = "Retry cleanup";

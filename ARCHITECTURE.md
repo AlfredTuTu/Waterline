@@ -21,7 +21,7 @@ consult the provider contracts for exact scope and later authentication limitati
 Real failed requests for DeepSeek, GLM CN and MiniMax CN do not establish usable quota
 or balance support. xAI and Kimi Code lack successful real-account validation. Qwen
 has a reviewed capability boundary and remains unregistered. Native multi-account,
-localisation, onboarding, notifications and distribution acceptance are still incomplete.
+localisation, onboarding and distribution acceptance are still incomplete.
 
 New accounts use opaque UUIDs and optional billing identities, with reconciliation independent of secrets.
 Quota fraction/reset fields are optional. The fetch interface remains `fetch(...) -> Usage`. Snapshot schema 13 carries explicit configuration-source provenance and optional-source consent and distinguishes verification observations and carries balance basis and persists per-account request deadlines and authentication parking, and includes pending app-owned secret cleanup counts and retains account preferences, operation state and last-attempt time, with explicit partial states and component observation metadata, preserves legacy files before
@@ -172,13 +172,12 @@ the last fetched response schedule that early refresh; an unchanged past reset r
 provider must not create a tight retry loop. Passed windows become expired/partial presentation and
 leave headline, healthy-state and alert eligibility while their last values remain visible.
 
-Window accounts refresh every 60 seconds while the corresponding harness is active, otherwise every
-5 minutes; balance-only accounts every 5 minutes. For both kinds, use the window cadence but respect
-separate endpoint limits. Current implementation uses user input idle time to select the faster cadence for
-window accounts (`Engine.userActive`), not tool-directory evidence. This does not
-prove that a harness or request is running. Optional Claude Code hooks now have a separate local activity path described in
-`docs/hook-activity.md`. They do not attribute activity to quota accounts or change
-refresh scheduling; real-tool/native acceptance remains outstanding.
+The native app automatically checks all enabled accounts every 60 seconds, including while idle.
+It migrates saved longer intervals to this policy on startup and preserves account identity,
+source consent, display order and daily selection. Viewing can request an earlier check under
+its existing minimum interval. Reset deadlines still advance eligible refreshes; server backoff,
+authentication parking and suspend/recovery take precedence. No input-idle polling or tool-session
+hooks are needed for this cadence.
 
 429 honours numeric or HTTP-date `Retry-After`; without it use 60-second exponential backoff capped
 at 30 minutes. Transport/5xx failures use the same fallback backoff; success resets it. Coalesce
@@ -305,20 +304,16 @@ Language selection is the native per-app `AppleLanguages` preference, applied by
 the next launch. It is not duplicated in engine configuration. The app's own bundle uses standard
 UserDefaults; isolated tests use independent suites. Follow system removes only the app override.
 
-Notification crossing logic lives in `ThresholdAlerts` in the kit. The native app alone owns
-`alerts.json` alongside the snapshot: opt-in preference, per-metric observation/severity baselines and
-per-account last notification attempt. The CLI does not schedule notifications or mutate this file.
-The system owns notification permission; app startup never requests it. The settings action requests
-permission and saves the opt-in only after approval. Persist attempt state before handing an alert to
-macOS, so a crash cannot replay an already attempted crossing. Delivery failures remain visible;
-at-most-once attempt limiting is not a guarantee that the OS displayed a banner.
-
-First observations establish a baseline, not an alert. Fresh independently valid metrics may cross
-while another component fails; stale components cannot. Threshold changes reset baselines without
-retroactive alerts. Disabled alerts still advance baselines. One account's crossings coalesce into
-one notification, at most once per hour, and a later alert requires a new crossing. Posted-ledger
-balances do not trigger available-balance alerts. A successful notification submission sets a 3 s
-collapsed-header activity message without changing the panel's pinned/expanded state.
+The owner retired quota/balance notifications and Claude session activity on 2026-09-08.
+The app does not request notification authorization, schedule alerts, or listen for tool-session
+events. Startup clears the app's old pending/delivered notifications. Old alerts.json is inert;
+no new alert history is written. Upgrade cleanup removes only recorded Waterline hook commands
+(and the canonical command for a previously enabled install), preserving foreign hooks/settings.
+Failed cleanup retains its owned-command manifest and exposes Retry cleanup. The old CLI hook
+subcommand exits silently without reading or broadcasting input until obsolete entries are removed.
+Refresh/threshold form controls and account source/time diagnostics are absent from Settings.
+Legacy threshold fields remain decode-compatible for stored preferences; the native policy clears
+balance thresholds and no threshold can produce a notification.
 
 `NotchGeometry` derives screen frames; `Dashboard` derives metric selection, stable ordering, health
 and formatting. Follow `docs/ui.md`, including no-account, partial, both-kind, overflow and keyboard
@@ -359,7 +354,7 @@ All entries are targets, subject to provider evidence and the acceptance gates.
 | v0.1 | Account model, engine, snapshot, HTTP boundary, Keychain policy; CLI; usable notch/menu UI; Claude Code, Codex, Cursor, xAI where supported by verified contracts. |
 | v0.2 | Zhipu, Kimi Code, Moonshot, MiniMax, DeepSeek; Tier-2 opt-ins; recognised gateway routes; balance history and estimates. |
 | v0.3 | Full onboarding and Settings, Antigravity, reviewed Qwen capability status, zh-Hans/en, current provider evidence, public repository. |
-| v0.4 | Threshold notifications, sparklines, opt-in hook-based activity. |
+| v0.4 | Sparklines. Notifications and session activity withdrawn by owner on 2026-09-08. |
 | v1.0 | Signed/notarised distribution, optional signed updates, Homebrew cask and DMG. Update hosts and downloads require a documented network-policy extension before implementation. |
 
 ## Local Token imports — 2026-09-07

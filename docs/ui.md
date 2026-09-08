@@ -341,3 +341,15 @@ manual order; ordinary arrow keys remain available for selection navigation.
 
 An empty account list with no source failure shows no green health indicator.
 Source failures retain the warning indicator and active refresh retains progress.
+
+## Owner simplification — 2026-09-08
+
+This replaces earlier refresh/threshold/notification/hook settings requirements.
+Settings has General, Accounts and Privacy only. Account rows never show credential
+paths or observation times, including in a diagnostic disclosure. Actionable errors
+and connection progress remain visible. No refresh interval or quota/balance alert
+threshold form, usage-notification switch, or Claude-session-activity switch remains.
+Refresh is automatic at 60 seconds, subject to provider backoff and authentication.
+Only a failed upgrade cleanup may show a temporary Retry cleanup action; there is
+no session listener or activity banner. The quota/balance data and reset boundaries
+remain the core UI. Existing manual refresh remains an explicit retry affordance.

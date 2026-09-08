@@ -14,7 +14,8 @@ public enum HookConfiguration {
             throw HookActivityError.invalidSettings
         }
         var hooks = root["hooks"] as? [String: Any] ?? [:]
-        for event in HookActivityEvent.Kind.allCases {
+        var removedOwnedCommand = false
+        for event in LegacyClaudeHookEvent.allCases {
             guard hooks[event.rawValue] == nil || hooks[event.rawValue] is [[String: Any]] else {
                 throw HookActivityError.invalidSettings
             }
@@ -30,6 +31,7 @@ public enum HookConfiguration {
                 }
                 found = found || contains
                 if !enabled && contains {
+                    removedOwnedCommand = true
                     let remaining = commands.filter {
                         !($0["type"] as? String == "command" && $0["command"] as? String == command)
                     }
@@ -44,6 +46,7 @@ public enum HookConfiguration {
             }
             if entries.isEmpty { hooks.removeValue(forKey: event.rawValue) } else { hooks[event.rawValue] = entries }
         }
+        if !enabled && !removedOwnedCommand { return data }
         if hooks.isEmpty { root.removeValue(forKey: "hooks") } else { root["hooks"] = hooks }
         return try JSONSerialization.data(
             withJSONObject: root, options: [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes])

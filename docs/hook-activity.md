@@ -1,3 +1,10 @@
+# Retired feature — 2026-09-08
+
+The owner removed session activity from Waterline. Runtime listeners, the settings
+switch and activity banner are removed. The app only cleans up its own previously
+installed commands, retaining a retryable manifest on failure. The old CLI command
+is a silent compatibility no-op. Historical design below is not a current feature.
+
 # Optional hook activity — scope and evidence
 
 Status: initial implementation, 2026-09-08. The CLI receiver, local notification

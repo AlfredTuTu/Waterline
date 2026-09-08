@@ -4,6 +4,23 @@ import Testing
 @testable import WaterlineKit
 
 struct ConfigurationMigrationTests {
+    @Test func automaticMonitoringPreservesAccountAndSourceChoices() throws {
+        let selected = AccountID(rawValue: "saved-selection")
+        let prior = UserPreferences(
+            refreshInterval: 300, balanceThresholds: ["USD": 10], disabledProviders: [.xai],
+            enabledCredentialSources: [.antigravityCLI], notchAccountIDs: [selected], accountOrder: [selected])
+        let restored = try JSONDecoder().decode(UserPreferences.self, from: JSONEncoder().encode(prior))
+        let automatic = restored.forAutomaticMonitoring()
+        try automatic.validate()
+        #expect(automatic.refreshInterval == 60)
+        #expect(automatic.balanceThresholds.isEmpty)
+        #expect(automatic.notchAccountIDs == prior.notchAccountIDs)
+        #expect(automatic.accountOrder == prior.accountOrder)
+        #expect(automatic.disabledProviders == prior.disabledProviders)
+        #expect(automatic.enabledCredentialSources == prior.enabledCredentialSources)
+        #expect(automatic.forAutomaticMonitoring() == automatic)
+    }
+
     @Test func legacyUpgradePreservesExactBytesAndCreatesOnlyOnePrivateBackup() throws {
         let directory = FileManager.default.temporaryDirectory.appending(path: "configuration-upgrade-\(UUID())")
         defer { try? FileManager.default.removeItem(at: directory) }

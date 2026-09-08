@@ -69,7 +69,7 @@ and show provider-reported **allowance usage, reset times and prepaid balances**
   predictions carry `≈`.
 - Keep one account logo and remaining allowance visible; click to expand, leave to close, and use pin to select the daily account. Use a floating capsule on displays without a notch. Stale readings
   retain their values and observation age.
-- Judge balances against thresholds in their own currencies; never rank raw amounts across currencies.
+- Preserve each balance's own currency; never rank raw amounts across currencies.
 
 ### Status
 

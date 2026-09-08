@@ -3,12 +3,6 @@ import WaterlineKit
 
 struct SettingsView: View {
     let model: AppModel
-    @State private var interval: Double = 300
-    @State private var warning = 70.0
-    @State private var critical = 90.0
-    @State private var cny: Decimal = 50
-    @State private var usd: Decimal = 10
-    @State private var saved = false
     @State private var manualProvider: Provider?
     @State private var accountSearch = ""
     @State private var accountProvider: Provider?
@@ -26,28 +20,12 @@ struct SettingsView: View {
                     Divider()
                     SoftwareUpdateSettings()
                     Divider()
-                    HookActivitySettings()
-                    Divider()
-                    Toggle(
-                        "Usage notifications",
-                        isOn: Binding(
-                            get: { model.notifications.enabled },
-                            set: { enabled in Task { await model.notifications.setEnabled(enabled) } })
-                    )
-                    .disabled(model.notifications.changing)
-                    Text("New threshold crossings only. At most one alert per account each hour.")
-                        .font(.caption).foregroundStyle(.secondary)
-                    if model.notifications.changing { ProgressView("Updating…").controlSize(.small) }
-                    if let message = model.notifications.message {
-                        Text(LocalizedStringKey(message)).font(.caption).foregroundStyle(.orange)
-                    }
-                    Divider()
+                    LegacyIntegrationCleanupView()
                     Button("Connection guide") { showGuide = true }
                 }.padding(12)
             }
             .tabItem { Label("General", systemImage: "gearshape") }.tag("general")
             accounts.tabItem { Label("Accounts", systemImage: "person.crop.circle") }.tag("accounts")
-            limits.tabItem { Label("Display & refresh", systemImage: "slider.horizontal.3") }.tag("limits")
             privacy.tabItem { Label("Privacy", systemImage: "hand.raised") }.tag("privacy")
         }
         .padding(18).frame(width: 590, height: 480)
@@ -64,14 +42,7 @@ struct SettingsView: View {
         .sheet(isPresented: Binding(get: { manualProvider != nil }, set: { if !$0 { manualProvider = nil } })) {
             if let provider = manualProvider { ManualKeySheet(model: model, provider: provider, accountID: nil) }
         }
-        .task(id: model.snapshot.preferences) {
-            let preferences = model.snapshot.preferences
-            interval = preferences.refreshInterval
-            warning = preferences.windowWarning * 100
-            critical = preferences.windowCritical * 100
-            cny = preferences.balanceThresholds["CNY"] ?? 50
-            usd = preferences.balanceThresholds["USD"] ?? 10
-        }
+
     }
 
     private var accounts: some View {
@@ -154,38 +125,6 @@ struct SettingsView: View {
         }
     }
 
-    private var limits: some View {
-        Form {
-            TextField("Refresh interval (seconds)", value: $interval, format: .number)
-            Text("60–3600 seconds. Server backoff and signed-out accounts take precedence.")
-                .font(.caption).foregroundStyle(.secondary)
-            Divider()
-            TextField("Quota warning (%)", value: $warning, format: .number)
-            TextField("Quota critical (%)", value: $critical, format: .number)
-            TextField("Low balance (CNY)", value: $cny, format: .number)
-            TextField("Low balance (USD)", value: $usd, format: .number)
-            Text("Each currency is evaluated separately. Thresholds must be positive.")
-                .font(.caption).foregroundStyle(.secondary)
-            HStack {
-                Spacer()
-                if saved, model.error == nil { Text("Saved").foregroundStyle(.secondary) }
-                Button("Save") {
-                    Task {
-                        var preferences = model.snapshot.preferences
-                        preferences.refreshInterval = interval
-                        preferences.windowWarning = warning / 100
-                        preferences.windowCritical = critical / 100
-                        preferences.balanceThresholds["CNY"] = cny
-                        preferences.balanceThresholds["USD"] = usd
-                        await model.savePreferences(preferences)
-                        saved = model.error == nil
-                    }
-                }.keyboardShortcut(.defaultAction)
-            }
-            errorMessage
-        }.padding(12)
-    }
-
     private var privacy: some View {
         VStack(alignment: .leading, spacing: 14) {
             Text("Your account data stays on this Mac").font(.headline)
@@ -265,7 +204,6 @@ private struct AccountSettingsRow: View {
             if let region = entry.account.region {
                 Text(AppText.format("Region: %@", region)).font(.caption).foregroundStyle(.secondary)
             }
-            Text(AppText.source(entry.account.credential)).font(.caption).foregroundStyle(.secondary).lineLimit(2)
             connectionStatus
             if entry.preferences.enabled && !model.snapshot.preferences.allowsSource(for: entry.account) {
                 Text("Enable this credential source to refresh this account.").font(.caption).foregroundStyle(
@@ -304,9 +242,8 @@ private struct AccountSettingsRow: View {
                 Text(AppText.text(error.message)).font(.caption).foregroundStyle(.orange)
             case .partial:
                 Text("Partial data").font(.caption).foregroundStyle(.orange)
-            case .fresh(let reading):
-                Text(AppText.format("Updated %@", reading.observedAt.formatted(date: .omitted, time: .shortened)))
-                    .font(.caption).foregroundStyle(.secondary)
+            case .fresh:
+                EmptyView()
             case .pending:
                 Text("Checking…").font(.caption).foregroundStyle(.secondary)
             case .expired:

@@ -675,7 +675,7 @@ system-side changes, restoration after app relaunch and automatic launch after a
 unverified while native interaction is unavailable. Do not mark the Settings requirement complete.
 
 - [ ] Full onboarding explains each source and destination with Tier 1 on and Tier 2 off. Keychain reads that permit interaction are announced first.
-- [ ] Settings includes accounts/sources, enablement, manual keys, positive currency thresholds, ordered window thresholds, validated intervals, privacy destinations, language and launch at login.
+- [ ] Settings includes accounts/sources, enablement, manual keys, automatic 60-second refresh, privacy destinations, language and launch at login.
 - [ ] Antigravity meets the adapter bar. Review Qwen's current capabilities against linked evidence; show an honest unsupported reason if no suitable contract is verified.
 - [ ] All user-facing strings are localised zh-Hans/en and follow the system; layouts fit both.
 - [ ] Every released supported provider has live verification within 30 days for its declared scope. Planned/unsupported providers instead have a dated capability review and reason; do not fabricate a live date.
@@ -699,9 +699,9 @@ posted-ledger exclusion, plus corrupt-file preservation. No real permission requ
 was issued during tests. OS approval/denial/revocation, banner/sound policy, click-to-panel, relaunch
 and pinned-panel visual behavior remain unverified; the acceptance checkbox below remains open.
 
-- [ ] Only a fresh threshold crossing triggers a 3 s activity view and system notification, at most once per account per hour. Respect notification permission/settings, preserve explicit account selection and do not alert on stale data.
+- Withdrawn by owner 2026-09-08: threshold notifications and activity view. Historical checks below do not require this retired feature to return.
 - [ ] Balance rows show a 7-day sparkline from actual history, preserving gaps and currency/account separation.
-- [ ] Hook-based activity is opt-in, uses documented events and has enable/disable cleanup checks; never silently edits another tool's configuration.
+- Withdrawn by owner 2026-09-08: hook-based activity. Upgrade cleanup must preserve unrelated hooks/configuration and remain retryable.
 
 ## v1.0 — distribution
 
@@ -1214,3 +1214,28 @@ fix or a known capture-only defect. Preserve both runs and keep visual acceptanc
 open until a real on-screen comparison is available. New images and run results
 are under ignored build/verification/state-render-unlocked. No production source,
 installed executable or account configuration was changed in this follow-up.
+
+
+2026-09-08 owner-directed settings simplification supersedes the earlier notification
+and activity milestones. Account Settings no longer shows source paths, observation
+times or a diagnostic disclosure. The interval/threshold tab, usage-alert feature and
+Claude activity feature are removed. Native settings on the owner's installed app
+showed only General, Accounts and Privacy, with no removed controls or permanent
+cleanup panel. Pending/delivered Waterline notifications are cleared on startup;
+there is no notification authorization request or runtime session listener. Owned
+legacy hooks have a retryable cleanup manifest; unmatched hook removal preserves
+exact settings bytes. Retired notification/activity-runtime tests were removed with
+their features; cleanup, refresh, identity and reset checks remain.
+
+Full make verify passed 301 Swift tests. Installed executable SHA-256:
+`50fda4dc8fe1c4e4b302c6084876497e2fcf2d15bf5c8741c878c97e175116ff`.
+Actual persisted refresh interval changed from 300 to 60 seconds; balance thresholds
+were cleared. Account metadata, source consent, order and daily selection were
+unchanged. Claude settings retained the same canonical JSON fingerprint (no owned
+hooks required removal on this machine). Fresh ChatGPT, Cursor, Antigravity and Grok
+schedules each showed 60 seconds between fetchedAt and nextAutomatic. Keychain-bound
+accounts still required access after this ad-hoc binary update; this does not close
+stable-signing acceptance. Evidence: simplification-installation.json and
+simplification-live.json under ignored build/verification. Subsequent verification
+uses the owner's actual accounts, per the explicit instruction to stop separate
+verification applications.

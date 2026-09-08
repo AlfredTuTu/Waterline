@@ -1,6 +1,6 @@
 import AppKit
-import CoreGraphics
 import Network
+import UserNotifications
 import WaterlineKit
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
@@ -8,7 +8,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let networkMonitor = NWPathMonitor()
     private var networkAvailable: Bool?
     private var panel: NotchPanel?
-    private var activityTask: Task<Void, Never>?
     private var duplicateLaunch = false
 
     func applicationWillFinishLaunching(_ notification: Notification) {
@@ -37,7 +36,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApplication.shared.setActivationPolicy(.accessory)
         model.start()
         SoftwareUpdates.shared.start()
-        HookActivity.shared.start()
+        if !model.isVerification {
+            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+            UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+            Task { await LegacyIntegrationCleanup.shared.run() }
+        }
         NotificationCenter.default.addObserver(
             self, selector: #selector(screenChanged), name: NSApplication.didChangeScreenParametersNotification,
             object: nil)
@@ -56,22 +59,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         networkMonitor.start(queue: DispatchQueue(label: "Waterline.network"))
         screenChanged()
-        if !model.isVerification {
-            activityTask = Task { [weak self] in
-                while !Task.isCancelled {
-                    guard let self else { return }
-                    if self.model.loaded {
-                        let idle = CGEventSource.secondsSinceLastEventType(
-                            .combinedSessionState, eventType: CGEventType(rawValue: UInt32.max)!)
-                        await self.model.updateUserActivity(idle < 60)
-                    }
-                    do { try await Task.sleep(for: .seconds(15)) } catch { return }
-                }
-            }
-        }
-        model.notifications.openAccounts = { [weak self] id in
-            self?.panel?.showAccount(id)
-        }
         #if WATERLINE_VERIFICATION
             if CommandLine.arguments.contains("--verification-render")
                 || CommandLine.arguments.contains("--verification-history-render")
@@ -83,7 +70,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
-        activityTask?.cancel()
         networkMonitor.cancel()
         NSWorkspace.shared.notificationCenter.removeObserver(self)
         NotificationCenter.default.removeObserver(self)

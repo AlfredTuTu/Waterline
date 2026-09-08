@@ -55,7 +55,7 @@ struct QuotaResetTests {
         await engine.stop()
     }
 
-    @Test func expiredComponentDoesNotMaskValidWindowOrTriggerAlert() {
+    @Test func expiredComponentDoesNotMaskValidWindow() {
         func snapshot(_ fraction: Double, at date: Date) -> Snapshot {
             let usage = Usage.windows(
                 windows: [
@@ -68,11 +68,7 @@ struct QuotaResetTests {
                 state: .fresh(reading: Reading(usage: usage, fetchedAt: date)))
             return Snapshot(generatedAt: date, accounts: [row], lastAttemptAt: date)
         }
-        var alerts = ThresholdAlerts()
-        alerts.enabled = true
-        _ = alerts.evaluate(snapshot(0.5, at: start))
         let later = snapshot(0.95, at: start.addingTimeInterval(61))
-        #expect(alerts.evaluate(later).isEmpty)
         #expect(Dashboard.headline(later, now: later.generatedAt) == .quota(0.2))
         #expect(Dashboard.health(later.accounts[0], preferences: later.preferences, now: later.generatedAt) == .muted)
     }

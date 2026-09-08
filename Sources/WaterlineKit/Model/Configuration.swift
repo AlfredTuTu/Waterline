@@ -35,7 +35,7 @@ public struct UserPreferences: Codable, Sendable, Hashable {
     public var accountOrder: [AccountID]?
 
     public init(
-        refreshInterval: TimeInterval = 300, windowWarning: Double = 0.7, windowCritical: Double = 0.9,
+        refreshInterval: TimeInterval = 60, windowWarning: Double = 0.7, windowCritical: Double = 0.9,
         balanceThresholds: [String: Decimal] = ["CNY": 50, "USD": 10], disabledProviders: Set<Provider> = [],
         enabledCredentialSources: Set<OptionalCredentialSource>? = nil, notchAccountIDs: [AccountID]? = nil,
         accountOrder: [AccountID]? = nil
@@ -48,6 +48,14 @@ public struct UserPreferences: Codable, Sendable, Hashable {
         self.enabledCredentialSources = enabledCredentialSources
         self.notchAccountIDs = notchAccountIDs
         self.accountOrder = accountOrder
+    }
+
+    /// Apply the native app's managed refresh policy while preserving account/source choices.
+    public func forAutomaticMonitoring() -> Self {
+        var value = self
+        value.refreshInterval = 60
+        value.balanceThresholds = [:]
+        return value
     }
 
     public func validate() throws {

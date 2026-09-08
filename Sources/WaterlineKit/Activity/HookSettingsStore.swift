@@ -37,6 +37,7 @@ public struct HookSettingsStore: Sendable {
             base = original
         }
         let updated = try HookConfiguration.update(base, command: command, enabled: enabled)
+        guard updated != original else { return }
         let temporary = parent.appending(path: ".waterline-hooks-\(UUID()).tmp")
         let descriptor = Darwin.open(temporary.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW, mode_t(0o600))
         guard descriptor >= 0 else { throw HookActivityError.invalidSettings }

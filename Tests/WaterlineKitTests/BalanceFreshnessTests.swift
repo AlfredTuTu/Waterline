@@ -26,17 +26,6 @@ struct BalanceFreshnessTests {
                 == warning.account.id)
     }
 
-    @Test func oldBalanceCrossingDoesNotNotifyUntilFreshConfirmation() {
-        var alerts = ThresholdAlerts()
-        alerts.enabled = true
-        _ = alerts.evaluate(snapshot(amount: 20, observation: start, now: start))
-        let old = snapshot(amount: 5, observation: start.addingTimeInterval(1), now: start.addingTimeInterval(1000))
-        #expect(alerts.evaluate(old).isEmpty)
-        let fresh = snapshot(
-            amount: 5, observation: start.addingTimeInterval(1001), now: start.addingTimeInterval(1001))
-        #expect(alerts.evaluate(fresh).count == 1)
-    }
-
     @Test func failedBalanceIsNotHealthyWithoutAnExplicitFailureList() {
         let balance = Balance(amount: 100, currency: "USD", gift: nil, observedAt: start, error: .permissionDenied)
         let row = AccountEntry(

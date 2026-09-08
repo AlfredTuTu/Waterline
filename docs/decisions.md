@@ -167,3 +167,5 @@ Later rows explicitly supersede earlier decisions; an old row is not a current r
 | 2026-09-08 | Preserve the verified Claude Code, ChatGPT, independent Grok, Cursor and Antigravity connection configuration while continuing other work. | The owner asked that these five stop being repeatedly reconfigured once working; display order remains independently user-controlled. |
 
 | 2026-09-08 | Replace account-order arrow buttons with native drag-and-drop; remove automatic overview sorting and use configuration order when no explicit order exists. Render monochrome provider marks as adaptive templates. | Owner requested direct manipulation, stable account positions and visible icons in light settings. |
+
+| 2026-09-08 | Remove Settings diagnostics, interval/threshold controls, usage notifications and Claude activity. Use automatic 60-second checks; retire owned hooks with retryable cleanup. | Owner explicitly rejected these extra features and the 300-second interval; preserve actual account data, identity, order and provider backoff. |

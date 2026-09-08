@@ -4,43 +4,15 @@ import Testing
 @testable import WaterlineKit
 
 struct HookActivityTests {
-    private func event(_ kind: String, session: String = "synthetic-session", at date: Date) throws -> HookActivityEvent
-    {
-        let data = try JSONSerialization.data(withJSONObject: [
-            "session_id": session, "hook_event_name": kind,
-            "prompt": "PRIVATE SYNTHETIC PROMPT", "transcript_path": "/synthetic/private/path",
-            "last_assistant_message": "PRIVATE SYNTHETIC RESPONSE",
-        ])
-        return try HookActivityEvent.parse(data, now: date)
-    }
-
-    @Test func transportEventContainsNoConversationOrRawSession() throws {
-        let event = try event("UserPromptSubmit", at: Date())
-        let encoded = String(decoding: try JSONEncoder().encode(event), as: UTF8.self)
-        for excluded in ["PRIVATE", "synthetic-session", "/synthetic", "prompt", "transcript"] {
-            #expect(!encoded.contains(excluded))
-        }
-        #expect(event.session.count == 64)
-        #expect(throws: HookActivityError.self) {
-            try HookActivityEvent.parse(Data(repeating: 32, count: 1_048_577), now: Date())
-        }
-        #expect(throws: HookActivityError.self) { try self.event("Unsupported", at: Date()) }
-    }
-
-    @Test func overlappingSessionsEndIndependentlyAndExpire() throws {
-        let now = Date()
-        var state = HookActivityState()
-        let first = try event("UserPromptSubmit", at: now)
-        state.receive(first, now: now)
-        state.receive(first, now: now)
-        state.receive(try event("UserPromptSubmit", session: "second", at: now), now: now)
-        #expect(state.activeCount(now: now) == 2)
-        state.receive(try event("Stop", at: now.addingTimeInterval(1)), now: now.addingTimeInterval(1))
-        state.receive(first, now: now.addingTimeInterval(2))
-        #expect(state.activeCount(now: now.addingTimeInterval(2)) == 1)
-        #expect(state.activeCount(now: now.addingTimeInterval(600)) == 0)
-        state.receive(try event("UserPromptSubmit", at: now.addingTimeInterval(1000)), now: now)
-        #expect(state.activeCount(now: now.addingTimeInterval(600)) == 0)
+    @Test func retiringUnownedHooksPreservesExactFileBytes() throws {
+        let directory = FileManager.default.temporaryDirectory.appending(path: "hook-retirement-\(UUID())")
+        defer { try? FileManager.default.removeItem(at: directory) }
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        let url = directory.appending(path: "settings.json")
+        let original = Data("{ \"hooks\": {}, \"userSetting\": true }\n".utf8)
+        try original.write(to: url)
+        try HookSettingsStore(url: url).setEnabled(false, command: "not-owned-here")
+        #expect(try Data(contentsOf: url) == original)
     }
 
     @Test func configurationRoundTripPreservesOtherHooksAndSettings() throws {

@@ -45,7 +45,7 @@ struct ViewingRefreshTests {
         await subject.stop()
     }
 
-    @Test func activeComputerUsesMinuteCadenceAndIdleReturnsToConfiguredCadence() async throws {
+    @Test func defaultRefreshUsesMinuteCadenceWhileActiveAndIdle() async throws {
         let url = FileManager.default.temporaryDirectory.appending(path: "waterline-active-\(UUID())/snapshot.json")
         defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
         let clock = ViewingClock()
@@ -59,7 +59,7 @@ struct ViewingRefreshTests {
         #expect(await engine.snapshot().accounts.first?.schedule?.nextAutomatic == clock.now.addingTimeInterval(60))
         await engine.setUserActive(false)
         clock.advance(60); try await engine.refreshAll(manual: false)
-        #expect(await engine.snapshot().accounts.first?.schedule?.nextAutomatic == clock.now.addingTimeInterval(300))
+        #expect(await engine.snapshot().accounts.first?.schedule?.nextAutomatic == clock.now.addingTimeInterval(60))
         await engine.stop()
     }
 

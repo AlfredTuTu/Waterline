@@ -5,7 +5,6 @@ import WaterlineKit
 
 @Observable
 final class AppModel {
-    let notifications: QuotaNotifications
     let isVerification: Bool
     #if WATERLINE_VERIFICATION
         let verificationDirectory: URL
@@ -58,8 +57,6 @@ final class AppModel {
             engine = Engine(
                 dependencies: VerificationEnvironment.dependencies(
                     directory: directory, empty: CommandLine.arguments.contains("--verification-empty")))
-            notifications = QuotaNotifications(
-                storeURL: directory.appending(path: "alerts.json"), notificationsAllowed: false)
             isVerification = true
         #else
             guard !CommandLine.arguments.contains(where: { $0.hasPrefix("--verification") }) else {
@@ -68,7 +65,6 @@ final class AppModel {
                 exit(64)
             }
             engine = Engine()
-            notifications = QuotaNotifications()
             isVerification = false
         #endif
     }
@@ -84,11 +80,15 @@ final class AppModel {
                     if self.error == previous { self.error = nil }
                     self.historyRetryError = nil
                 }
-                self.notifications.receive(snapshot)
             }
         }
         Task {
-            do { try await engine.start() } catch { self.error = "Could not load or save account state." }
+            do {
+                try await engine.start()
+                let preferences = await engine.snapshot().preferences
+                let automatic = preferences.forAutomaticMonitoring()
+                if automatic != preferences { try await engine.updatePreferences(automatic) }
+            } catch { self.error = "Could not load or save account state." }
             loaded = true
             await refresh(manual: false)
             await engine.startAutomaticRefresh()
@@ -101,8 +101,6 @@ final class AppModel {
             error = "Another Waterline process is updating accounts."
         } catch { self.error = "Could not save the latest account state." }
     }
-
-    func updateUserActivity(_ active: Bool) async { await engine.setUserActive(active) }
 
     func refreshWhenViewed() {
         Task { await engine.refreshWhenViewed() }
@@ -226,10 +224,6 @@ final class AppModel {
 
     func setAccountOrder(_ ids: [AccountID]?) async {
         await perform { try await engine.setAccountOrder(ids) }
-    }
-
-    func savePreferences(_ preferences: UserPreferences) async {
-        await perform { try await engine.updatePreferences(preferences) }
     }
 
     private func perform(_ operation: () async throws -> Void) async {

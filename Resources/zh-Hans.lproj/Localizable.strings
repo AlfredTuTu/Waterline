@@ -419,3 +419,7 @@
 "Drag accounts to reorder. Changes save automatically." = "拖拽账号调整顺序，松开后自动保存。";
 
 "Select an account and press Option-Up or Option-Down to reorder." = "选中账号后，按Option＋↑或Option＋↓调整顺序。";
+
+"Could not remove old Waterline hooks. Retry cleanup." = "旧版Waterline Hook未清理完成，请重试。";
+
+"Retry cleanup" = "重试清理";

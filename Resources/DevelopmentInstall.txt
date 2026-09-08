@@ -20,10 +20,11 @@ Qwen/Bailian quota lookup is not yet supported.
 
 Account settings and usage data are stored in ~/Library/Application Support/Waterline.
 Manual keys are stored in Waterline's own Keychain service. Removing the app does not remove those
-settings or keys. Before uninstalling, turn off Claude Code session activity in General settings
-and resolve any "Remove remaining hooks" warning while the app is still installed. Then turn off
-launch at login and notifications, remove manual accounts in Settings, and resolve any reported
-key-cleanup failures. This removes only Waterline-owned hooks; other tools' logins are unchanged.
+settings or keys. Old Waterline session hooks are cleaned up automatically on upgrade. If General
+settings reports unfinished cleanup, use Retry cleanup before removing the app. Turn off launch
+at login, remove manual accounts in Settings, and resolve reported key-cleanup failures. Only
+Waterline-owned hooks are removed; other tools' logins are unchanged.
+
 
 此镜像仅使用本地临时签名，不是已公证的公开发行版本。
 服务商接入和原生功能验收尚未全部完成，请查阅仓库中的ACCEPTANCE.md。
@@ -41,7 +42,6 @@ Antigravity：先打开已安装的CLI并登录，再启用可选来源。Waterl
 服务，不会启动CLI或复制Token。Qwen／百炼额度查询尚未接入。
 
 账号设置和用量数据保存在~/Library/Application Support/Waterline中，手动密钥保存在
-Waterline专属钥匙串服务中。删除应用不会同时删除这些设置和密钥。卸载前，请先在通用设置中
-关闭“Claude Code会话活动”，在应用仍安装时处理“移除剩余Hook”提示；然后关闭登录启动和
-用量提醒，在设置中移除手动账号，并处理尚未完成的密钥清理。清理只移除Waterline添加的Hook，
-其他工具的登录信息不受影响。
+Waterline专属钥匙串服务中。删除应用不会同时删除这些设置和密钥。升级时会自动清理旧版
+Waterline添加的会话Hook；如通用设置提示未清理完成，请先重试清理。卸载前关闭登录启动，
+在设置中移除手动账号，并处理尚未完成的密钥清理。其他工具的配置和登录信息不受影响。

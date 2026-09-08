@@ -2,26 +2,9 @@ import Foundation
 import WaterlineKit
 
 let arguments = Array(CommandLine.arguments.dropFirst())
-if arguments == ["hook-claude-v1"] {
-    do {
-        guard isatty(STDIN_FILENO) == 0 else { throw HookActivityError.invalidInput }
-        let now = Date()
-        var data = Data()
-        while let chunk = try FileHandle.standardInput.read(upToCount: 8192), !chunk.isEmpty {
-            data.append(chunk)
-            guard data.count <= 1_048_576 else { throw HookActivityError.invalidInput }
-        }
-        let event = try HookActivityEvent.parse(data, now: now)
-        let encoded = try JSONEncoder().encode(event)
-        DistributedNotificationCenter.default().postNotificationName(
-            Notification.Name(HookActivityEvent.notificationName), object: nil,
-            userInfo: ["event": encoded], deliverImmediately: true)
-        exit(0)
-    } catch {
-        FileHandle.standardError.write(Data("Waterline could not read the activity event.\n".utf8))
-        exit(1)
-    }
-}
+// Old hooks may invoke this until the app finishes its owned-hook cleanup.
+// Retain a silent compatibility exit; never read or broadcast session input.
+if arguments == ["hook-claude-v1"] { exit(0) }
 
 if arguments.first == "connect" {
     FileHandle.standardError.write(
