@@ -112,8 +112,7 @@ The protocol uses a 10-minute warmup and 10-minute sample. The targets are mean 
 below 1% of one core and physical memory below 120 MB. Do not substitute RSS for
 physical footprint or divide CPU usage by the number of cores.
 
-Version 0.1.0 is being prepared as an owner-approved, ad-hoc-signed, unnotarized
-release. If macOS blocks its first launch, use **System Settings → Privacy &
+Version 0.1.0 uses owner-approved, ad-hoc-signed, unnotarized distribution. If macOS blocks its first launch, use **System Settings → Privacy &
 Security → Open Anyway** and confirm the system prompt. Do not disable Gatekeeper.
 Updates are manual. See [release readiness](docs/release-readiness.md) for artifact
 checks; Developer ID signing, notarization and automatic update delivery are not
