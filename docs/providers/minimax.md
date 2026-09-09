@@ -40,7 +40,7 @@ Credits, cash balances, browser-session history and legacy cookie-only endpoint 
 ## Evidence
 
 - Official [global FAQ](https://platform.minimax.io/docs/token-plan/faq) and [CN FAQ](https://platform.minimaxi.com/docs/token-plan/faq), inspected 2026-09-07: Subscription Keys, separate PAYG keys, current endpoints and quota windows.
-- Response evidence: CodexBar MiniMaxModelRemains.swift, MiniMaxUsageFetcher.swift and MiniMaxCurrentTokenPlanResponseTests.swift at [commit c15f736](https://github.com/steipete/CodexBar/tree/c15f736ef42158b830b47db1970ea91886e30e85/Sources/CodexBarCore/Providers/MiniMax), inspected 2026-09-07. Used as protocol evidence, not copied implementation.
+- Response evidence: CodexBar MiniMaxModelRemains.swift, MiniMaxUsageFetcher.swift and MiniMaxCurrentTokenPlanResponseTests.swift at [commit c15f736](https://github.com/steipete/CodexBar/tree/c15f736ef42158b830b47db1970ea91886e30e85/app/Sources/CodexBarCore/Providers/MiniMax), inspected 2026-09-07. Used as protocol evidence, not copied implementation.
 - Last capability review: 2026-09-07
 - Last live verified: —
 - Verified account/region/metric scope: none.

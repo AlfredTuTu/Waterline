@@ -87,10 +87,10 @@ if [[ -n "$cli_targets" ]] && $cli_targets_match; then pass "bundled CLI macOS 1
 accessory=$(/usr/libexec/PlistBuddy -c 'Print :LSUIElement' "$app/Contents/Info.plist" 2>/dev/null || true)
 if [[ "$accessory" == "true" ]]; then pass "accessory-app bundle setting"; else fail "accessory-app bundle setting required"; fi
 provider_assets_match=true
-for logo in Resources/ProviderLogos/Provider-*.png; do
+for logo in app/Resources/ProviderLogos/Provider-*.png; do
     if ! cmp -s "$logo" "$app/Contents/Resources/$(basename "$logo")"; then provider_assets_match=false; fi
 done
-if ! cmp -s Resources/ProviderLogos/LICENSE.txt "$app/Contents/Resources/ProviderLogos-LICENSE.txt"; then provider_assets_match=false; fi
+if ! cmp -s app/Resources/ProviderLogos/LICENSE.txt "$app/Contents/Resources/ProviderLogos-LICENSE.txt"; then provider_assets_match=false; fi
 if $provider_assets_match; then pass "provider logos and license match reviewed resources"; else fail "provider logos or license missing or changed"; fi
 icon_name=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIconFile' "$app/Contents/Info.plist" 2>/dev/null || true)
 if [[ "$icon_name" == "AppIcon" ]] && iconutil -c iconset "$app/Contents/Resources/AppIcon.icns" -o "$icon_check/AppIcon.iconset" >/dev/null 2>&1; then
@@ -108,7 +108,7 @@ if [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then pass "release version form
 
 
 framework="$app/Contents/Frameworks/Sparkle.framework"
-if codesign --verify --deep --strict "$framework" >/dev/null 2>&1 && cmp -s Resources/Sparkle-LICENSE.txt "$app/Contents/Resources/Sparkle-LICENSE.txt"; then
+if codesign --verify --deep --strict "$framework" >/dev/null 2>&1 && cmp -s app/Resources/Sparkle-LICENSE.txt "$app/Contents/Resources/Sparkle-LICENSE.txt"; then
     pass "Sparkle framework integrity and complete license"
 else
     fail "Sparkle framework or complete license missing/invalid"
@@ -121,7 +121,7 @@ if [[ "$mode" == --adhoc-release ]]; then
     echo "INFO: Gatekeeper may block first launch; use System Settings > Privacy & Security to allow this app."
     exit "$status"
 fi
-if ! python3 Scripts/check-update-config.py "$app"; then
+if ! python3 tools/check-update-config.py "$app"; then
     fail "release update configuration required"
 fi
 

@@ -8,7 +8,7 @@ identity="${WATERLINE_SIGNING_IDENTITY:--}"
 codesign --verify --deep --strict "$framework"
 mkdir -p "$app/Contents/Frameworks"
 ditto "$framework" "$app/Contents/Frameworks/Sparkle.framework"
-cp Resources/Sparkle-LICENSE.txt "$app/Contents/Resources/"
+cp app/Resources/Sparkle-LICENSE.txt "$app/Contents/Resources/"
 embedded="$app/Contents/Frameworks/Sparkle.framework"
 sign_nested() {
     if [[ "$identity" == - ]]; then

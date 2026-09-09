@@ -68,7 +68,7 @@ must be established before publishing an update-capable build.
   disabled checks, version comparison and update-signing key rotation policy.
 
 An ad-hoc build, feed parser test or framework import cannot prove this flow. Until the
-signed old/new artifact test succeeds, signed updates remain incomplete in AGENTS.md.
+signed old/new artifact test succeeds, signed updates remain incomplete in the release evidence.
 
 ## Configuration and archive policy checks
 
@@ -79,7 +79,7 @@ archive URLs outside this repository's versioned GitHub DMG assets. Regression t
 cover missing/altered config and non-HTTPS, foreign-owner/host, user-info, traversal,
 query/fragment and non-DMG URLs. This does not yet prove redirect restrictions.
 
-`Scripts/check-update-config.py` applies the release plist gate during distribution
+`tools/check-update-config.py` applies the release plist gate during distribution
 preflight. The current development bundle correctly fails it because no feed/public
 key is configured. Passing that gate proves syntax/policy, not key ownership, archive
 signature validity or real installation.

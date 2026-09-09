@@ -61,7 +61,7 @@ are not counted as supported by the initial adapter.
 ## Evidence
 
 - Official authentication/storage evidence: [Claude Code authentication](https://code.claude.com/docs/en/authentication), inspected 2026-09-07; local CLI version 2.1.263.
-- Endpoint/shape evidence: [CodexBar ClaudeOAuthUsageFetcher](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/Sources/CodexBarCore/Providers/Claude/ClaudeOAuth/ClaudeOAuthUsageFetcher.swift), commit `c15f736ef42158b830b47db1970ea91886e30e85`, inspected 2026-09-07. Used as protocol evidence, not copied implementation.
+- Endpoint/shape evidence: [CodexBar ClaudeOAuthUsageFetcher](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/app/Sources/CodexBarCore/Providers/Claude/ClaudeOAuth/ClaudeOAuthUsageFetcher.swift), commit `c15f736ef42158b830b47db1970ea91886e30e85`, inspected 2026-09-07. Used as protocol evidence, not copied implementation.
 - Last capability review: 2026-09-07
 - Last live verified: 2026-09-07, one Pro account with 5-hour and weekly windows. Earlier noninteractive source checks returned keychainLocked promptly. Successful quota access does not establish durable authorization across ad-hoc rebuilds.
 - Verified account/region/metric scope: none.

@@ -14,14 +14,14 @@ codesign --verify --deep --strict "$app"
 version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$app/Contents/Info.plist")
 architecture=$(lipo -archs "$app/Contents/MacOS/WaterlineApp" | tr ' ' '-')
 if [[ "$mode" == --adhoc-release ]]; then
-    bash Scripts/check-distribution.sh "$app" --adhoc-release
+    bash tools/check-distribution.sh "$app" --adhoc-release
     image="build/Waterline-$version-$architecture.dmg"
     volume="Waterline $version"
-    instructions=Resources/Install.txt
+    instructions=app/Resources/Install.txt
 else
     image="build/Waterline-$version-$architecture-development.dmg"
     volume="Waterline Development"
-    instructions=Resources/DevelopmentInstall.txt
+    instructions=app/Resources/Install.txt
 fi
 staging=$(mktemp -d "${TMPDIR:-/tmp}/waterline-dmg.XXXXXX")
 trap 'rm -rf "$staging"' EXIT

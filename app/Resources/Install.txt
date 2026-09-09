@@ -1,0 +1,31 @@
+Waterline — Installation / 安装
+
+1. Quit Waterline, then drag Waterline.app to Applications.
+2. Eject the disk image and open Waterline from Applications.
+3. If macOS blocks the first launch, open System Settings > Privacy & Security > Open Anyway.
+
+Waterline connects to saved logins. Approve Keychain access when macOS asks.
+For Antigravity, keep its signed-in CLI running. Start a new Claude Code session to
+receive local status-line updates; existing custom status lines are preserved.
+
+Click the island to see account cards. Drag to reorder and use the pin menu to choose
+your daily account. The footer menu provides sorting, collapse and quit; the menu-bar
+menu provides language selection. To update, quit Waterline and replace the app.
+
+To uninstall, remove Waterline.app. Account records remain in
+~/Library/Application Support/Waterline. If Waterline added a Claude statusLine entry,
+remove that entry from ~/.claude/settings.json.
+
+1. 退出 Waterline，将 Waterline.app 拖入 Applications（应用程序）。
+2. 推出磁盘镜像，从应用程序打开 Waterline。
+3. 首次打开若被拦截，前往“系统设置 → 隐私与安全性 → 仍要打开”。
+
+Waterline 自动连接已保存的登录；macOS 请求钥匙串访问时，按提示授权。
+使用 Antigravity 时保持其 CLI 已登录并运行。新建 Claude Code 会话即可接收本地
+状态栏更新，已有的自定义状态栏会保留。
+
+点击灵动岛查看账号卡片，拖动排序，通过图钉菜单选择日常账号。
+底部菜单提供排序、收起和退出，菜单栏菜单提供语言切换。更新时退出并替换应用。
+
+卸载时删除 Waterline.app。账号记录保留在 ~/Library/Application Support/Waterline。
+如果 Waterline 添加过 Claude statusLine 项，在 ~/.claude/settings.json 中删除该项即可。

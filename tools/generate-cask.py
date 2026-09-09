@@ -68,7 +68,7 @@ def main():
         for entry in app.rglob("*"):
             if entry.is_symlink() and not entry.resolve().is_relative_to(mount):
                 raise ValueError("App symlink escapes the mounted artifact")
-        run("bash", str(ROOT / "Scripts/check-distribution.sh"), str(app))
+        run("bash", str(ROOT / "tools/check-distribution.sh"), str(app))
         with (app / "Contents/Info.plist").open("rb") as source:
             info = plistlib.load(source)
         if info.get("CFBundleExecutable") != "WaterlineApp":

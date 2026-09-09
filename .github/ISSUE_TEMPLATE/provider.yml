@@ -1,5 +1,5 @@
 name: Provider adapter
-description: Add or repair one provider under Sources/WaterlineKit/Providers/<Name>/.
+description: Add or repair one provider under app/Sources/WaterlineKit/Providers/<Name>/.
 labels: ["agent:codex", "type:feature"]
 body:
   - type: input
@@ -37,7 +37,7 @@ body:
       value: |
         - Discovery uses synthetic files/Keychain, preserves stable account identity and never prompts in the background
         - Required-field failures report schemaChanged; extra fields, optional omissions and independent valid components follow the documented contract
-        - HTTPS, exact allowed hosts, account region and redirects obey AGENTS.md
+        - HTTPS, exact allowed hosts, account region and redirects follow the provider contract
         - Fixtures include provenance and are manually reviewed for private data; the audit script also passes
         - An authorised live check verifies the declared supported scope; missing access or unsupported metrics are recorded as gaps
         - Provider contract records source links, mapping, supported scope and actual verification date; no live date for fixture-only work
@@ -49,4 +49,4 @@ body:
       label: Verification
       value: |
         make verify
-        DEVELOPER_DIR=/Applications/Xcode.app xcrun swift test --filter <Name>
+        DEVELOPER_DIR=/Applications/Xcode.app xcrun swift test --package-path app --scratch-path .build --filter <Name>

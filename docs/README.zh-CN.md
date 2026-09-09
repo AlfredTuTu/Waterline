@@ -1,8 +1,8 @@
 # Waterline
 
-[English](README.md) · 简体中文
+[English](../README.md) · 简体中文
 
-在 macOS 灵动岛和菜单栏查看 AI 编程助手的订阅用量。
+在 Mac 灵动岛和菜单栏查看订阅用量。
 
 ## 安装
 
@@ -37,8 +37,7 @@
 账号通常每 60 秒自动刷新。Claude 还会读取匹配的桌面历史和新建 Claude Code 会话的状态栏数据；
 其网络备用查询最多每 5 分钟一次。已有的自定义 Claude 状态栏会保留。遇到服务商限流后，自动恢复更新。
 
-Waterline 在本机运行，无后端服务或遥测。凭据只发送给对应服务商，本地额度采集不保存对话。
-数据来源与刷新细节见[供应商协议](docs/providers/README.md)。
+登录来源和刷新细节见[账号接入说明](providers/README.md)。
 
 ## 构建
 
@@ -59,11 +58,8 @@ make run
 
 ## 项目结构
 
-- `Sources`：共享引擎、原生应用与 CLI。
-- `Tests`：逻辑和回归测试。
-- `Resources`：多语言文案、图标和安装说明。
-- `Scripts`：构建、打包和验证工具。
-- `docs`：供应商协议、界面规则和发布证据。
+- `app/`：Swift 工程、原生应用、资源和测试。
+- `tools/`：构建、打包和验证工具。
+- `docs/`：账号接入、界面规则和发布证据。
 
-[项目规则](AGENTS.md) · [界面规则](docs/ui.md) ·
-[发布证据](docs/release-readiness.md) · [许可证](LICENSE)
+[界面规则](ui.md) · [发布证据](release-readiness.md) · [许可证](../LICENSE)

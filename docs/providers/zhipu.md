@@ -43,7 +43,7 @@ previous readings with their original times, and other components remain usable.
 ## Evidence
 
 - Official [Coding Plan FAQ](https://docs.z.ai/devpack/faq), inspected 2026-09-07, establishes separate 5-hour/weekly plan limits and distinct balance semantics.
-- Protocol evidence: [CodexBar z.ai notes](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/docs/zai.md) and [zai.js](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/Sources/CodexBarCore/Resources/Plugins/zai.js), commit `c15f736ef42158b830b47db1970ea91886e30e85`, inspected 2026-09-07. Used for endpoint/field evidence, not copied implementation.
+- Protocol evidence: [CodexBar z.ai notes](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/docs/zai.md) and [zai.js](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/app/Sources/CodexBarCore/app/Resources/Plugins/zai.js), commit `c15f736ef42158b830b47db1970ea91886e30e85`, inspected 2026-09-07. Used for endpoint/field evidence, not copied implementation.
 - Last capability review: 2026-09-07
 - Last live verified: —
 - Verified account/region/metric scope: none.

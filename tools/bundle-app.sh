@@ -9,19 +9,19 @@ if [[ "$signing_identity" != "-" && "$configuration" != "release" ]]; then
     echo "Developer ID signing requires CONFIGURATION=release." >&2
     exit 64
 fi
-version=$(sed -n 's/.*current = "\(.*\)".*/\1/p' Sources/WaterlineKit/Version.swift)
-bin=$(xcrun swift build -c "$configuration" --show-bin-path)
+version=$(sed -n 's/.*current = "\(.*\)".*/\1/p' app/Sources/WaterlineKit/Version.swift)
+bin=$(xcrun swift build --package-path app --scratch-path .build -c "$configuration" --show-bin-path)
 app=build/Waterline.app
 
 rm -rf "$app"
 mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources"
 cp "$bin/WaterlineApp" "$app/Contents/MacOS/WaterlineApp"
 cp "$bin/waterline" "$app/Contents/MacOS/waterline"
-cp -R Resources/en.lproj Resources/zh-Hans.lproj "$app/Contents/Resources/"
-cp Resources/ProviderLogos/*.png "$app/Contents/Resources/"
-cp Resources/ProviderLogos/LICENSE.txt "$app/Contents/Resources/ProviderLogos-LICENSE.txt"
-bash Scripts/build-icon.sh "$app/Contents/Resources/AppIcon.icns"
-sed "s/__VERSION__/$version/g" Resources/Info.plist > "$app/Contents/Info.plist"
+cp -R app/Resources/en.lproj app/Resources/zh-Hans.lproj "$app/Contents/Resources/"
+cp app/Resources/ProviderLogos/*.png "$app/Contents/Resources/"
+cp app/Resources/ProviderLogos/LICENSE.txt "$app/Contents/Resources/ProviderLogos-LICENSE.txt"
+bash tools/build-icon.sh "$app/Contents/Resources/AppIcon.icns"
+sed "s/__VERSION__/$version/g" app/Resources/Info.plist > "$app/Contents/Info.plist"
 printf 'APPL????' > "$app/Contents/PkgInfo"
 sign_code() {
     if [[ "$signing_identity" == "-" ]]; then
@@ -30,7 +30,7 @@ sign_code() {
         codesign --force --options runtime --timestamp --sign "$signing_identity" "$1"
     fi
 }
-bash Scripts/embed-sparkle.sh "$app"
+bash tools/embed-sparkle.sh "$app"
 sign_code "$app/Contents/MacOS/waterline"
 sign_code "$app"
 codesign --verify --deep --strict "$app"

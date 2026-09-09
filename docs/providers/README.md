@@ -55,7 +55,7 @@ from an account's locale. Billing spend without a real allowance denominator is 
 2. Define identity, region and credential discovery through the injected environment. Background
    Keychain reads are permitted only with interaction disabled; return a connection reason if blocked.
 3. Implement `Providers/<Name>/<Name>Adapter.swift` and register it. Use the shared HTTP boundary;
-   HTTPS, account-specific endpoint selection and redirects follow `AGENTS.md`.
+   HTTPS, account-specific endpoint selection and redirects follow the provider contract.
 4. Map supported fields. Ignore unrelated additions; incompatible required fields become
    `schemaChanged` naming their path. Preserve independent valid components and their timestamps.
    Missing optional values do not require fabricated zeros, resets or plan names.
@@ -82,7 +82,7 @@ never include raw data in logs, commits or delivery attachments. Do not overwrit
 After a redacted fixture is reviewed, remove the task's temporary raw captures unless retention was
 explicitly requested. This does not authorise deleting unrelated captures.
 
-Fixtures are reviewed before entering `Tests/WaterlineKitTests/Fixtures/`. Real happy-path samples are
+Fixtures are reviewed before entering `app/Tests/WaterlineKitapp/Tests/Fixtures/`. Real happy-path samples are
 preferred; generated error/schema mutations are allowed when clearly labelled. Do not provoke a live
 auth failure or exhaust quota to obtain a fixture. Record response status, relevant safe headers, origin
 and any transformation; the fixture date is not a live-verification date. See the fixtures README.

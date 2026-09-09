@@ -1,8 +1,8 @@
 # Waterline
 
-English · [简体中文](README.zh-CN.md)
+English · [简体中文](docs/README.zh-CN.md)
 
-A native macOS notch and menu-bar app for checking your coding-assistant subscription usage.
+Subscription usage in your Mac’s notch and menu bar.
 
 ## Install
 
@@ -38,9 +38,7 @@ Accounts normally refresh every 60 seconds. Claude also reads matching desktop h
 Claude Code sessions' status-line data; its network fallback runs at most once every five minutes.
 Existing custom Claude status lines are preserved. Updates resume automatically after provider rate limits.
 
-Waterline runs locally without a backend or telemetry. Credentials go to the corresponding provider;
-local quota capture does not save conversations. See [provider contracts](docs/providers/README.md)
-for source details and refresh behavior.
+See [supported account details](docs/providers/README.md) for login sources and refresh behavior.
 
 ## Build
 
@@ -61,11 +59,8 @@ repository checks. Tests use isolated fixtures. To read the stored snapshot:
 
 ## Project
 
-- `Sources`: shared engine, native app and CLI.
-- `Tests`: logic and regression tests.
-- `Resources`: localized strings, icons and installation text.
-- `Scripts`: build, packaging and verification tools.
-- `docs`: provider contracts, UI behavior and release evidence.
+- `app/`: Swift package, native app, resources and tests.
+- `tools/`: build, packaging and verification tools.
+- `docs/`: account integrations, UI behavior and release evidence.
 
-[Project rules](AGENTS.md) · [UI behavior](docs/ui.md) ·
-[Release evidence](docs/release-readiness.md) · [License](LICENSE)
+[UI behavior](docs/ui.md) · [Release evidence](docs/release-readiness.md) · [License](LICENSE)

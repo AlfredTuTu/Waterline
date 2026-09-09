@@ -10,8 +10,8 @@ not falsely passed. The repository remains private.
 ```sh
 make verify
 CONFIGURATION=release make app
-DEVELOPER_DIR=/Applications/Xcode.app bash Scripts/check-distribution.sh build/Waterline.app --adhoc-release
-DEVELOPER_DIR=/Applications/Xcode.app bash Scripts/build-dmg.sh --adhoc-release
+DEVELOPER_DIR=/Applications/Xcode.app bash tools/check-distribution.sh build/Waterline.app --adhoc-release
+DEVELOPER_DIR=/Applications/Xcode.app bash tools/build-dmg.sh --adhoc-release
 ```
 
 The explicit ad-hoc mode checks sealed-resource/code integrity, the production
@@ -33,8 +33,8 @@ The current build target is Apple Silicon (arm64). Do not advertise Intel GUI
 support from historical cross-compilation alone. The minimum deployment target
 is macOS 14; tested hardware/OS must be recorded with final verification.
 
-See [acceptance](../AGENTS.md), [provider contracts](providers/README.md),
-and [installation text](../Resources/Install.txt). Historical readiness is retained in Git history.
+See [acceptance](release-readiness.md), [provider contracts](providers/README.md),
+and [installation text](../app/Resources/Install.txt). Historical readiness is retained in Git history.
 
 ## Verified candidate evidence
 

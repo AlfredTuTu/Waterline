@@ -81,9 +81,9 @@ Dashboard visual comparison and native account actions remain unverified.
 - [Cursor usage-based charges](https://prod.cursor.com/help/account-and-billing/overages): included
   usage and on-demand billing are distinct.
 - Community schema inspected at CodexBar commit `c15f736ef42158b830b47db1970ea91886e30e85`:
-  [summary](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/Sources/CodexBarCore/Providers/Cursor/CursorStatusProbe.swift),
-  [local auth](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/Sources/CodexBarCore/Providers/Cursor/CursorAppAuth.swift),
-  [Grok Bot](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/Sources/CodexBarCore/Providers/Cursor/CursorSandUsage.swift).
+  [summary](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/app/Sources/CodexBarCore/Providers/Cursor/CursorStatusProbe.swift),
+  [local auth](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/app/Sources/CodexBarCore/Providers/Cursor/CursorAppAuth.swift),
+  [Grok Bot](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/app/Sources/CodexBarCore/Providers/Cursor/CursorSandUsage.swift).
 
 Offline tests cover pool separation, percent units, absent caps, partial schema failure, Grok eligibility,
 cookie routing, optional-endpoint failure, malformed token rejection and nonmutating/noncreating SQLite

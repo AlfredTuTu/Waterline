@@ -2,7 +2,7 @@
 
 Target behaviour, not a claim that the current placeholder implements it. Pure selection, health,
 ordering, formatting and geometry belong in `WaterlineKit/Presentation`; native interactions in the app.
-Data and freshness follow `AGENTS.md`.
+Data sources and freshness follow the provider contracts.
 
 ## Current owner direction — 2026-09-06
 
@@ -127,7 +127,7 @@ or its fingerprint. Quota and balance are sections of that same row when both ex
 | Component/state | Presentation |
 |---|---|
 | Quota | Label, available count/unit or percent; bar only for a valid fraction; reset countdown only when supplied. Fresh fractions sort descending, then metrics without fractions by stable metric ID. Stale components follow fresh ones with age. |
-| Balance | Amount and explicit currency; one line per currency. Balance estimates are outside the current product scope in `AGENTS.md`. |
+| Balance | Amount and explicit currency; one line per currency. Balance estimates are outside the current product scope. |
 | Partial | Show valid components normally; failed retained components greyed with individual age/reason. Missing components show a reason where needed, no fabricated value. |
 | Stale | Keep the last reading, secondary colour and observation age. Passed reset time reads `Awaiting update`, never a negative countdown or a local zero reset. |
 | Unavailable | Reason only, such as `Needs connect`, `Signed out`, `Access needed`, `Offline`, `Usage unavailable`. Offer a relevant recovery action. |
@@ -179,11 +179,11 @@ colour. Honour Reduce Motion and support keyboard navigation.
 Balance estimates must not span a switch to posted credit for the same account/currency. When
 available-balance readings resume, wait for a new qualifying 24-hour segment before showing an estimate.
 
-The application bundle icon uses `Resources/AppIcon.png`: two unequal, offset blue water-ripple strokes on a dark rounded
+The application bundle icon uses `app/Resources/AppIcon.png`: two unequal, offset blue water-ripple strokes on a dark rounded
 tile. Bundle scripts generate 16–1024 pixel ICNS representations and declare `CFBundleIconFile`.
 The menu-bar label and empty-island fallback use a matching native two-stroke template image;
 macOS supplies its monochrome appearance. `LSUIElement` accessory behavior is unchanged.
-The production source and provenance are `Resources/AppIcon.png` and `Resources/AppIcon.md`.
+The production source and provenance are `app/Resources/AppIcon.png` and `app/Resources/AppIcon.md`.
 Exploratory drafts have been retired; shipping assets are retained in `Resources`.
 
 | Trigger | Behaviour |
@@ -243,8 +243,8 @@ on the next application launch, as the explanatory text states. It only changes 
 per-app AppleLanguages preference; Follow system removes that override. Do not change global macOS
 language or pretend that bundle-cached strings switch fully during the current session.
 
-Native static copy is stored in `Resources/en.lproj/Localizable.strings` and
-`Resources/zh-Hans.lproj/Localizable.strings`, copied into the signed app's main Resources directory.
+Native static copy is stored in `app/Resources/en.lproj/Localizable.strings` and
+`app/Resources/zh-Hans.lproj/Localizable.strings`, copied into the signed app's main Resources directory.
 Coverage is 202 paired keys for menus, common settings, account/key controls, dynamic account/usage
 summaries, notification templates, history estimates and common system/validation errors. Some source
 labels and diagnostics and full accessibility text remain unfinished. Provider names and reported labels remain source data. Resource loading has

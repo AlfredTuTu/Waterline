@@ -5,7 +5,7 @@ cd "$(dirname "$0")/.."
 export DEVELOPER_DIR="${DEVELOPER_DIR:-/Applications/Xcode.app}"
 app="$(pwd -P)/build/Waterline.app"
 executable="$app/Contents/MacOS/WaterlineApp"
-expected_identifier=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' Resources/Info.plist)
+expected_identifier=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' app/Resources/Info.plist)
 
 # The app's single-instance guard would otherwise silently keep another build alive.
 running_commands=$(ps -ww -axo comm=)

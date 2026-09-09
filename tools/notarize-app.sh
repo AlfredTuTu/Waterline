@@ -5,7 +5,7 @@ cd "$(dirname "$0")/.."
 export DEVELOPER_DIR="${DEVELOPER_DIR:-/Applications/Xcode.app}"
 
 if [[ "${1:-}" == --check && $# == 2 ]]; then
-    exec bash Scripts/check-distribution.sh "$2" --pre-notarization
+    exec bash tools/check-distribution.sh "$2" --pre-notarization
 fi
 if [[ $# != 3 ]]; then
     echo "usage: notarize-app.sh --check app" >&2
@@ -24,7 +24,7 @@ staging=$(mktemp -d "${TMPDIR:-/tmp}/waterline-notarize.XXXXXX")
 trap 'rm -rf "$staging"' EXIT
 staged_app="$staging/Waterline.app"
 ditto "$app" "$staged_app"
-bash Scripts/check-distribution.sh "$staged_app" --pre-notarization
+bash tools/check-distribution.sh "$staged_app" --pre-notarization
 ditto -c -k --keepParent "$staged_app" "$staging/Waterline.zip"
 mkdir -p "$(dirname "$report")"
 submission_result=0

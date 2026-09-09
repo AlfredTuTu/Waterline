@@ -5,43 +5,43 @@ CONFIGURATION ?= debug
 .PHONY: build test lint format app run dmg distribution-check verification-app verification-test verify clean
 
 build:
-	xcrun swift build -c $(CONFIGURATION)
+	xcrun swift build --package-path app --scratch-path .build -c $(CONFIGURATION)
 
 test:
-	xcrun swift test
+	xcrun swift test --package-path app --scratch-path .build
 
 lint:
-	xcrun swift-format lint --strict --recursive Package.swift Sources Tests
+	xcrun swift-format lint --strict --recursive app/Package.swift app/Sources app/Tests
 
 format:
-	xcrun swift-format format --in-place --recursive Package.swift Sources Tests
+	xcrun swift-format format --in-place --recursive app/Package.swift app/Sources app/Tests
 
 app: build
-	Scripts/bundle-app.sh
+	tools/bundle-app.sh
 
 run:
-	bash Scripts/run-app.sh
+	bash tools/run-app.sh
 
 dmg:
 	CONFIGURATION=release $(MAKE) app
-	bash Scripts/build-dmg.sh
+	bash tools/build-dmg.sh
 
 distribution-check:
-	bash Scripts/check-distribution.sh
+	bash tools/check-distribution.sh
 
 verification-app:
-	bash Scripts/build-verification-app.sh
+	bash tools/build-verification-app.sh
 
 verification-test:
-	xcrun swift test -c release --scratch-path .build/verification -Xswiftc -DWATERLINE_VERIFICATION --filter VerificationEnvironmentTests
+	xcrun swift test --package-path app -c release --scratch-path .build/verification -Xswiftc -DWATERLINE_VERIFICATION --filter VerificationEnvironmentTests
 
 verify: build test lint
-	python3 Scripts/test-cask-generator.py
-	python3 Scripts/test-run-app.py
-	python3 Scripts/test-update-config.py
+	python3 tools/test-cask-generator.py
+	python3 tools/test-run-app.py
+	python3 tools/test-update-config.py
 	git diff --check
 	git diff --cached --check
-	Scripts/audit.sh
+	tools/audit.sh
 
 clean:
 	rm -rf .build build

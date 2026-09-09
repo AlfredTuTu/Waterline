@@ -67,9 +67,9 @@ of the new row remains pending macOS unlock.
 ## Console-query implementation evidence — 2026-09-08
 
 Reviewed CodexBar commit `ca3ad7851e936f7d125958252af141c8b9996e0f`:
-[regional routing](https://github.com/steipete/CodexBar/blob/ca3ad7851e936f7d125958252af141c8b9996e0f/Sources/CodexBarCore/Providers/Alibaba/AlibabaCodingPlanAPIRegion.swift),
-[Coding Plan fetcher](https://github.com/steipete/CodexBar/blob/ca3ad7851e936f7d125958252af141c8b9996e0f/Sources/CodexBarCore/Providers/Alibaba/AlibabaCodingPlanUsageFetcher.swift),
-and [Token Plan fetcher](https://github.com/steipete/CodexBar/blob/ca3ad7851e936f7d125958252af141c8b9996e0f/Sources/CodexBarCore/Providers/Alibaba/AlibabaTokenPlanUsageFetcher.swift).
+[regional routing](https://github.com/steipete/CodexBar/blob/ca3ad7851e936f7d125958252af141c8b9996e0f/app/Sources/CodexBarCore/Providers/Alibaba/AlibabaCodingPlanAPIRegion.swift),
+[Coding Plan fetcher](https://github.com/steipete/CodexBar/blob/ca3ad7851e936f7d125958252af141c8b9996e0f/app/Sources/CodexBarCore/Providers/Alibaba/AlibabaCodingPlanUsageFetcher.swift),
+and [Token Plan fetcher](https://github.com/steipete/CodexBar/blob/ca3ad7851e936f7d125958252af141c8b9996e0f/app/Sources/CodexBarCore/Providers/Alibaba/AlibabaTokenPlanUsageFetcher.swift).
 This is community implementation evidence, not vendor documentation or Waterline live validation.
 
 Coding Plan attempts POST `/data/api.json` on the selected console host with action

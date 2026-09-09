@@ -15,11 +15,11 @@ class RunAppTests(unittest.TestCase):
         for fail_at in (1, 2, 3, 4):
             with self.subTest(fail_at=fail_at), tempfile.TemporaryDirectory() as directory:
                 root = Path(directory)
-                (root / "Scripts").mkdir()
-                (root / "Resources").mkdir()
+                (root / "tools").mkdir()
+                (root / "app/Resources").mkdir(parents=True)
                 (root / "bin").mkdir()
-                shutil.copy(source / "Scripts/run-app.sh", root / "Scripts/run-app.sh")
-                shutil.copy(source / "Resources/Info.plist", root / "Resources/Info.plist")
+                shutil.copy(source / "tools/run-app.sh", root / "tools/run-app.sh")
+                shutil.copy(source / "app/Resources/Info.plist", root / "app/Resources/Info.plist")
                 ps = root / "bin/ps"
                 ps.write_text('''#!/bin/bash
 n=0
@@ -39,7 +39,7 @@ fi
                 environment = dict(os.environ, PATH=f"{root / 'bin'}:/usr/bin:/bin",
                                    TEST_COUNTER=str(root / "counter"), TEST_FAIL_AT=str(fail_at),
                                    TEST_BUILD_MARKER=str(marker))
-                result = subprocess.run(["bash", str(root / "Scripts/run-app.sh")],
+                result = subprocess.run(["bash", str(root / "tools/run-app.sh")],
                                         env=environment, capture_output=True, text=True)
                 self.assertEqual(result.returncode, 73, result.stderr)
                 self.assertFalse(marker.exists(), "Inventory failure reached app replacement")

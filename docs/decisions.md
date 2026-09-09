@@ -1,6 +1,6 @@
 # Decisions
 
-Append-only history. AGENTS.md defines current scope, architecture and acceptance; delivery records hold implementation evidence.
+Append-only history. Current product behavior is documented in README and provider contracts; delivery records hold verification evidence.
 Later rows explicitly supersede earlier decisions; an old row is not a current rule or evidence of implementation.
 
 | Date | Decision | Why |
@@ -15,7 +15,7 @@ Later rows explicitly supersede earlier decisions; an old row is not a current r
 | 2026-09-06 | GitHub Issues + milestones as the agent work queue | Same place as the code and PRs; `Closes #n` closes the loop; `gh issue list --json` is the agent's API |
 | 2026-09-06 | CodexBar, boring.notch, open-vibe-island are references, never sources | Clean MIT provenance; the last two are GPL |
 | 2026-09-06 | Zero third-party dependencies before v1.0 | Cursor's SQLite is read with the system `SQLite3`; TOML/JSON needs are narrow enough for Foundation |
-| 2026-09-06 | Pure SwiftPM, no `.xcodeproj`; `Scripts/bundle-app.sh` makes the `.app` | Text files agents can edit and diff; CI needs only `make verify` |
+| 2026-09-06 | Pure SwiftPM, no `.xcodeproj`; `tools/bundle-app.sh` makes the `.app` | Text files agents can edit and diff; CI needs only `make verify` |
 | 2026-09-06 | Toolchain pinned to stable Xcode 26.6 / Swift 6.3, macOS 14 minimum | Matches the `macos-26` CI runner; the beta Xcode on the owner's machine is not the reference |
 | 2026-09-06 | Stable local account IDs, reconciled by verified provider/region/billing identity; supersedes credential-as-primary-key | Token rotation must preserve history/settings, and locked sources must be representable before a secret can be read. Ambiguous identities stay separate. |
 | 2026-09-06 | Reported and deterministic metrics are allowed; estimates are distinct and labelled; refines report-only rule | Percentages/countdowns need transparent calculation. Optional missing fields and independent failures must not erase valid data or create defaults. |
@@ -190,6 +190,6 @@ Later rows explicitly supersede earlier decisions; an old row is not a current r
 
 | 2026-09-09 | Remove obsolete build caches, preview bundles, development DMGs, draft archives and duplicate historical documents. Retain current artifacts, selected evidence and account-state backups. | Owner explicitly requested removing all unnecessary files. Historical tracked content remains recoverable through Git. |
 
-| 2026-09-09 | Honor explicit end-to-end merge/release authorization without requiring the owner to click merge personally. Preserve exact-head CI checks, platform review and data-protection boundaries. | Owner explicitly authorized PR #26 merge and requested removing redundant AGENTS.md permission restrictions after automatic review rejected the old owner-only rule. |
 
-| 2026-09-09 | Consolidate architecture and acceptance in AGENTS.md and keep release evidence in release-readiness.md; retain one desktop main checkout. | Owner requested Occam's razor and removal of the completed development worktree; preserve current provider contracts and tests. |
+
+| 2026-09-09 | Group the Swift package under app, tools under tools, and documentation under docs. | Keep the repository homepage focused and preserve the root make commands. |

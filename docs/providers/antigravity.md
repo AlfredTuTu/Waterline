@@ -75,10 +75,10 @@ all models at zero usage. Credits and model-quota fractions require different un
 - [Official model quotas command](https://www.antigravity.google/docs/cli/commands/usage)
 - [Official AI credits and quota documentation](https://www.antigravity.google/docs/cli/credits/)
 - Community source pinned to CodexBar commit `c15f736ef42158b830b47db1970ea91886e30e85`:
-  [response models](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/Sources/CodexBarCore/Providers/Antigravity/AntigravityStatusProbe%2BResponseModels.swift),
-  [quota summary parser](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/Sources/CodexBarCore/Providers/Antigravity/AntigravityQuotaSummaryParser.swift),
-  [remote fetcher](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/Sources/CodexBarCore/Providers/Antigravity/AntigravityRemoteUsageFetcher.swift),
-  [CLI session](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/Sources/CodexBarCore/Providers/Antigravity/AntigravityCLISession.swift).
+  [response models](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/app/Sources/CodexBarCore/Providers/Antigravity/AntigravityStatusProbe%2BResponseModels.swift),
+  [quota summary parser](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/app/Sources/CodexBarCore/Providers/Antigravity/AntigravityQuotaSummaryParser.swift),
+  [remote fetcher](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/app/Sources/CodexBarCore/Providers/Antigravity/AntigravityRemoteUsageFetcher.swift),
+  [CLI session](https://github.com/steipete/CodexBar/blob/c15f736ef42158b830b47db1970ea91886e30e85/app/Sources/CodexBarCore/Providers/Antigravity/AntigravityCLISession.swift).
 
 No reviewed redacted live response, fixture mapping, native account match or successful Waterline
 query exists yet. Those remain required before claiming implemented or live support.
