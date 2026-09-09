@@ -189,3 +189,5 @@ Later rows explicitly supersede earlier decisions; an old row is not a current r
 | 2026-09-09 | Consolidate 56 ignored design-preview files into a verified local ZIP and remove the loose draft directory. | Owner requested project refinement. Earlier design-previews references resolve inside build/archive/design-previews-2026-09-09.zip; this is not a release asset. |
 
 | 2026-09-09 | Remove obsolete build caches, preview bundles, development DMGs, draft archives and duplicate historical documents. Retain current artifacts, selected evidence and account-state backups. | Owner explicitly requested removing all unnecessary files. Historical tracked content remains recoverable through Git. |
+
+| 2026-09-09 | Honor explicit end-to-end merge/release authorization without requiring the owner to click merge personally. Preserve exact-head CI checks, platform review and data-protection boundaries. | Owner explicitly authorized PR #26 merge and requested removing redundant AGENTS.md permission restrictions after automatic review rejected the old owner-only rule. |

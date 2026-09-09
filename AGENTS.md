@@ -46,12 +46,35 @@ verified behaviour; neither a plan nor a passing build proves a provider works.
    tests; check references, consistency and the existing gate. Report checks that could not run.
 5. Update affected contracts and append changed architectural decisions to `docs/decisions.md`.
 6. When delivery through GitHub is requested, use the PR template, reference the issue if present,
-   ensure CI is green, and add `status:review`. The owner squash-merges. Never push to `main`.
+   ensure CI is green, and add `status:review`. When the owner authorizes merging or end-to-end
+   release delivery, perform the normal squash merge and release workflow after the required checks;
+   do not require the owner to operate the merge button personally.
 
 Resolve routine implementation choices within the authorised scope and record material trade-offs.
 If a change needs an owner decision about product scope, privacy or an incompatible interface, explain
 the concrete choice and continue unaffected work. Do not stop the entire task for every discrepancy.
 For issue-driven work, record scope changes on the issue and use `status:needs-decision` where needed.
+
+## Authorization and execution
+
+- The owner's latest explicit instructions define the authorized scope and supersede older project
+  workflow preferences. Authorization persists across turns; do not ask again for an action already
+  approved in this task.
+- An explicit end-to-end GitHub delivery/release request authorizes preparing and updating the PR,
+  merging the reviewed change after required CI passes, creating the release tag, uploading the
+  verified artifacts and publishing the Release in the named repository. Respect an explicit
+  draft-only or stop-before-merge instruction instead when present.
+- Use the PR workflow by default and verify the exact head before merging. Direct pushes or force
+  pushes to protected/default branches require a specific instruction; publishing does not implicitly
+  authorize changing repository visibility, bypassing branch protection or modifying unrelated work.
+- Requests to validate the owner's real accounts authorize the necessary bounded read-only checks
+  for those providers. Do not request a new approval for each routine check. Raw credential exposure,
+  unrelated destinations, purchases and expansion beyond the task are not implied.
+- Platform permission controls and automatic review still apply. If an action is rejected, explain
+  the concrete rejection and obtain any missing authorization; never bypass it indirectly. A new
+  explicit owner authorization may be used when retrying the same action.
+- Verification, data protection and truthful completion reporting remain mandatory. Authorization
+  to publish is not permission to invent successful tests or hide unresolved failures.
 
 ## Complete workflows and external assistance
 
@@ -111,7 +134,8 @@ works. Keep unresolved or unverified items open and report exactly which behavio
 - Keep account identity separate from credentials; rotating a secret must not reset history or settings.
 - Send secrets only over HTTPS to the account's documented provider/region endpoints, within the
   adapter's `allowedHosts`. Enforce this on redirects too; never forward credentials to another origin.
-- Background work never shows a Keychain prompt; only a user-initiated connect may.
+- Recurring background work never shows a Keychain prompt. Prompts are limited to the owner-approved
+  initial connection flow or an explicit reconnect, using macOS's normal authorization controls.
 - Automated tests never contact live services or the real Keychain. Fixtures are reviewed and redacted;
   `Scripts/audit.sh` is an additional pattern check, not proof that all private data was removed.
 - Prefer system libraries. A new dependency needs a concrete benefit, licence and maintenance review,
