@@ -14,3 +14,9 @@ Its exact DER SHA-256 is b1366941e98e584cad699a9aecfff2fdd3576c731d380cccbf31c48
 OpenSSL `verify -check_ss_sig` verified its RSA-2048/SHA-256 self-signature. SANs include
 localhost and 127.0.0.1. Validity is 2026-04-18T00:18:09Z through 2026-11-03T00:18:09Z.
 It lacks serverAuth EKU; tests verify normal SSL rejection and narrowly scoped pin acceptance.
+
+`antigravity-cli-2026-09-08.der` is the renewed public certificate from the same verified
+Google-signed CLI. SHA256: f8bbabd57a2dff32992f205ede841f9ba8d95cdf45982e1d0e73aa5834e9cf94.
+Validity: 2026-09-08T19:02:15Z through 2027-03-26T19:02:15Z; RSA-2048/SHA-256,
+localhost and 127.0.0.1 SANs, no serverAuth EKU. It contains no private key or account data.
+The regression runs both reviewed pins, altered DER, wrong host and invalid dates.

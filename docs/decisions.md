@@ -193,3 +193,5 @@ Later rows explicitly supersede earlier decisions; an old row is not a current r
 
 
 | 2026-09-09 | Group the Swift package under app, tools under tools, and documentation under docs. | Keep the repository homepage focused and preserve the root make commands. |
+
+| 2026-09-09 | Manage an empty-input Antigravity CLI when no user-owned service is running; accept the renewed reviewed public certificate. | Fix unavailable quota after closing CLI and certificate renewal; retain process-bound TLS and stop idle managed sessions. |

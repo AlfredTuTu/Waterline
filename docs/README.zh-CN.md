@@ -30,7 +30,7 @@
 | Claude Code | 保存的登录、Claude 桌面历史与 CLI 状态栏 | 5 小时、周及其他已报告的窗口 |
 | Cursor | 本机 Cursor 登录 | 套餐及模型额度池 |
 | Grok / SuperGrok | Grok Build 保存的个人登录 | 订阅用量 |
-| Antigravity | 已运行并登录的原生 CLI | Gemini 与 Claude/GPT 额度组 |
+| Antigravity | 原生 CLI 保存的登录 | Gemini 与 Claude/GPT 额度组 |
 
 ## 刷新
 

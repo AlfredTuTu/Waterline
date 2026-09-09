@@ -1,8 +1,14 @@
 # Antigravity
 
-Implementation: registered, explicit opt-in for an already-running signed CLI. Capability review: 2026-09-08. Live engine verification: 2026-09-08; native UI pending unlock.
-The official CLI exposes quota information, but Waterline has not yet verified a complete authenticated
-transport/account flow. A running process or model list alone is not quota evidence.
+Current behavior (2026-09-09): registered local-service source. Waterline reuses a running
+Google-signed CLI or starts one with empty stream-json input when needed. No prompt is sent.
+The managed session waits up to 30 seconds for initialization, exits after 120 seconds without
+use, and receives EOF when Waterline exits. Existing user-owned CLI processes are not stopped.
+
+The installed CLI's renewed public certificate is explicitly pinned alongside the previous
+certificate; process signature, UID, socket ownership and before/after identity checks remain.
+A cold-start real-account probe returned one identity and four quota windows without an existing
+CLI. The managed child exited after the probe. Earlier sections below record historical stages.
 
 ## Verified discovery findings
 

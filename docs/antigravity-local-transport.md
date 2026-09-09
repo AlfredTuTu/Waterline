@@ -1,6 +1,7 @@
 # Antigravity local transport implementation boundary
 
-Status: implementation in progress, not registered support. The quota-only live HTTPS probe
+Current implementation and managed lifecycle are documented in providers/antigravity.md.
+The following checkpoints preserve the earlier transport design and investigation. The quota-only live HTTPS probe
 is recorded in `build/verification/antigravity-structured-live.json`; the official CLI TUI
 comparison is in `antigravity-cli-usage-live.json`.
 

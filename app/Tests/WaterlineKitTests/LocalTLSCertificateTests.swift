@@ -4,12 +4,13 @@ import Testing
 @testable import WaterlineKit
 
 struct LocalTLSCertificateTests {
-    @Test func compatibilityRequiresExactReviewedCertificateAndExplicitScope() throws {
+    @Test(arguments: ["antigravity-cli-1.1.27", "antigravity-cli-2026-09-08"])
+    func compatibilityRequiresExactReviewedCertificateAndExplicitScope(name: String) throws {
         let url = try #require(
             Bundle.module.url(
-                forResource: "antigravity-cli-1.1.27", withExtension: "der", subdirectory: "Fixtures/local-service"))
+                forResource: name, withExtension: "der", subdirectory: "Fixtures/local-service"))
         let data = try Data(contentsOf: url)
-        let date = Date(timeIntervalSince1970: 1_788_782_400)
+        let date = Date(timeIntervalSince1970: 1_788_998_400)
         #expect(LocalTLSCertificate.trust(der: data, at: date) == nil)
         #expect(LocalTLSCertificate.trust(der: data, at: date, allowAntigravityCLIProfile: true) != nil)
         #expect(

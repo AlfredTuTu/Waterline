@@ -30,7 +30,7 @@ Waterline connects to saved native logins on first launch. Approve Keychain acce
 | Claude Code | Saved login, Claude desktop history and CLI status line | 5-hour, weekly and additional reported windows |
 | Cursor | Local Cursor login | Plan and model usage pools |
 | Grok / SuperGrok | Saved Grok Build consumer login | Subscription usage |
-| Antigravity | Running, signed-in native CLI | Gemini and Claude/GPT quota groups |
+| Antigravity | Saved native CLI login | Gemini and Claude/GPT quota groups |
 
 ## Refresh
 

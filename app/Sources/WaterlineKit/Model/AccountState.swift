@@ -191,7 +191,7 @@ extension FetchError {
         case .permissionDenied: "Access permission is required"
         case .rateLimited: "Provider asked us to wait before refreshing"
         case .schemaChanged: "Usage format changed"
-        case .localServiceUnavailable: "Open Antigravity CLI with this account to refresh."
+        case .localServiceUnavailable: "Antigravity is unavailable. Check its login and retry."
         case .transport: "Could not reach the provider"
         }
     }

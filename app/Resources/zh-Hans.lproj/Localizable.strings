@@ -360,7 +360,7 @@
 
 "Reads quota from the running Antigravity CLI on this Mac. Open the CLI and sign in there first; Waterline does not launch it or copy its tokens." = "读取本机正在运行的Antigravity CLI额度。请先打开CLI并登录；Waterline不会启动它或复制Token。";
 
-"Open Antigravity CLI with this account to refresh." = "请在Antigravity CLI中登录此账号后刷新。";
+"Antigravity is unavailable. Check its login and retry." = "Antigravity暂时无法连接，请检查登录后重试。";
 
 "Qwen / Bailian" = "Qwen / 百炼";
 

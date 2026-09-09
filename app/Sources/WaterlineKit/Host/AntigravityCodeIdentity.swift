@@ -20,3 +20,19 @@ extension LocalProcessIdentity {
         return isCurrent(expectedExecutable: expectedExecutable, userID: getuid())
     }
 }
+
+extension LocalProcessIdentity {
+    static func isInstalledAntigravityCLI(_ executable: URL) -> Bool {
+        var code: SecStaticCode?
+        guard SecStaticCodeCreateWithPath(executable as CFURL, SecCSFlags(), &code) == errSecSuccess,
+            let code
+        else { return false }
+        var requirement: SecRequirement?
+        let rule = #"anchor apple generic and identifier "cli" and certificate leaf[subject.OU] = "EQHXZ8M8AV""#
+        guard SecRequirementCreateWithString(rule as CFString, SecCSFlags(), &requirement) == errSecSuccess,
+            let requirement
+        else { return false }
+        return SecStaticCodeCheckValidity(code, SecCSFlags(rawValue: kSecCSStrictValidate), requirement)
+            == errSecSuccess
+    }
+}

@@ -7,14 +7,15 @@ public protocol AntigravityServiceReading: Sendable {
     ) async throws -> Usage
 }
 
-public struct SystemAntigravityService: AntigravityServiceReading {
+public actor SystemAntigravityService: AntigravityServiceReading {
+    private var managedSession: AntigravityManagedSession?
     public init() {}
 
     public func identities(executable: URL, requestBudget: any HTTPClient) async throws -> [AntigravityAccountIdentity]
     {
         var found: [AntigravityAccountIdentity] = []
         var failure: any Error = FetchError.localServiceUnavailable
-        for listener in listeners(executable) {
+        for listener in try await availableListeners(executable) {
             try Task.checkCancellation()
             do {
                 let data = try await AntigravityLocalClient().request(
@@ -34,7 +35,7 @@ public struct SystemAntigravityService: AntigravityServiceReading {
         identity: AntigravityAccountIdentity, executable: URL, requestBudget: any HTTPClient
     ) async throws -> Usage {
         var failure: any Error = FetchError.localServiceUnavailable
-        for listener in listeners(executable) {
+        for listener in try await availableListeners(executable) {
             try Task.checkCancellation()
             do {
                 let client = AntigravityLocalClient()
@@ -66,6 +67,36 @@ public struct SystemAntigravityService: AntigravityServiceReading {
             }
         }
         throw failure
+    }
+
+    private func availableListeners(_ executable: URL) async throws -> [LocalServiceListener] {
+        if let session = managedSession, !session.isRunning { managedSession = nil }
+        if managedSession == nil {
+            let existing = listeners(executable)
+            if !existing.isEmpty { return existing }
+            guard LocalProcessIdentity.isInstalledAntigravityCLI(executable) else {
+                throw FetchError.localServiceUnavailable
+            }
+            managedSession = try AntigravityManagedSession(
+                executable: executable,
+                arguments: ["--input-format", "stream-json", "--output-format", "stream-json", "--print="],
+                directory: FileManager.default.temporaryDirectory)
+        }
+        guard let session = managedSession else { throw FetchError.localServiceUnavailable }
+        session.renew()
+        do {
+            for _ in 0..<150 {
+                try Task.checkCancellation()
+                guard session.isRunning else { throw FetchError.localServiceUnavailable }
+                if session.isReady { return listeners(executable) }
+                try await Task.sleep(for: .milliseconds(200))
+            }
+            throw FetchError.localServiceUnavailable
+        } catch {
+            session.stop()
+            managedSession = nil
+            throw error
+        }
     }
 
     private func listeners(_ executable: URL) -> [LocalServiceListener] {

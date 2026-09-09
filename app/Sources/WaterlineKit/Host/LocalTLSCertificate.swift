@@ -17,10 +17,14 @@ enum LocalTLSCertificate {
         // Exact DER pin: reviewed SAN 127.0.0.1, RSA-2048/SHA-256 self-signature and validity.
         // This CLI-bundled certificate lacks serverAuth EKU. No other certificate inherits the exception.
         let digest = SHA256.hash(data: der).map { String(format: "%02x", $0) }.joined()
-        guard allowAntigravityCLIProfile,
-            digest == "b1366941e98e584cad699a9aecfff2fdd3576c731d380cccbf31c4854c07657c",
-            date >= Date(timeIntervalSince1970: 1_776_471_489),
-            date < Date(timeIntervalSince1970: 1_793_665_089)
+        let reviewedCertificates: [String: ClosedRange<TimeInterval>] = [
+            "b1366941e98e584cad699a9aecfff2fdd3576c731d380cccbf31c4854c07657c":
+                1_776_471_489...1_793_665_088,
+            "f8bbabd57a2dff32992f205ede841f9ba8d95cdf45982e1d0e73aa5834e9cf94":
+                1_788_894_135...1_806_087_734,
+        ]
+        guard allowAntigravityCLIProfile, let validity = reviewedCertificates[digest],
+            validity.contains(date.timeIntervalSince1970)
         else { return nil }
         return evaluate(certificate, policy: SecPolicyCreateBasicX509(), at: date)
     }

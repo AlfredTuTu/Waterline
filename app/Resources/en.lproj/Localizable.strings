@@ -360,7 +360,7 @@
 
 "Reads quota from the running Antigravity CLI on this Mac. Open the CLI and sign in there first; Waterline does not launch it or copy its tokens." = "Reads quota from the running Antigravity CLI on this Mac. Open the CLI and sign in there first; Waterline does not launch it or copy its tokens.";
 
-"Open Antigravity CLI with this account to refresh." = "Open Antigravity CLI with this account to refresh.";
+"Antigravity is unavailable. Check its login and retry." = "Antigravity is unavailable. Check its login and retry.";
 
 "Qwen / Bailian" = "Qwen / Bailian";
 

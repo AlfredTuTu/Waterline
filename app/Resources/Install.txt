@@ -5,7 +5,7 @@ Waterline — Installation / 安装
 3. If macOS blocks the first launch, open System Settings > Privacy & Security > Open Anyway.
 
 Waterline connects to saved logins. Approve Keychain access when macOS asks.
-For Antigravity, keep its signed-in CLI running. Start a new Claude Code session to
+Sign in to the Antigravity CLI once; Waterline starts its status session automatically. Start a new Claude Code session to
 receive local status-line updates; existing custom status lines are preserved.
 
 Click the island to see account cards. Drag to reorder and use the pin menu to choose
@@ -21,7 +21,7 @@ remove that entry from ~/.claude/settings.json.
 3. 首次打开若被拦截，前往“系统设置 → 隐私与安全性 → 仍要打开”。
 
 Waterline 自动连接已保存的登录；macOS 请求钥匙串访问时，按提示授权。
-使用 Antigravity 时保持其 CLI 已登录并运行。新建 Claude Code 会话即可接收本地
+Antigravity CLI 登录一次后，Waterline 会自动启动状态会话。新建 Claude Code 会话即可接收本地
 状态栏更新，已有的自定义状态栏会保留。
 
 点击灵动岛查看账号卡片，拖动排序，通过图钉菜单选择日常账号。
