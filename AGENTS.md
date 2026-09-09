@@ -1,29 +1,31 @@
 # AGENTS.md
 
-Waterline is a macOS notch/menu-bar app showing the usage windows and prepaid balances reported for
+Waterline is a macOS notch/menu-bar app showing subscription usage reported for
 accounts discovered on this machine. It has no backend or telemetry. Credentials go only to the
 appropriate provider endpoints. Missing data stays missing; deterministic calculations are allowed,
 and predictions must be labelled as estimates.
 
-## Where things are
+## Scope and documentation
 
-- `ARCHITECTURE.md` — what to build: process model, modules, data model, adapter contract, engine,
-  credential discovery, persistence, testing, toolchain.
-- `ACCEPTANCE.md` — what "done" means: the verification gates and each milestone's checklist.
-- `docs/ui.md` — the notch UI: states, rows, colours, interactions, geometry.
-- `docs/providers/<name>.md` — one contract per provider: credentials, endpoints, response mapping,
-  allowed hosts, capability-review and live-verification dates. `docs/providers/README.md` has the matrix and how to add one.
-- `docs/decisions.md` — why things are the way they are. Append a row when a decision changes.
-- GitHub Issues and milestones — the shared work queue when working through GitHub. A direct owner
-  request also defines work; do not require an issue for an explicitly requested local review or edit.
+Apply Occam's razor: do not add an entity, abstraction, file, feature or workflow unless needed for
+the current task. Consolidate duplicate rules; keep one authoritative home for each concern.
 
-## Reading the rules
+This file owns product scope, architecture, development and acceptance. `docs/ui.md` owns detailed
+presentation; `docs/providers/` owns source/endpoint/mapping contracts and dated evidence;
+`docs/decisions.md` records material decisions. Update affected references together. Later owner
+instructions supersede old plans. Requirements are not evidence of implementation: inspect the
+current checkout and distinguish targets, completed code and actual verification.
 
-Follow the owner's current task and constraints. Product requirements live in `ARCHITECTURE.md`;
-presentation behaviour in `docs/ui.md`; provider-specific evidence in `docs/providers/`; verification
-in `ACCEPTANCE.md`. Update related documents together when changing a rule. Historical decisions do
-not override their later replacements. Describe target behaviour separately from implemented and
-verified behaviour; neither a plan nor a passing build proves a provider works.
+Current scope is five native subscriptions: ChatGPT/Codex, Claude Code, Cursor, independent
+Grok/SuperGrok and Antigravity. Discover saved logins directly on first use under macOS authorization.
+Hide confirmed nonmembers; a failed read does not prove absent membership. Keep one compact pinned
+account, persistent manual card order, shortest reported window first (5h before 7d), and language
+selection. No enlargement on hover without additional information.
+
+API-key/balance integrations, estimates, alerts, session activity, Token records, launch at login,
+standalone settings/account/onboarding pages and the old milestone roadmap are outside current scope.
+Do not restore them without a new request. Preserve existing private account data during UI cleanup.
+GitHub Issues track issue-driven work; a direct owner request needs no extra issue.
 
 ## Source layout
 
@@ -46,35 +48,18 @@ verified behaviour; neither a plan nor a passing build proves a provider works.
    tests; check references, consistency and the existing gate. Report checks that could not run.
 5. Update affected contracts and append changed architectural decisions to `docs/decisions.md`.
 6. When delivery through GitHub is requested, use the PR template, reference the issue if present,
-   ensure CI is green, and add `status:review`. When the owner authorizes merging or end-to-end
-   release delivery, perform the normal squash merge and release workflow after the required checks;
-   do not require the owner to operate the merge button personally.
+   ensure CI is green, and add `status:review`. An end-to-end release request authorizes squash merge
+   after required checks, tagging, verified artifact upload and Release publication. Use PRs; direct/
+   force pushes to the default branch or repository visibility changes need specific authorization.
+
+Latest owner instructions define scope; authorization persists across turns. Do not ask again for
+approved actions. Platform permission controls still apply: explain a rejection and never bypass it.
+Authorization does not waive verification, data protection or truthful reporting.
 
 Resolve routine implementation choices within the authorised scope and record material trade-offs.
 If a change needs an owner decision about product scope, privacy or an incompatible interface, explain
 the concrete choice and continue unaffected work. Do not stop the entire task for every discrepancy.
 For issue-driven work, record scope changes on the issue and use `status:needs-decision` where needed.
-
-## Authorization and execution
-
-- The owner's latest explicit instructions define the authorized scope and supersede older project
-  workflow preferences. Authorization persists across turns; do not ask again for an action already
-  approved in this task.
-- An explicit end-to-end GitHub delivery/release request authorizes preparing and updating the PR,
-  merging the reviewed change after required CI passes, creating the release tag, uploading the
-  verified artifacts and publishing the Release in the named repository. Respect an explicit
-  draft-only or stop-before-merge instruction instead when present.
-- Use the PR workflow by default and verify the exact head before merging. Direct pushes or force
-  pushes to protected/default branches require a specific instruction; publishing does not implicitly
-  authorize changing repository visibility, bypassing branch protection or modifying unrelated work.
-- Requests to validate the owner's real accounts authorize the necessary bounded read-only checks
-  for those providers. Do not request a new approval for each routine check. Raw credential exposure,
-  unrelated destinations, purchases and expansion beyond the task are not implied.
-- Platform permission controls and automatic review still apply. If an action is rejected, explain
-  the concrete rejection and obtain any missing authorization; never bypass it indirectly. A new
-  explicit owner authorization may be used when retrying the same action.
-- Verification, data protection and truthful completion reporting remain mandatory. Authorization
-  to publish is not permission to invent successful tests or hide unresolved failures.
 
 ## Complete workflows and external assistance
 
@@ -83,28 +68,13 @@ provider, account and persistence logic. A visible action must reach that logic,
 success/failure, update the UI and persist the result where applicable. Verify restoration after
 relaunch. An isolated view, parser, mock response or passing unit test does not complete a user flow.
 
-Use Claude Code CLI or Grok explicitly selected through Cursor CLI for bounded design/technical
-consultations when evidence or an implementation choice remains uncertain. These are the permitted
-external AI assistants for backend research, architecture, provider integrations, data, persistence,
-security and debugging; do not use Antigravity for those tasks. Verify the current Cursor model list
-and select its exact Grok model ID instead of relying on a default model. The owner's reference to
-"Grok Bot quota" means the quota available for Grok within Cursor, not a separate bot or the standalone
-Grok Build CLI. Check Cursor's actual reported allowance and applicable billing before use; model-list
-availability alone does not establish remaining quota or free usage. Antigravity CLI is limited to
-frontend design alternatives; Figma can
-establish layouts, components and interaction states when that would resolve a design question.
-Compare candidates using the same brief and states, assessing clarity, native macOS fit, accessibility,
-implementation cost and actual flow completeness. Select and implement a coherent result; a Figma
-frame or another agent's opinion is not native-app verification. The owner has authorised these aids
-for this project; no separate approval is needed for each ordinary consultation within this scope.
-
-Keep consultation economical: inspect available usage information without exposing credentials,
-send only the minimum relevant redacted context, and begin with one bounded call plus a targeted
-follow-up only if needed. Avoid sending the whole repository or repeatedly asking multiple models the
-same question. Use read-only/planning tool permissions for advice; any delegated edits must have a
-bounded file scope and be reviewed before integration. Never bypass permission controls. Do not enable
-extra billing or buy usage credits without explicit approval. API-dollar caps do not establish a cap on
-subscription-window usage; if remaining quota cannot be read, report it as unknown and limit calls.
+When useful, use one bounded consultation with Claude Code CLI or explicitly selected Grok through
+Cursor CLI for technical/design work. Verify Cursor's exact Grok model ID and available allowance;
+model availability is not proof of quota. Cursor Grok Bot consultation quota is separate from the
+product's independent Grok account. Antigravity CLI and Figma are frontend design aids only.
+These aids are authorized; send minimum redacted context, use read-only permissions for advice and
+review any bounded delegated edits. Do not buy credits or enable extra billing without explicit
+approval. If quota is unknown, limit calls; unavailable helper quota does not block local work.
 
 Do not presume a blocker before investigating. Inspect code, reproduce the issue, consult primary
 documentation and, where useful, consult one of the authorised assistants for alternatives; then test
@@ -134,8 +104,8 @@ works. Keep unresolved or unverified items open and report exactly which behavio
 - Keep account identity separate from credentials; rotating a secret must not reset history or settings.
 - Send secrets only over HTTPS to the account's documented provider/region endpoints, within the
   adapter's `allowedHosts`. Enforce this on redirects too; never forward credentials to another origin.
-- Recurring background work never shows a Keychain prompt. Prompts are limited to the owner-approved
-  initial connection flow or an explicit reconnect, using macOS's normal authorization controls.
+- Recurring background work never shows a Keychain prompt. Interactive reads belong only to the
+  authorized initial connection or explicit recovery; cancellation must not trigger repeated prompts.
 - Automated tests never contact live services or the real Keychain. Fixtures are reviewed and redacted;
   `Scripts/audit.sh` is an additional pattern check, not proof that all private data was removed.
 - Prefer system libraries. A new dependency needs a concrete benefit, licence and maintenance review,
@@ -152,10 +122,9 @@ works. Keep unresolved or unverified items open and report exactly which behavio
 - `make format` — apply the formatter before committing.
 - `make app`, `make run` — bundle `build/Waterline.app` and relaunch it. Only for UI checks.
 - `.build/debug/waterline snapshot --json` — read the last stored snapshot; `version` is also implemented.
-- CLI now includes `accounts`, `refresh [--provider codex] [--json]`, `connect <provider>`, and
-  `account enable/disable/pin/unpin/rename/remove`. Manual `account add <provider> --stdin` and `account key <id> --stdin` are implemented for supported manual providers; raw `--dump` remains planned. Implemented commands have injected CLI entry-point coverage. Check implementation before using these commands. A live check needs explicit
-  authorisation in the task or owner request. `connect <provider>` permits an announced Keychain read; `--dump`
-  is a separate, explicit raw-capture action governed by `docs/providers/README.md`.
+- Inspect `Sources/WaterlineCLI` before using additional commands; a planned interface is not an
+  implemented command. Authorized real-account checks are bounded and read-only. Raw capture is
+  separate and follows `docs/providers/README.md`; secrets never go in command arguments.
 - Reference toolchain: Xcode 26.6, Swift 6.3.x. `make` defaults to `/Applications/Xcode.app`; CI selects
   `/Applications/Xcode_26.6.app`. Direct `xcrun` and bundle-script calls need `DEVELOPER_DIR` explicitly.
   Verify versions at these paths; do not silently switch toolchains to make a check pass.
@@ -167,3 +136,131 @@ works. Keep unresolved or unverified items open and report exactly which behavio
   End the body with `Refs #<n>` when there is an issue; never invent a reference.
 - No attribution trailers or generated-by lines in commits or PR descriptions. Use the owner's configured authorship.
 - Never commit secrets, `.env`, unredacted captures, `build/` or `.build/`.
+
+## Architecture
+
+### Process, accounts and discovery
+
+One `LSUIElement` app runs an engine actor in-process; the CLI uses the same engine headlessly.
+Snapshot plus CLI is the integration surface: no daemon, socket or local HTTP service.
+
+Account IDs are stable opaque local IDs, reconciled by provider, region and billing identity. Keep
+teams, regions and subscriptions separate. Bind provisional IDs to documented sources until identity
+is known. Do not merge by email/model/vendor or derive identity from secrets. Same-account credential
+rotation preserves settings/history; account switches and ambiguous matches stay separate. Secrets
+remain in memory with redacted descriptions, never serialized.
+
+Read documented files and Keychain items through injected boundaries; open tool databases read-only.
+Never execute shell config, scan arbitrary directories for secrets, copy credential databases to
+bypass locks, refresh another tool's credentials or probe other provider/region endpoints with a key.
+Authorized status-line integration follows its contract and preserves existing configuration.
+Background Keychain reads disable interaction. Unreadable sources report a source-local failure,
+not an empty account list; locked accounts can retain nonsecret source metadata.
+
+### Metrics and HTTP
+
+- Keep metric ID, unit, scope, receipt time (`fetchedAt`), observation time (`observedAt`) and origin.
+  Local records retain their original time: rereading does not renew freshness. A missing reset or
+  fraction does not invalidate an independently valid metric.
+- Derive percentages only from reported fractions or comparable used/positive-total values. Document
+  unit conversions, remaining calculations and countdowns in the provider contract. Unknown is absent,
+  never zero. Reject nonfinite/out-of-domain values unless documented; retain overage text, cap only
+  bar fill. Legacy balances use `Decimal` and known currencies, never mixed-currency totals.
+- Fetch results carry metrics, provenance and component failures. Publish valid independent components;
+  retain failed previous components as stale with their own age/error. Optional omission alone cannot
+  revive an old value. Use the provider contract's omission semantics.
+- Map authentication failures to `unauthorized`, 429 to `rateLimited(retryAfter:)`, network/5xx to
+  `transport`. Permission-only 403 does not necessarily mean signed out. Schema errors identify field
+  paths without raw response bodies or decoding errors. Ignore unrelated added fields.
+- Use the shared ephemeral `URLSessionHTTPClient`, 15-second request and 30-second resource timeouts,
+  no persistent cookies/cache or secret-bearing diagnostics. Validate HTTPS, exact host and account
+  endpoint before sending. Reject redirects by default; documented same-origin exceptions revalidate.
+  Never forward secrets across origins. Update adapter, registration, contract and fixtures together.
+
+### Engine and persistence
+
+- Display valid cached state immediately, then discover/refresh. Isolate failures. Preserve corrupt or
+  legacy state for recovery; never overwrite unsupported newer schemas.
+- Freshness uses each metric's observation time and documented maximum age (default twice the normal
+  interval). Backoff never extends freshness. A passed reset expires that metric and schedules an
+  eligible refresh, never a fabricated zero. Local success and network failure remain independent.
+- The native app checks enabled accounts every 60 seconds; provider contracts define endpoint limits
+  and local observation rules. One engine-wide limiter permits at most four active HTTP requests,
+  including discovery/profile calls; cancellation releases or removes its slot. Provider contracts own cadence. Coalesce overlapping requests; respect `Retry-After`, fallback backoff
+  and authentication parking, including manual refresh. Missing/zero server delay must not cause a
+  retry loop. Persist effective server gates across restart. Manual refresh may bypass ordinary
+  cadence and transport fallback, never rate-limit gates. Use bounded exponential retry up to
+  30 minutes; success resets it. Claude's ordinary
+  online fallback minimum is 300 seconds, a Waterline policy rather than a published server limit.
+- Credential change/recovery can unpark authentication. Wake, network recovery and source changes
+  trigger one eligible refresh, not catch-up bursts. Prefer events/deadlines to unnecessary polling;
+  stop cancels work. Inject boundaries and wall/monotonic clocks; tests advance fake time without sleeps.
+- Publish/persist once per meaningful state change. Countdown rendering does not write snapshots;
+  persistence errors do not erase in-memory results.
+- State belongs in `~/Library/Application Support/Waterline/`; `snapshot.json` is versioned, atomic,
+  ISO-8601 dated and secret-free. Versioned atomic `configuration.json` holds account metadata,
+  source switches, pins and order; save validated configuration before applying mutations. Language
+  uses the app AppleLanguages preference; app-owned Keychain entries use
+  `io.github.alfredtutu.waterline`. Explicit exports follow provider rules. Keep files owner-only;
+  account metadata and paths can be private too. Distinguish OS bookkeeping from app-directed writes.
+- One engine owns the writer lock through load/discovery/refresh/persistence. CLI mutations refuse
+  while the app owns it; snapshot reads need no lock. Release locks on exit. Test migrations and keep
+  unmatched legacy history separate rather than guessing identities.
+
+## Acceptance
+
+Completion means the authorized scope and applicable checks pass, not every historical roadmap item.
+Keep evidence in the task/delivery record; do not create duplicate tracking systems. Record unavailable
+checks and limitations honestly. A mock, screenshot or unrelated passing test cannot close a real flow.
+
+### Automated gate and change verification
+
+`DEVELOPER_DIR=/Applications/Xcode.app make verify` runs the following; CI runs the same target on
+`macos-26` using `/Applications/Xcode_26.6.app`. Record actual toolchain and tested commit. SwiftPM uses
+`swift-tools-version: 6.2`, macOS 14 minimum and Swift 6 strict concurrency; declaring an OS minimum does
+not prove native execution there. A local pass does not prove remote CI.
+
+| Gate | Pass condition |
+|---|---|
+| Build/test | `xcrun swift build` and `xcrun swift test` pass; explain new warnings. No real services, sockets or Keychain in automated tests. |
+| Format | `xcrun swift-format lint --strict --recursive Package.swift Sources Tests` has no findings. |
+| Whitespace | `git diff --check` and `git diff --cached --check` pass; no conflict markers. |
+| Scripts | Cask generator, app runner and update-configuration Python checks in `make verify` pass. |
+| Audit | `Scripts/audit.sh` passes; separately review redaction and dependencies missed by pattern checks. |
+
+Documentation-only changes check consistency, references and existing gate configuration; no new
+behavioural tests or live calls are needed. Logic changes need meaningful regression/failure tests;
+UI/OS changes also need the exact native Release app and relevant interactions, including relaunch.
+
+- Identity/discovery: verify locked sources, duplicates, regions/teams, credential rotation, account
+  switches and evidence-based legacy migration.
+- HTTP/parser: cover 401/403, 429 numeric/date/missing delay, 5xx, timeout, HTTPS/host/redirect rejection,
+  genuine zero, absent optional fields, added fields, invalid required fields and partial success.
+- Engine/storage: cover observation freshness, reset expiry, isolation, coalescing, retry/parking,
+  wake/recovery, cancellation, atomic writes, writer ownership and unsupported schema preservation.
+- Native flows: connection reaches actual data or accurate recovery; refresh completes under engine
+  rules; pin, card order and language change the rendered app and survive relaunch. Check cancellation
+  and no recurring Keychain prompts. Verify compact/expanded, notch/no-notch, Spaces/full-screen,
+  one-panel ownership, scrolling, long names, keyboard, VoiceOver, Reduce Motion and both languages.
+- Live evidence records date, provider, region, plan kind, metrics and limitations without private
+  identifiers. Fixtures are not live verification; unavailable promised scope remains a gap. Use the
+  owner's authorized real accounts. For fixes repeat the original scenario and affected flow; if
+  reproduction is unavailable, state the alternative evidence and limit.
+
+### Runtime and release
+
+Measure the exact Release build with actual authorized accounts; no separate fixture app is required.
+Record commit/executable, toolchain, OS, hardware/RAM, display, account count, cadence and measurement
+tool. After 10 minutes warm-up, sample 10 minutes at one-second intervals including normal refreshes:
+mean CPU below 1% (100% is one core), peak physical memory below 120 MB. Report peaks, gaps and excluded
+events; never silently change thresholds or definitions. Inspect writes across launch, refresh and
+preference changes: no unexplained state, credential copies, persistent HTTP bodies/cookies or exports.
+
+For requested releases, verify required CI on the reviewed change, tag, artifact identity/checksum,
+installation and relaunch. The owner accepts ad-hoc signed, unnotarized initial distribution with
+macOS Privacy & Security allowance on first open. Describe that accurately. Notarization, Homebrew,
+self-updates and repository visibility changes are not implied requirements. Do not claim untested
+OS versions, plans or provider capabilities are verified.
+
+Release-specific verification evidence remains in `docs/release-readiness.md`; provider-specific
+Claude GUI/CLI identity, timestamps, expiry and fallback rules remain in its provider contract.

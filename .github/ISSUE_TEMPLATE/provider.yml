@@ -37,7 +37,7 @@ body:
       value: |
         - Discovery uses synthetic files/Keychain, preserves stable account identity and never prompts in the background
         - Required-field failures report schemaChanged; extra fields, optional omissions and independent valid components follow the documented contract
-        - HTTPS, exact allowed hosts, account region and redirects obey ARCHITECTURE.md
+        - HTTPS, exact allowed hosts, account region and redirects obey AGENTS.md
         - Fixtures include provenance and are manually reviewed for private data; the audit script also passes
         - An authorised live check verifies the declared supported scope; missing access or unsupported metrics are recorded as gaps
         - Provider contract records source links, mapping, supported scope and actual verification date; no live date for fixture-only work

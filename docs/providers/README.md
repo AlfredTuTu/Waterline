@@ -55,7 +55,7 @@ from an account's locale. Billing spend without a real allowance denominator is 
 2. Define identity, region and credential discovery through the injected environment. Background
    Keychain reads are permitted only with interaction disabled; return a connection reason if blocked.
 3. Implement `Providers/<Name>/<Name>Adapter.swift` and register it. Use the shared HTTP boundary;
-   HTTPS, account-specific endpoint selection and redirects follow `ARCHITECTURE.md`.
+   HTTPS, account-specific endpoint selection and redirects follow `AGENTS.md`.
 4. Map supported fields. Ignore unrelated additions; incompatible required fields become
    `schemaChanged` naming their path. Preserve independent valid components and their timestamps.
    Missing optional values do not require fabricated zeros, resets or plan names.

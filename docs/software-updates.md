@@ -68,7 +68,7 @@ must be established before publishing an update-capable build.
   disabled checks, version comparison and update-signing key rotation policy.
 
 An ad-hoc build, feed parser test or framework import cannot prove this flow. Until the
-signed old/new artifact test succeeds, signed updates remain incomplete in ACCEPTANCE.md.
+signed old/new artifact test succeeds, signed updates remain incomplete in AGENTS.md.
 
 ## Configuration and archive policy checks
 

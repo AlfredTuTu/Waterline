@@ -10,7 +10,7 @@ is a silent compatibility no-op. Historical design below is not a current featur
 Status: initial implementation, 2026-09-08. The CLI receiver, local notification
 transport, session-state model, native opt-in/banner and owned-entry cleanup exist.
 The complete real-tool/native workflow remains unverified; this does not close
-ACCEPTANCE.md's hook requirement.
+AGENTS.md's hook requirement.
 
 [Claude Code's official hooks reference](https://code.claude.com/docs/en/hooks)
 documents command-hook JSON input including `session_id` and `hook_event_name`.

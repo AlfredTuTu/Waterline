@@ -2,7 +2,7 @@
 
 Target behaviour, not a claim that the current placeholder implements it. Pure selection, health,
 ordering, formatting and geometry belong in `WaterlineKit/Presentation`; native interactions in the app.
-Data and freshness follow `ARCHITECTURE.md`.
+Data and freshness follow `AGENTS.md`.
 
 ## Current owner direction — 2026-09-06
 
@@ -127,7 +127,7 @@ or its fingerprint. Quota and balance are sections of that same row when both ex
 | Component/state | Presentation |
 |---|---|
 | Quota | Label, available count/unit or percent; bar only for a valid fraction; reset countdown only when supplied. Fresh fractions sort descending, then metrics without fractions by stable metric ID. Stale components follow fresh ones with age. |
-| Balance | Amount and explicit currency; one line per currency. Show estimate labels only when the history criteria in `ARCHITECTURE.md` hold. Detail explains the observation period and net-decrease method. |
+| Balance | Amount and explicit currency; one line per currency. Balance estimates are outside the current product scope in `AGENTS.md`. |
 | Partial | Show valid components normally; failed retained components greyed with individual age/reason. Missing components show a reason where needed, no fabricated value. |
 | Stale | Keep the last reading, secondary colour and observation age. Passed reset time reads `Awaiting update`, never a negative countdown or a local zero reset. |
 | Unavailable | Reason only, such as `Needs connect`, `Signed out`, `Access needed`, `Offline`, `Usage unavailable`. Offer a relevant recovery action. |

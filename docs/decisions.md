@@ -1,6 +1,6 @@
 # Decisions
 
-Append-only history. ARCHITECTURE.md describes the current target and implementation status.
+Append-only history. AGENTS.md defines current scope, architecture and acceptance; delivery records hold implementation evidence.
 Later rows explicitly supersede earlier decisions; an old row is not a current rule or evidence of implementation.
 
 | Date | Decision | Why |
@@ -191,3 +191,5 @@ Later rows explicitly supersede earlier decisions; an old row is not a current r
 | 2026-09-09 | Remove obsolete build caches, preview bundles, development DMGs, draft archives and duplicate historical documents. Retain current artifacts, selected evidence and account-state backups. | Owner explicitly requested removing all unnecessary files. Historical tracked content remains recoverable through Git. |
 
 | 2026-09-09 | Honor explicit end-to-end merge/release authorization without requiring the owner to click merge personally. Preserve exact-head CI checks, platform review and data-protection boundaries. | Owner explicitly authorized PR #26 merge and requested removing redundant AGENTS.md permission restrictions after automatic review rejected the old owner-only rule. |
+
+| 2026-09-09 | Consolidate architecture and acceptance in AGENTS.md and keep release evidence in release-readiness.md; retain one desktop main checkout. | Owner requested Occam's razor and removal of the completed development worktree; preserve current provider contracts and tests. |

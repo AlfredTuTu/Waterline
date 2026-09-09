@@ -96,7 +96,7 @@ The app and CLI cannot concurrently mutate the same engine state.
 
 ## Performance and release status
 
-Final acceptance is tracked in [ACCEPTANCE.md](ACCEPTANCE.md). Measurements must
+Project rules and acceptance are consolidated in [AGENTS.md](AGENTS.md); release evidence is in [release readiness](docs/release-readiness.md). Measurements must
 identify the exact installed binary, account configuration and observation period.
 To measure an already-running real-account app without restarting it:
 
@@ -128,5 +128,5 @@ claimed. Repository visibility remains private unless explicitly changed.
 - `Scripts`: reproducible builds, verification, packaging and performance measurement.
 - `docs`: current contracts and decisions. Superseded records remain in Git history.
 
-[Architecture](ARCHITECTURE.md) · [UI behavior](docs/ui.md) ·
+[Project rules](AGENTS.md) · [UI behavior](docs/ui.md) ·
 [Decisions](docs/decisions.md) · [License](LICENSE)

@@ -13,7 +13,7 @@ body:
     id: scope
     attributes:
       label: Scope
-      description: Files, types and behaviours this task owns. Reference ARCHITECTURE.md sections.
+      description: Files, types and behaviours this task owns. Reference AGENTS.md sections.
     validations:
       required: true
   - type: textarea
@@ -41,7 +41,7 @@ body:
     id: docs
     attributes:
       label: Docs to update
-      description: Which of ARCHITECTURE.md, ACCEPTANCE.md, docs/ui.md, docs/providers/*.md, docs/decisions.md change.
+      description: Which of AGENTS.md, docs/ui.md, docs/providers/*.md, docs/decisions.md change.
   - type: input
     id: blocked-by
     attributes:

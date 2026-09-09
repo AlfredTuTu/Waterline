@@ -190,7 +190,7 @@ account returned fresh readings. Native overview displayed all nine configured
 accounts; Antigravity detail showed Gemini and Claude/GPT groups with 5h on the
 left and 7d on the right. The account persisted in the installed application.
 Evidence: ignored `build/verification/order-and-cadence-native.json` and the
-owner-priority checkpoint in ACCEPTANCE.md. This establishes one real account
+owner-priority evidence in ../release-readiness.md. This establishes one real account
 and this display scope, not all plans or inactive-CLI availability. The app still
 does not start the CLI, extract its token or invent data while it is absent.
 

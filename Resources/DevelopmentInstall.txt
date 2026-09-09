@@ -1,7 +1,7 @@
 Waterline — development build / 开发测试版本
 
 This image is locally ad-hoc signed. It is not a notarized public release.
-Provider and native acceptance remains incomplete; see the repository's ACCEPTANCE.md.
+Provider and native acceptance remains incomplete; see the repository's AGENTS.md.
 
 For a local installation check, quit an existing Waterline instance before copying Waterline.app
 to Applications. Preserve an existing installation if you need to compare or roll back. Eject this
@@ -26,7 +26,7 @@ Waterline-owned hooks are removed; other tools' logins are unchanged.
 
 
 此镜像仅使用本地临时签名，不是已公证的公开发行版本。
-服务商接入和原生功能验收尚未全部完成，请查阅仓库中的ACCEPTANCE.md。
+服务商接入和原生功能验收尚未全部完成，请查阅仓库中的AGENTS.md。
 
 本地安装检查：先退出正在运行的Waterline，将Waterline.app复制到Applications。
 如需对比或回退，请保留原有安装。推出此镜像后，再打开已复制的应用。
