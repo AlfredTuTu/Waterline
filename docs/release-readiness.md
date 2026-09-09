@@ -70,3 +70,10 @@ and [installation text](../Resources/Install.txt). Historical readiness is retai
 
 Detailed local evidence is consolidated in
 `build/verification/release-validation-summary.json` and the final runtime report.
+
+## Installation-text refresh — 2026-09-09
+
+The release attachment is now `Waterline-0.1.0-arm64.dmg`. It packages the same application
+with simplified installation text. The earlier DMG hash above identifies the original image;
+the replacement SHA256 is `8e83af07296ff0c7c57bf9b676e413d0dc83d7ac6d221ba9077b65a9929f6263`.
+The image integrity check passed and the uploaded GitHub asset digest matches the local image.

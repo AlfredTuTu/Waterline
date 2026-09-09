@@ -15,7 +15,7 @@ version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$app/C
 architecture=$(lipo -archs "$app/Contents/MacOS/WaterlineApp" | tr ' ' '-')
 if [[ "$mode" == --adhoc-release ]]; then
     bash Scripts/check-distribution.sh "$app" --adhoc-release
-    image="build/Waterline-$version-$architecture-unnotarized.dmg"
+    image="build/Waterline-$version-$architecture.dmg"
     volume="Waterline $version"
     instructions=Resources/Install.txt
 else

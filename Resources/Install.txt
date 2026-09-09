@@ -1,11 +1,9 @@
 Waterline 0.1.0 — installation / 安装说明
 
-This release is ad-hoc signed and has not been notarized by Apple.
 1. Quit an existing Waterline instance, then drag Waterline.app to Applications.
 2. Eject the disk image and open Waterline from Applications.
 3. If macOS blocks the first launch, open System Settings > Privacy & Security,
    find the Waterline message, choose Open Anyway and confirm the system prompt.
-   Do not disable Gatekeeper. Organizational device policies may prevent overrides.
 
 The island shows one account. Click for all accounts, drag cards to reorder, and
 use the pin menu to select the daily account. The Waterline menu contains ordering,
@@ -23,11 +21,10 @@ statusLine command, remove only that matching statusLine entry from
 ~/.claude/settings.json; a settings-waterline-backup-*.json file holds the original.
 Do not restore an old full settings backup over subsequent unrelated changes.
 
-本版本使用本地签名，未经Apple公证。
 1. 先退出已运行的Waterline，将Waterline.app拖到Applications（应用程序）。
 2. 推出磁盘镜像，从应用程序打开Waterline。
 3. 若首次打开被macOS拦截，打开“系统设置→隐私与安全性”，找到Waterline提示，
-   点击“仍要打开”并按系统提示确认。不需要关闭Gatekeeper；受管理设备可能不允许覆盖策略。
+   点击“仍要打开”并按系统提示确认。
 
 灵动岛显示一个账号，点击查看全部账号，拖动卡片排序，图钉菜单选择日常账号。
 底部Waterline菜单提供排序、收起和退出；菜单栏菜单提供语言选择，不提供开机启动功能。
