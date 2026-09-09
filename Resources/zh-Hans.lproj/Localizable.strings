@@ -1,0 +1,451 @@
+/* Waterline native UI. Provider names and reported labels remain data. */
+"%@ reached a usage threshold." = "%@已达到用量阈值。";
+"%@ saved-key deletion(s) still need cleanup." = "仍有%@个已保存的密钥待清理。";
+"%@ used" = "已用%@";
+"%@ · %@" = "%@ · %@";
+"%@ · App environment" = "%@ · 应用环境变量";
+"%@: source could not be read." = "%@：未能读取数据来源。";
+"%@: usage alert" = "%@：用量提醒";
+"+%@ more windows" = "另有%@项额度";
+"60–3600 seconds. Server backoff and signed-out accounts take precedence." = "支持60–3600秒；遇到服务端限流或登录失效时会暂停请求。";
+"7-day balance · %@" = "7天余额 · %@";
+"API key" = "API密钥";
+"Access permission is required" = "需要访问权限";
+"Access required" = "需要访问权限";
+"Account actions" = "账号操作";
+"Account details" = "账号详情";
+"Account name" = "账号名称";
+"Account name (optional)" = "账号名称（可选）";
+"Account region" = "账号地区";
+"Account removed; saved-key deletion is pending. Retry cleanup in Privacy settings." = "账号已移除，已保存的密钥仍待删除，可在隐私设置中重试清理。";
+"Account settings and snapshots are stored in Library/Application Support/Waterline. Waterline never changes another tool’s credentials." = "账号设置和快照保存在Library/Application Support/Waterline中。Waterline不会修改其他工具的凭据。";
+"Accounts" = "账号";
+"Accounts paused" = "账号已暂停";
+"Add %@ account" = "添加%@账号";
+"Add a provider key in Accounts. Its required type and destination are shown before saving." = "在账号页添加服务商密钥，保存前会显示所需密钥类型和请求目标。";
+"Add key" = "添加密钥";
+"Additional quotas" = "附加额度";
+"All accounts (%@)" = "全部账号（%@）";
+"All accounts are paused. Open All accounts to resume." = "所有账号均已暂停，可在全部账号中恢复。";
+"All providers" = "全部服务商";
+"Allow Waterline in System Settings to finish enabling launch at login." = "请在系统设置中允许Waterline登录时启动。";
+"Allow Waterline notifications in macOS System Settings." = "请在macOS系统设置中允许Waterline通知。";
+"An estimate needs a fresh balance and at least 24 hours of comparable observations." = "估算需要最新余额和至少24小时的可比观测。";
+"Another Waterline process is updating accounts." = "另一个Waterline进程正在更新账号。";
+"Awaiting update" = "等待更新";
+"Back to all accounts" = "返回账号列表";
+"Balance" = "余额";
+"Balance history could not be saved." = "余额历史未能保存。";
+"Cancel" = "取消";
+"Changes could not be saved." = "更改未能保存。";
+"Check source" = "检查来源";
+"Check the source configuration, then check this source again." = "请检查来源配置，然后重新检查此来源。";
+"Checked %@" = "查询于%@";
+"Checking…" = "正在查询…";
+"Choose region" = "选择地区";
+"Choose the region where this key was created." = "请选择创建此密钥的地区。";
+"Claude Code’s saved Keychain login, or its credentials file when no Keychain item exists." = "读取Claude Code保存的钥匙串登录信息；没有对应钥匙串项目时读取其凭据文件。";
+"Close" = "关闭";
+"Codex’s saved local login file. API-key-only logins do not report subscription quota here." = "读取Codex保存的本地登录文件；仅使用API密钥的登录方式无法在此查询订阅额度。";
+"Component: %@" = "数据项：%@";
+"Connect" = "连接";
+"Connect accounts" = "连接账号";
+"Connect may ask for Keychain access. Background checks never show a permission dialog." = "主动连接时可能请求钥匙串访问权限，后台检查不会弹出授权对话框。";
+"Connect reads the saved login. macOS may ask for access." = "连接会读取已保存的登录信息，macOS可能请求访问授权。";
+"Connect reads the tool’s saved login. macOS may ask you to allow access. Background checks never request a dialog." = "连接会读取工具已保存的登录信息，macOS可能请求访问授权。后台检查不会弹出授权对话框。";
+"Connect the provider’s saved login from Accounts." = "在账号页连接该服务商已保存的登录信息。";
+"Connect your accounts" = "连接你的账号";
+"Connection guide" = "连接指南";
+"Continue to accounts" = "进入账号设置";
+"Could not change launch at login. Check Login Items in System Settings and try again." = "未能更改登录启动设置，请检查系统设置中的登录项后重试。";
+"Could not load or save account state." = "未能读取或保存账号状态。";
+"Could not open this account." = "暂时无法打开此账号。";
+"Could not reach the provider" = "无法连接服务商";
+"Could not read alert settings. Existing settings were preserved." = "未能读取提醒设置，原有设置已保留。";
+"Could not restore the latest account state." = "未能恢复最新账号状态。";
+"Could not save alert history. Notifications are paused until storage recovers." = "未能保存提醒记录，通知暂时暂停，存储恢复后将重试。";
+"Could not save the change. Check account state and storage." = "未能保存更改，请检查账号状态和存储。";
+"Could not save the latest account state." = "未能保存最新账号状态。";
+"Could not update notifications. Check system permissions and try again." = "未能更新通知设置，请检查系统权限后重试。";
+"Credential source could not be read." = "未能读取凭据来源。";
+"Cursor’s local login database, opened read-only." = "以只读方式打开Cursor的本地登录数据库。";
+"Destination: %@" = "请求目标：%@";
+"Details" = "查看详情";
+"Diagnostic details" = "诊断详情";
+"Disabled" = "已关闭";
+"Display & refresh" = "显示与刷新";
+"Each currency is evaluated separately. Thresholds must be positive." = "各币种独立判断，阈值须大于零。";
+"Earlier reading · %@" = "上次数据 · %@";
+"Earlier reading · awaiting update" = "上次数据 · 等待更新";
+"Enable this credential source to refresh this account." = "请启用此凭据来源后再刷新账号。";
+"Enable this source in Settings before connecting." = "请先在设置中启用此来源，再连接账号。";
+"Enabled" = "启用";
+"Enter a non-empty key without spaces or line breaks." = "请输入密钥，不要包含空格或换行。";
+"Enter the team ID for this management key." = "请输入此管理密钥对应的团队ID。";
+"Field: %@" = "字段：%@";
+"Follow system" = "跟随系统";
+"General" = "通用";
+"History could not be saved. Check disk space and data-folder access." = "历史未能保存，请检查磁盘空间和数据文件夹访问权限。";
+"History could not be saved. Current readings are still available." = "历史未能保存，当前数据仍可查看。";
+"History could not be saved; latest balances are available." = "历史未能保存，最新余额仍可查看。";
+"If the variable is unavailable in this app session, add a key manually." = "如果当前应用会话中没有此变量，请手动添加密钥。";
+"Included quota" = "套餐额度";
+"Key could not be saved. Unlock Keychain, then update the pending account’s key." = "密钥未能保存，请解锁钥匙串后更新待处理账号的密钥。";
+"Language" = "语言";
+"Launch at login" = "登录时启动";
+"Loading account…" = "正在加载账号…";
+"Login item status is unavailable." = "登录项状态不可用。";
+"Low balance (CNY)" = "低余额阈值（CNY）";
+"Low balance (USD)" = "低余额阈值（USD）";
+"Main quota" = "主额度";
+"Manual key, or DEEPSEEK_API_KEY when explicitly enabled in Optional sources." = "使用手动密钥，或主动启用可选来源中的DEEPSEEK_API_KEY。";
+"Manual key, or explicitly enabled environment and Claude Code settings sources." = "使用手动密钥，或主动启用环境变量及Claude Code设置来源。";
+"Manual keys stay in Waterline’s Keychain service. Choose the key’s region when requested." = "手动添加的密钥保存在Waterline钥匙串中，必要时请选择密钥所属地区。";
+"Needs attention" = "需要处理";
+"Net balance change over the observed period; offsetting deposits and charges may be hidden." = "根据观测期间的余额净变化估算，同时发生的充值与扣费可能相互抵消。";
+"New threshold crossings only. At most one alert per account each hour." = "仅提醒新发生的阈值跨越，每个账号每小时最多一次。";
+"Next allowed refresh: %@" = "下次可刷新时间：%@";
+"No account is available from this source." = "此来源暂无可用账号。";
+"No connected accounts." = "尚未连接账号。";
+"Not refreshed" = "尚未刷新";
+"Not supported" = "暂不支持";
+"Notifications are disabled in macOS System Settings." = "通知已在macOS系统设置中关闭。";
+"On-demand usage" = "按量用量";
+"Open Login Items Settings" = "打开登录项设置";
+"Open Settings to connect your coding tools, then refresh to see their usage." = "在设置中连接编程工具，刷新后即可查看用量。";
+"Open Waterline manually when you need it." = "需要时手动打开Waterline。";
+"Open console" = "打开控制台";
+"Optional sources" = "可选来源";
+"Overview" = "概览";
+"Partial" = "部分数据";
+"Partial data · some readings are older" = "部分数据不完整或尚未更新";
+"Pause a source to stop its requests. Missing usage stays unavailable; it is never shown as zero." = "暂停来源即可停止其请求。缺失的用量会显示为不可用，不会显示为零。";
+"Pause account" = "暂停账号";
+"Paused" = "已暂停";
+"Permission needed to read the saved login" = "读取已保存的登录信息需要授权";
+"Personal Coding Plan key. Team selectors are not yet supported." = "请输入个人Coding Plan密钥，暂不支持团队选择。";
+"Personal cap" = "个人上限";
+"Pin account" = "固定账号";
+"Pin in overview" = "固定在概览";
+"Posted credit history · %@" = "已入账余额历史 · %@";
+"Posted ledger; current-cycle charges may not be included. No depletion estimate is shown." = "已入账记录可能尚未包含本周期费用，因此不估算剩余天数。";
+"Posted prepaid credit · %@" = "已入账预付余额 · %@";
+"Privacy" = "隐私";
+"Provider asked us to wait before refreshing" = "服务商要求稍后再刷新";
+"Quit Waterline" = "退出Waterline";
+"Quota critical (%)" = "额度告急（%）";
+"Quota warning (%)" = "额度预警（%）";
+"Read DEEPSEEK_API_KEY" = "读取DEEPSEEK_API_KEY";
+"Read DeepSeek from Claude Code settings" = "从Claude Code设置读取DeepSeek";
+"Reads only the environment inherited by this app. The key is sent only to api.deepseek.com; shell startup files are not read." = "仅读取此应用继承的环境变量，密钥只发送到api.deepseek.com，不读取Shell启动文件。";
+"Reads ~/.claude/settings.json only when it declares the direct DeepSeek endpoint. Commands, helpers and project overrides are not evaluated." = "仅在~/.claude/settings.json声明直接DeepSeek地址时读取，不执行命令、辅助程序或项目级覆盖配置。";
+"Reconnect" = "重新连接";
+"Recorded balance history, %@ observations" = "余额历史，共%@次观测";
+"Refresh" = "刷新";
+"Refresh interval (seconds)" = "刷新间隔（秒）";
+"Refresh interval must be between 60 and 3600 seconds." = "刷新间隔须为60至3600秒。";
+"Region: %@" = "地区：%@";
+"Remove" = "移除";
+"Rename" = "重命名";
+"Reported spending; quota percentages shown separately." = "这里显示金额用量，额度百分比单独列出。";
+"Request quota" = "请求额度";
+"Resets %@" = "%@后重置";
+"Resume account" = "恢复账号";
+"Retry history storage" = "重试保存历史";
+"Retry key cleanup" = "重试清理密钥";
+"Save" = "保存";
+"Save key" = "保存密钥";
+"Saved" = "已保存";
+"Saved login not found" = "未找到已保存的登录信息";
+"Saved tool logins are checked automatically. Optional sources stay off until enabled." = "自动检查工具已保存的登录信息，可选来源在启用前保持关闭。";
+"Saved tool logins are checked automatically. Other configuration files are not scanned." = "自动检查工具已保存的登录信息，不扫描其他配置文件。";
+"Saving…" = "正在保存…";
+"Settings" = "设置";
+"Show accounts" = "显示账号";
+"Showing the previous reading" = "正在显示上次数据";
+"Sign in again to reconnect" = "请重新登录后连接";
+"Some usage data is unavailable." = "部分用量数据不可用。";
+"Source switches stop that source’s discovery and requests. Removing an account keeps it out of automatic discovery until you explicitly connect again." = "关闭来源会停止其发现和请求。移除账号后，只有主动重新连接才会再次发现该账号。";
+"Source: %@" = "来源：%@";
+"Sources" = "数据来源";
+"Syncing…" = "正在同步…";
+"Team ID" = "团队ID";
+"Team on-demand" = "团队按量用量";
+"Team pool" = "团队额度池";
+"Team: %@" = "团队：%@";
+"The key is stored in Waterline’s Keychain service. It is never saved in the snapshot or sent to another provider." = "密钥保存在Waterline的钥匙串服务中，不会写入快照或发送给其他服务商。";
+"This account does not expose a verified quota query." = "此账号暂无已验证的额度查询方式。";
+"Unpin account" = "取消固定";
+"Update %@ key" = "更新%@密钥";
+"Update key" = "更新密钥";
+"Update key in Settings" = "在设置中更新密钥";
+"Updated %@" = "更新于%@";
+"Updating…" = "正在更新…";
+"Usage" = "用量";
+"Usage format changed" = "用量数据格式已变化";
+"Usage notifications" = "用量提醒";
+"Use a Kimi Code Console key, not a Moonshot platform or gateway key." = "请输入Kimi Code控制台密钥；Moonshot平台或网关密钥不适用。";
+"Use a Management API key with billing-read access, not an inference key." = "请输入具有账单读取权限的Management API密钥，推理密钥不适用。";
+"Use a single-line account name, up to 80 characters." = "账号名称须为单行，且不超过80个字符。";
+"Use positive balance thresholds and warning below critical." = "余额阈值须大于零，预警阈值须低于告急阈值。";
+"Use the Subscription Key for this region, not a pay-as-you-go API key." = "请输入该地区的订阅密钥；按量付费API密钥不适用。";
+"Waterline has no backend or telemetry. Saved logins are used only for read-only requests to the corresponding provider." = "Waterline没有云端后端或遥测。已保存的登录信息仅用于向对应服务商发起只读请求。";
+"Waterline reads usage on this Mac and sends credentials only to the corresponding provider." = "Waterline在本机读取用量，凭据只发送给对应服务商。";
+"Waterline will open automatically when you log in." = "登录后将自动打开Waterline。";
+"Your account data stays on this Mac" = "账号数据保存在这台Mac上";
+"Your accounts, in one place" = "在一个地方查看所有账号";
+"macOS could not find the login item. Try enabling launch at login." = "macOS未找到登录项，请尝试开启“登录时启动”。";
+"macOS could not show a usage notification." = "macOS未能显示用量通知。";
+"≈ %@ %@/day average decrease" = "≈ 平均每日减少%@ %@";
+"≈ %@ days left" = "≈ 剩余%@天";
+
+"Collapse island" = "收起灵动岛";
+"App menu" = "应用菜单";
+
+"Keep island open" = "固定灵动岛";
+"Unpin island" = "取消固定灵动岛";
+
+"Balance history" = "余额记录";
+
+"Account" = "账号";
+
+"Period" = "时间范围";
+
+"%@ days" = "%@天";
+
+"No balance history" = "暂无余额记录";
+
+"Accepted balance readings will appear here. Quota percentages are not monetary records." = "收到的余额观测会显示在这里，额度百分比不是金额记录。";
+
+"Balances are original-currency observations, not spending. Different currencies are not combined." = "余额按原始币种记录，不代表消费金额。不同币种分别显示。";
+
+"Latest 100 observations" = "最近100条观测";
+
+"Posted credit" = "已入账额度";
+
+"Range: %@ – %@" = "范围：%@ – %@";
+
+"%@ observations" = "%@条观测";
+
+"China · CNY" = "国内 · CNY";
+
+"International · USD" = "国际 · USD";
+
+"BigModel China" = "智谱国内版";
+
+"Z.ai International" = "Z.ai国际版";
+
+"MiniMax China" = "MiniMax国内版";
+
+"MiniMax International" = "MiniMax国际版";
+
+"History contains incompatible records. The original file was preserved." = "历史文件包含不兼容的记录，原文件已保留。";
+
+"History unavailable" = "历史记录暂不可用";
+
+"Current balances remain available. The history file could not be read." = "当前余额仍可查看，但历史文件暂时无法读取。";
+
+"Retry" = "重试";
+
+"Token records" = "Token记录";
+
+"Local Token records" = "本地Token记录";
+
+"Import Codex log" = "导入Codex日志";
+
+"All records" = "全部记录";
+
+"No Token records" = "暂无Token记录";
+
+"Import a Codex JSONL log to retain its observed usage. The source file stays unchanged." = "选择Codex的JSONL日志，保存其中的用量记录，源文件保持不变。";
+
+"Input (includes cache)" = "输入（含缓存）";
+
+"Cached input (subset)" = "其中缓存输入";
+
+"Output" = "输出";
+
+"Unknown model" = "模型未知";
+
+"Local task %@" = "本地任务%@";
+
+"Some imported logs have coverage gaps. Counts include observed intervals only." = "部分日志存在记录缺口，仅统计已观测到的区间。";
+
+"Local task usage is not an account bill. Account attribution and pricing are not yet available." = "本地任务用量不等于账号账单，目前尚未归属账号或定价。";
+
+"Could not open the selected log." = "无法打开所选日志。";
+
+"Could not read Token records. The saved file was preserved." = "无法读取Token记录，原文件已保留。";
+
+"Added %@ observed records." = "新增%@条用量记录。";
+
+"Import cancelled." = "导入已取消。";
+
+"This log conflicts with saved records or omits earlier records. Nothing was replaced." = "此日志与已有记录冲突或缺少早期记录，未替换已保存的数据。";
+
+"Inherited or mixed task logs are not yet supported." = "暂不支持继承历史或归属混合的任务日志。";
+
+"Token records exceed the supported storage size. The import was not saved." = "Token记录超过当前支持的存储大小，本次导入未保存。";
+
+"Could not import this log. Check its format and data-folder access." = "无法导入此日志，请检查格式及数据目录访问权限。";
+
+"Time" = "时间";
+
+"Model" = "模型";
+
+"Input" = "输入";
+
+"%@, %@, input %@, output %@" = "%@，%@，输入%@，输出%@";
+
+"Reference API value" = "参考API价值";
+
+"Priced %@ of %@ records" = "已折算%@／%@条记录";
+
+"Standard API reference %@; Token charges only, not a bill." = "按%@标准API价折算，仅含Token费用，并非账单。";
+
+"Pricing source" = "价格来源";
+
+"Local task usage is not an account bill. Unmatched records stay unpriced; accounts are not assigned." = "本地任务用量不等于账号账单。未匹配的记录不计价，也未绑定具体账号。";
+
+"Priced portion (reference)" = "可折算部分（参考）";
+
+"Standard base API reference %@; excludes regional uplifts and tools, not a bill." = "按%@标准基础API价，不含地区附加费及工具费，并非账单。";
+"No accounts" = "暂无账号";
+"Manual key" = "手动密钥";
+"Connecting…" = "正在连接…";
+"Refreshing…" = "正在刷新…";
+"Partial data" = "部分数据";
+"Language changes apply immediately." = "语言切换立即生效。";
+"Keychain · %@" = "钥匙串 · %@";
+"Manage accounts" = "管理账号";
+"All accounts are paused. Open Manage accounts to resume." = "账号已全部暂停，可前往管理账号恢复。";
+"Back to overview" = "返回概览";
+"Search accounts" = "搜索账号";
+"Provider" = "服务商";
+"No matching accounts." = "没有匹配的账号。";
+"Choose the accounts to connect. macOS may ask you to approve each saved login." = "选择需要连接的账号，macOS可能会逐项请求访问已保存的登录。";
+"Always Allow can remember access for a consistently signed installation. Development updates may ask again." = "签名保持一致时，“始终允许”可复用授权；开发版更新后可能需要重新授权。";
+"Connect selected accounts" = "连接所选账号";
+"Not connected" = "未连接";
+"Connected" = "已连接";
+"Billing details" = "金额明细";
+"Included spend" = "套餐内用量金额";
+"Included" = "套餐内额度";
+"Auto" = "自动模式";
+"API" = "API模式";
+"On-demand" = "按量使用";
+"Cursor Models" = "Cursor模型";
+"Other Models" = "其他模型";
+"+%@ more items" = "另有%@项";
+
+"Accounts in notch" = "日常显示账号";
+
+"Show in notch" = "在灵动岛显示";
+
+"Remove from notch" = "从灵动岛移除";
+
+"Choose one account for the notch." = "选择一个日常显示账号。";
+
+"Automatic" = "自动选择";
+
+"%@ remaining" = "剩余%@";
+
+"China" = "国内版";
+
+"International" = "国际版";
+
+"Antigravity CLI" = "Antigravity CLI";
+
+"Read Antigravity CLI quota" = "读取Antigravity CLI额度";
+
+"Reads quota from the running Antigravity CLI on this Mac. Open the CLI and sign in there first; Waterline does not launch it or copy its tokens." = "读取本机正在运行的Antigravity CLI额度。请先打开CLI并登录；Waterline不会启动它或复制Token。";
+
+"Open Antigravity CLI with this account to refresh." = "请在Antigravity CLI中登录此账号后刷新。";
+
+"Qwen / Bailian" = "Qwen / 百炼";
+
+"Quota lookup not yet supported" = "额度查询尚未接入";
+
+"Read GLM from Claude Code settings" = "从Claude Code设置读取GLM";
+
+"Reads personal GLM Coding Plan credentials only for the official China or international endpoint in ~/.claude/settings.json. Team plans are not verified." = "仅在~/.claude/settings.json使用官方国内或国际地址时读取个人GLM编程套餐凭据。团队套餐尚未验证。";
+
+"Choose an account" = "选择日常账号";
+
+"Check for updates…" = "检查更新…";
+
+"Automatically check for updates" = "自动检查更新";
+
+"Update checks contact GitHub. Installation requires your confirmation." = "检查更新会连接GitHub，安装前会请你确认。";
+
+"Could not start updates. Reopen Waterline and try again." = "更新功能启动失败，请重新打开Waterline再试。";
+
+"Updates are unavailable in this development build." = "此开发版本暂不提供应用更新。";
+
+"The update download address is not supported." = "此更新下载地址不受支持。";
+
+"Claude Code session activity" = "Claude Code会话活动";
+
+"Adds local hooks to Claude Code settings. Conversation content is not recorded." = "向Claude Code设置添加本地Hook，不记录对话内容。";
+
+"Could not update Claude Code hooks. Check settings permissions and JSON, then retry." = "无法更新Claude Code Hook，请检查设置文件权限和JSON后重试。";
+
+"Remove remaining hooks" = "移除剩余Hook";
+
+"Claude Code: recent session activity" = "Claude Code：近期会话活动";
+
+"Could not find the bundled Waterline command. Reinstall the app and try again." = "找不到Waterline内置命令，请重新安装应用后重试。";
+
+"Claude Code has disabled hooks. Enable them there before connecting activity." = "Claude Code已禁用Hook，请先在其中启用，再连接会话活动。";
+
+"%@ accounts" = "%@个账号";
+
+"Grok Build’s saved OAuth login. Consumer subscription usage, not API billing." = "读取Grok Build保存的OAuth登录，查询个人订阅用量，与开发者API账单分开。";
+
+"Account display order" = "账号显示顺序";
+
+"Left to right, top to bottom. Changes save automatically." = "按从左到右、从上到下排列，修改后自动保存。";
+
+"Move %@ up" = "将%@上移";
+
+"Move %@ down" = "将%@下移";
+
+"Automatic order" = "自动排序";
+
+"Account list changed. Try ordering it again." = "账号列表已变化，请重新调整顺序。";
+
+"Done" = "完成";
+
+"Drag accounts to reorder. Changes save automatically." = "拖拽账号调整顺序，松开后自动保存。";
+
+"Select an account and press Option-Up or Option-Down to reorder." = "选中账号后，按Option＋↑或Option＋↓调整顺序。";
+
+"Could not remove old Waterline hooks. Retry cleanup." = "旧版Waterline Hook未清理完成，请重试。";
+
+"Retry cleanup" = "重试清理";
+
+"Use DeepSeek from OpenCode" = "使用OpenCode中的DeepSeek";
+
+"Uses the DeepSeek key already saved in OpenCode. Updates follow that source; no second key entry is needed." = "使用OpenCode已保存的DeepSeek凭据，并跟随来源更新，无需再次输入密钥。";
+
+"Connection: local Antigravity CLI" = "连接方式：本机Antigravity CLI";
+
+"Antigravity’s running local CLI. Enable it in Accounts after signing in." = "使用本机正在运行的Antigravity CLI；登录后在账号设置中启用。";
+
+"Enable source" = "启用来源";
+
+"Rename account" = "重命名账号";
+
+"Sign in to the app or CLI, then connect again." = "请先在对应应用或CLI登录，再连接。";
+
+"Connect this account to resume." = "连接此账号以恢复更新。";
+
+"Connecting saved accounts automatically. macOS may ask you to approve access." = "正在自动连接已登录的账号，macOS可能需要你确认访问授权。";
+"Checking saved accounts…" = "正在检测已登录的账号…";
+
+"Could not monitor local Claude quota." = "无法监听Claude本地额度。";
+"Could not read local Claude quota." = "无法读取Claude本地额度。";
+
+"Could not enable local Claude quota." = "无法启用Claude本地额度读取。";
+
+"Could not remove the old Waterline login item." = "无法移除旧版Waterline的开机启动注册。";

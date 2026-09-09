@@ -1,0 +1,451 @@
+/* Waterline native UI. Provider names and reported labels remain data. */
+"%@ reached a usage threshold." = "%@ reached a usage threshold.";
+"%@ saved-key deletion(s) still need cleanup." = "%@ saved-key deletion(s) still need cleanup.";
+"%@ used" = "%@ used";
+"%@ · %@" = "%@ · %@";
+"%@ · App environment" = "%@ · App environment";
+"%@: source could not be read." = "%@: source could not be read.";
+"%@: usage alert" = "%@: usage alert";
+"+%@ more windows" = "+%@ more windows";
+"60–3600 seconds. Server backoff and signed-out accounts take precedence." = "60–3600 seconds. Server backoff and signed-out accounts take precedence.";
+"7-day balance · %@" = "7-day balance · %@";
+"API key" = "API key";
+"Access permission is required" = "Access permission is required";
+"Access required" = "Access required";
+"Account actions" = "Account actions";
+"Account details" = "Account details";
+"Account name" = "Account name";
+"Account name (optional)" = "Account name (optional)";
+"Account region" = "Account region";
+"Account removed; saved-key deletion is pending. Retry cleanup in Privacy settings." = "Account removed; saved-key deletion is pending. Retry cleanup in Privacy settings.";
+"Account settings and snapshots are stored in Library/Application Support/Waterline. Waterline never changes another tool’s credentials." = "Account settings and snapshots are stored in Library/Application Support/Waterline. Waterline never changes another tool’s credentials.";
+"Accounts" = "Accounts";
+"Accounts paused" = "Accounts paused";
+"Add %@ account" = "Add %@ account";
+"Add a provider key in Accounts. Its required type and destination are shown before saving." = "Add a provider key in Accounts. Its required type and destination are shown before saving.";
+"Add key" = "Add key";
+"Additional quotas" = "Additional quotas";
+"All accounts (%@)" = "All accounts (%@)";
+"All accounts are paused. Open All accounts to resume." = "All accounts are paused. Open All accounts to resume.";
+"All providers" = "All providers";
+"Allow Waterline in System Settings to finish enabling launch at login." = "Allow Waterline in System Settings to finish enabling launch at login.";
+"Allow Waterline notifications in macOS System Settings." = "Allow Waterline notifications in macOS System Settings.";
+"An estimate needs a fresh balance and at least 24 hours of comparable observations." = "An estimate needs a fresh balance and at least 24 hours of comparable observations.";
+"Another Waterline process is updating accounts." = "Another Waterline process is updating accounts.";
+"Awaiting update" = "Awaiting update";
+"Back to all accounts" = "Back to all accounts";
+"Balance" = "Balance";
+"Balance history could not be saved." = "Balance history could not be saved.";
+"Cancel" = "Cancel";
+"Changes could not be saved." = "Changes could not be saved.";
+"Check source" = "Check source";
+"Check the source configuration, then check this source again." = "Check the source configuration, then check this source again.";
+"Checked %@" = "Checked %@";
+"Checking…" = "Checking…";
+"Choose region" = "Choose region";
+"Choose the region where this key was created." = "Choose the region where this key was created.";
+"Claude Code’s saved Keychain login, or its credentials file when no Keychain item exists." = "Claude Code’s saved Keychain login, or its credentials file when no Keychain item exists.";
+"Close" = "Close";
+"Codex’s saved local login file. API-key-only logins do not report subscription quota here." = "Codex’s saved local login file. API-key-only logins do not report subscription quota here.";
+"Component: %@" = "Component: %@";
+"Connect" = "Connect";
+"Connect accounts" = "Connect accounts";
+"Connect may ask for Keychain access. Background checks never show a permission dialog." = "Connect may ask for Keychain access. Background checks never show a permission dialog.";
+"Connect reads the saved login. macOS may ask for access." = "Connect reads the saved login. macOS may ask for access.";
+"Connect reads the tool’s saved login. macOS may ask you to allow access. Background checks never request a dialog." = "Connect reads the tool’s saved login. macOS may ask you to allow access. Background checks never request a dialog.";
+"Connect the provider’s saved login from Accounts." = "Connect the provider’s saved login from Accounts.";
+"Connect your accounts" = "Connect your accounts";
+"Connection guide" = "Connection guide";
+"Continue to accounts" = "Continue to accounts";
+"Could not change launch at login. Check Login Items in System Settings and try again." = "Could not change launch at login. Check Login Items in System Settings and try again.";
+"Could not load or save account state." = "Could not load or save account state.";
+"Could not open this account." = "Could not open this account.";
+"Could not reach the provider" = "Could not reach the provider";
+"Could not read alert settings. Existing settings were preserved." = "Could not read alert settings. Existing settings were preserved.";
+"Could not restore the latest account state." = "Could not restore the latest account state.";
+"Could not save alert history. Notifications are paused until storage recovers." = "Could not save alert history. Notifications are paused until storage recovers.";
+"Could not save the change. Check account state and storage." = "Could not save the change. Check account state and storage.";
+"Could not save the latest account state." = "Could not save the latest account state.";
+"Could not update notifications. Check system permissions and try again." = "Could not update notifications. Check system permissions and try again.";
+"Credential source could not be read." = "Credential source could not be read.";
+"Cursor’s local login database, opened read-only." = "Cursor’s local login database, opened read-only.";
+"Destination: %@" = "Destination: %@";
+"Details" = "Details";
+"Diagnostic details" = "Diagnostic details";
+"Disabled" = "Disabled";
+"Display & refresh" = "Display & refresh";
+"Each currency is evaluated separately. Thresholds must be positive." = "Each currency is evaluated separately. Thresholds must be positive.";
+"Earlier reading · %@" = "Earlier reading · %@";
+"Earlier reading · awaiting update" = "Earlier reading · awaiting update";
+"Enable this credential source to refresh this account." = "Enable this credential source to refresh this account.";
+"Enable this source in Settings before connecting." = "Enable this source in Settings before connecting.";
+"Enabled" = "Enabled";
+"Enter a non-empty key without spaces or line breaks." = "Enter a non-empty key without spaces or line breaks.";
+"Enter the team ID for this management key." = "Enter the team ID for this management key.";
+"Field: %@" = "Field: %@";
+"Follow system" = "Follow system";
+"General" = "General";
+"History could not be saved. Check disk space and data-folder access." = "History could not be saved. Check disk space and data-folder access.";
+"History could not be saved. Current readings are still available." = "History could not be saved. Current readings are still available.";
+"History could not be saved; latest balances are available." = "History could not be saved; latest balances are available.";
+"If the variable is unavailable in this app session, add a key manually." = "If the variable is unavailable in this app session, add a key manually.";
+"Included quota" = "Included quota";
+"Key could not be saved. Unlock Keychain, then update the pending account’s key." = "Key could not be saved. Unlock Keychain, then update the pending account’s key.";
+"Language" = "Language";
+"Launch at login" = "Launch at login";
+"Loading account…" = "Loading account…";
+"Login item status is unavailable." = "Login item status is unavailable.";
+"Low balance (CNY)" = "Low balance (CNY)";
+"Low balance (USD)" = "Low balance (USD)";
+"Main quota" = "Main quota";
+"Manual key, or DEEPSEEK_API_KEY when explicitly enabled in Optional sources." = "Manual key, or DEEPSEEK_API_KEY when explicitly enabled in Optional sources.";
+"Manual key, or explicitly enabled environment and Claude Code settings sources." = "Manual key, or explicitly enabled environment and Claude Code settings sources.";
+"Manual keys stay in Waterline’s Keychain service. Choose the key’s region when requested." = "Manual keys stay in Waterline’s Keychain service. Choose the key’s region when requested.";
+"Needs attention" = "Needs attention";
+"Net balance change over the observed period; offsetting deposits and charges may be hidden." = "Net balance change over the observed period; offsetting deposits and charges may be hidden.";
+"New threshold crossings only. At most one alert per account each hour." = "New threshold crossings only. At most one alert per account each hour.";
+"Next allowed refresh: %@" = "Next allowed refresh: %@";
+"No account is available from this source." = "No account is available from this source.";
+"No connected accounts." = "No connected accounts.";
+"Not refreshed" = "Not refreshed";
+"Not supported" = "Not supported";
+"Notifications are disabled in macOS System Settings." = "Notifications are disabled in macOS System Settings.";
+"On-demand usage" = "On-demand usage";
+"Open Login Items Settings" = "Open Login Items Settings";
+"Open Settings to connect your coding tools, then refresh to see their usage." = "Open Settings to connect your coding tools, then refresh to see their usage.";
+"Open Waterline manually when you need it." = "Open Waterline manually when you need it.";
+"Open console" = "Open console";
+"Optional sources" = "Optional sources";
+"Overview" = "Overview";
+"Partial" = "Partial";
+"Partial data · some readings are older" = "Partial data · some usage is unavailable or awaiting update";
+"Pause a source to stop its requests. Missing usage stays unavailable; it is never shown as zero." = "Pause a source to stop its requests. Missing usage stays unavailable; it is never shown as zero.";
+"Pause account" = "Pause account";
+"Paused" = "Paused";
+"Permission needed to read the saved login" = "Permission needed to read the saved login";
+"Personal Coding Plan key. Team selectors are not yet supported." = "Personal Coding Plan key. Team selectors are not yet supported.";
+"Personal cap" = "Personal cap";
+"Pin account" = "Pin account";
+"Pin in overview" = "Pin in overview";
+"Posted credit history · %@" = "Posted credit history · %@";
+"Posted ledger; current-cycle charges may not be included. No depletion estimate is shown." = "Posted ledger; current-cycle charges may not be included. No depletion estimate is shown.";
+"Posted prepaid credit · %@" = "Posted prepaid credit · %@";
+"Privacy" = "Privacy";
+"Provider asked us to wait before refreshing" = "Provider asked us to wait before refreshing";
+"Quit Waterline" = "Quit Waterline";
+"Quota critical (%)" = "Quota critical (%)";
+"Quota warning (%)" = "Quota warning (%)";
+"Read DEEPSEEK_API_KEY" = "Read DEEPSEEK_API_KEY";
+"Read DeepSeek from Claude Code settings" = "Read DeepSeek from Claude Code settings";
+"Reads only the environment inherited by this app. The key is sent only to api.deepseek.com; shell startup files are not read." = "Reads only the environment inherited by this app. The key is sent only to api.deepseek.com; shell startup files are not read.";
+"Reads ~/.claude/settings.json only when it declares the direct DeepSeek endpoint. Commands, helpers and project overrides are not evaluated." = "Reads ~/.claude/settings.json only when it declares the direct DeepSeek endpoint. Commands, helpers and project overrides are not evaluated.";
+"Reconnect" = "Reconnect";
+"Recorded balance history, %@ observations" = "Recorded balance history, %@ observations";
+"Refresh" = "Refresh";
+"Refresh interval (seconds)" = "Refresh interval (seconds)";
+"Refresh interval must be between 60 and 3600 seconds." = "Refresh interval must be between 60 and 3600 seconds.";
+"Region: %@" = "Region: %@";
+"Remove" = "Remove";
+"Rename" = "Rename";
+"Reported spending; quota percentages shown separately." = "Reported spending; quota percentages shown separately.";
+"Request quota" = "Request quota";
+"Resets %@" = "Resets %@";
+"Resume account" = "Resume account";
+"Retry history storage" = "Retry history storage";
+"Retry key cleanup" = "Retry key cleanup";
+"Save" = "Save";
+"Save key" = "Save key";
+"Saved" = "Saved";
+"Saved login not found" = "Saved login not found";
+"Saved tool logins are checked automatically. Optional sources stay off until enabled." = "Saved tool logins are checked automatically. Optional sources stay off until enabled.";
+"Saved tool logins are checked automatically. Other configuration files are not scanned." = "Saved tool logins are checked automatically. Other configuration files are not scanned.";
+"Saving…" = "Saving…";
+"Settings" = "Settings";
+"Show accounts" = "Show accounts";
+"Showing the previous reading" = "Showing the previous reading";
+"Sign in again to reconnect" = "Sign in again to reconnect";
+"Some usage data is unavailable." = "Some usage data is unavailable.";
+"Source switches stop that source’s discovery and requests. Removing an account keeps it out of automatic discovery until you explicitly connect again." = "Source switches stop that source’s discovery and requests. Removing an account keeps it out of automatic discovery until you explicitly connect again.";
+"Source: %@" = "Source: %@";
+"Sources" = "Sources";
+"Syncing…" = "Syncing…";
+"Team ID" = "Team ID";
+"Team on-demand" = "Team on-demand";
+"Team pool" = "Team pool";
+"Team: %@" = "Team: %@";
+"The key is stored in Waterline’s Keychain service. It is never saved in the snapshot or sent to another provider." = "The key is stored in Waterline’s Keychain service. It is never saved in the snapshot or sent to another provider.";
+"This account does not expose a verified quota query." = "This account does not expose a verified quota query.";
+"Unpin account" = "Unpin account";
+"Update %@ key" = "Update %@ key";
+"Update key" = "Update key";
+"Update key in Settings" = "Update key in Settings";
+"Updated %@" = "Updated %@";
+"Updating…" = "Updating…";
+"Usage" = "Usage";
+"Usage format changed" = "Usage format changed";
+"Usage notifications" = "Usage notifications";
+"Use a Kimi Code Console key, not a Moonshot platform or gateway key." = "Use a Kimi Code Console key, not a Moonshot platform or gateway key.";
+"Use a Management API key with billing-read access, not an inference key." = "Use a Management API key with billing-read access, not an inference key.";
+"Use a single-line account name, up to 80 characters." = "Use a single-line account name, up to 80 characters.";
+"Use positive balance thresholds and warning below critical." = "Use positive balance thresholds and warning below critical.";
+"Use the Subscription Key for this region, not a pay-as-you-go API key." = "Use the Subscription Key for this region, not a pay-as-you-go API key.";
+"Waterline has no backend or telemetry. Saved logins are used only for read-only requests to the corresponding provider." = "Waterline has no backend or telemetry. Saved logins are used only for read-only requests to the corresponding provider.";
+"Waterline reads usage on this Mac and sends credentials only to the corresponding provider." = "Waterline reads usage on this Mac and sends credentials only to the corresponding provider.";
+"Waterline will open automatically when you log in." = "Waterline will open automatically when you log in.";
+"Your account data stays on this Mac" = "Your account data stays on this Mac";
+"Your accounts, in one place" = "Your accounts, in one place";
+"macOS could not find the login item. Try enabling launch at login." = "macOS could not find the login item. Try enabling launch at login.";
+"macOS could not show a usage notification." = "macOS could not show a usage notification.";
+"≈ %@ %@/day average decrease" = "≈ %@ %@/day average decrease";
+"≈ %@ days left" = "≈ %@ days left";
+
+"Collapse island" = "Collapse island";
+"App menu" = "App menu";
+
+"Keep island open" = "Keep island open";
+"Unpin island" = "Unpin island";
+
+"Balance history" = "Balance history";
+
+"Account" = "Account";
+
+"Period" = "Period";
+
+"%@ days" = "%@ days";
+
+"No balance history" = "No balance history";
+
+"Accepted balance readings will appear here. Quota percentages are not monetary records." = "Accepted balance readings will appear here. Quota percentages are not monetary records.";
+
+"Balances are original-currency observations, not spending. Different currencies are not combined." = "Balances are original-currency observations, not spending. Different currencies are not combined.";
+
+"Latest 100 observations" = "Latest 100 observations";
+
+"Posted credit" = "Posted credit";
+
+"Range: %@ – %@" = "Range: %@ – %@";
+
+"%@ observations" = "%@ observations";
+
+"China · CNY" = "China · CNY";
+
+"International · USD" = "International · USD";
+
+"BigModel China" = "BigModel China";
+
+"Z.ai International" = "Z.ai International";
+
+"MiniMax China" = "MiniMax China";
+
+"MiniMax International" = "MiniMax International";
+
+"History contains incompatible records. The original file was preserved." = "History contains incompatible records. The original file was preserved.";
+
+"History unavailable" = "History unavailable";
+
+"Current balances remain available. The history file could not be read." = "Current balances remain available. The history file could not be read.";
+
+"Retry" = "Retry";
+
+"Token records" = "Token records";
+
+"Local Token records" = "Local Token records";
+
+"Import Codex log" = "Import Codex log";
+
+"All records" = "All records";
+
+"No Token records" = "No Token records";
+
+"Import a Codex JSONL log to retain its observed usage. The source file stays unchanged." = "Import a Codex JSONL log to retain its observed usage. The source file stays unchanged.";
+
+"Input (includes cache)" = "Input (includes cache)";
+
+"Cached input (subset)" = "Cached input (subset)";
+
+"Output" = "Output";
+
+"Unknown model" = "Unknown model";
+
+"Local task %@" = "Local task %@";
+
+"Some imported logs have coverage gaps. Counts include observed intervals only." = "Some imported logs have coverage gaps. Counts include observed intervals only.";
+
+"Local task usage is not an account bill. Account attribution and pricing are not yet available." = "Local task usage is not an account bill. Account attribution and pricing are not yet available.";
+
+"Could not open the selected log." = "Could not open the selected log.";
+
+"Could not read Token records. The saved file was preserved." = "Could not read Token records. The saved file was preserved.";
+
+"Added %@ observed records." = "Added %@ observed records.";
+
+"Import cancelled." = "Import cancelled.";
+
+"This log conflicts with saved records or omits earlier records. Nothing was replaced." = "This log conflicts with saved records or omits earlier records. Nothing was replaced.";
+
+"Inherited or mixed task logs are not yet supported." = "Inherited or mixed task logs are not yet supported.";
+
+"Token records exceed the supported storage size. The import was not saved." = "Token records exceed the supported storage size. The import was not saved.";
+
+"Could not import this log. Check its format and data-folder access." = "Could not import this log. Check its format and data-folder access.";
+
+"Time" = "Time";
+
+"Model" = "Model";
+
+"Input" = "Input";
+
+"%@, %@, input %@, output %@" = "%@, %@, input %@, output %@";
+
+"Reference API value" = "Reference API value";
+
+"Priced %@ of %@ records" = "Priced %@ of %@ records";
+
+"Standard API reference %@; Token charges only, not a bill." = "Standard API reference %@; Token charges only, not a bill.";
+
+"Pricing source" = "Pricing source";
+
+"Local task usage is not an account bill. Unmatched records stay unpriced; accounts are not assigned." = "Local task usage is not an account bill. Unmatched records stay unpriced; accounts are not assigned.";
+
+"Priced portion (reference)" = "Priced portion (reference)";
+
+"Standard base API reference %@; excludes regional uplifts and tools, not a bill." = "Standard base API reference %@; excludes regional uplifts and tools, not a bill.";
+"No accounts" = "No accounts";
+"Manual key" = "Manual key";
+"Connecting…" = "Connecting…";
+"Refreshing…" = "Refreshing…";
+"Partial data" = "Partial data";
+"Language changes apply immediately." = "Language changes apply immediately.";
+"Keychain · %@" = "Keychain · %@";
+"Manage accounts" = "Manage accounts";
+"All accounts are paused. Open Manage accounts to resume." = "All accounts are paused. Open Manage accounts to resume.";
+"Back to overview" = "Back to overview";
+"Search accounts" = "Search accounts";
+"Provider" = "Provider";
+"No matching accounts." = "No matching accounts.";
+"Choose the accounts to connect. macOS may ask you to approve each saved login." = "Choose the accounts to connect. macOS may ask you to approve each saved login.";
+"Always Allow can remember access for a consistently signed installation. Development updates may ask again." = "Always Allow can remember access for a consistently signed installation. Development updates may ask again.";
+"Connect selected accounts" = "Connect selected accounts";
+"Not connected" = "Not connected";
+"Connected" = "Connected";
+"Billing details" = "Billing details";
+"Included spend" = "Included spend";
+"Included" = "Included";
+"Auto" = "Auto";
+"API" = "API";
+"On-demand" = "On-demand";
+"Cursor Models" = "Cursor Models";
+"Other Models" = "Other Models";
+"+%@ more items" = "+%@ more items";
+
+"Accounts in notch" = "Accounts in notch";
+
+"Show in notch" = "Show in notch";
+
+"Remove from notch" = "Remove from notch";
+
+"Choose one account for the notch." = "Choose one account for the notch.";
+
+"Automatic" = "Automatic";
+
+"%@ remaining" = "%@ remaining";
+
+"China" = "China";
+
+"International" = "International";
+
+"Antigravity CLI" = "Antigravity CLI";
+
+"Read Antigravity CLI quota" = "Read Antigravity CLI quota";
+
+"Reads quota from the running Antigravity CLI on this Mac. Open the CLI and sign in there first; Waterline does not launch it or copy its tokens." = "Reads quota from the running Antigravity CLI on this Mac. Open the CLI and sign in there first; Waterline does not launch it or copy its tokens.";
+
+"Open Antigravity CLI with this account to refresh." = "Open Antigravity CLI with this account to refresh.";
+
+"Qwen / Bailian" = "Qwen / Bailian";
+
+"Quota lookup not yet supported" = "Quota lookup not yet supported";
+
+"Read GLM from Claude Code settings" = "Read GLM from Claude Code settings";
+
+"Reads personal GLM Coding Plan credentials only for the official China or international endpoint in ~/.claude/settings.json. Team plans are not verified." = "Reads personal GLM Coding Plan credentials only for the official China or international endpoint in ~/.claude/settings.json. Team plans are not verified.";
+
+"Choose an account" = "Choose an account";
+
+"Check for updates…" = "Check for updates…";
+
+"Automatically check for updates" = "Automatically check for updates";
+
+"Update checks contact GitHub. Installation requires your confirmation." = "Update checks contact GitHub. Installation requires your confirmation.";
+
+"Could not start updates. Reopen Waterline and try again." = "Could not start updates. Reopen Waterline and try again.";
+
+"Updates are unavailable in this development build." = "Updates are unavailable in this development build.";
+
+"The update download address is not supported." = "The update download address is not supported.";
+
+"Claude Code session activity" = "Claude Code session activity";
+
+"Adds local hooks to Claude Code settings. Conversation content is not recorded." = "Adds local hooks to Claude Code settings. Conversation content is not recorded.";
+
+"Could not update Claude Code hooks. Check settings permissions and JSON, then retry." = "Could not update Claude Code hooks. Check settings permissions and JSON, then retry.";
+
+"Remove remaining hooks" = "Remove remaining hooks";
+
+"Claude Code: recent session activity" = "Claude Code: recent session activity";
+
+"Could not find the bundled Waterline command. Reinstall the app and try again." = "Could not find the bundled Waterline command. Reinstall the app and try again.";
+
+"Claude Code has disabled hooks. Enable them there before connecting activity." = "Claude Code has disabled hooks. Enable them there before connecting activity.";
+
+"%@ accounts" = "%@ accounts";
+
+"Grok Build’s saved OAuth login. Consumer subscription usage, not API billing." = "Grok Build’s saved OAuth login. Consumer subscription usage, not API billing.";
+
+"Account display order" = "Account display order";
+
+"Left to right, top to bottom. Changes save automatically." = "Left to right, top to bottom. Changes save automatically.";
+
+"Move %@ up" = "Move %@ up";
+
+"Move %@ down" = "Move %@ down";
+
+"Automatic order" = "Automatic order";
+
+"Account list changed. Try ordering it again." = "Account list changed. Try ordering it again.";
+
+"Done" = "Done";
+
+"Drag accounts to reorder. Changes save automatically." = "Drag accounts to reorder. Changes save automatically.";
+
+"Select an account and press Option-Up or Option-Down to reorder." = "Select an account and press Option-Up or Option-Down to reorder.";
+
+"Could not remove old Waterline hooks. Retry cleanup." = "Could not remove old Waterline hooks. Retry cleanup.";
+
+"Retry cleanup" = "Retry cleanup";
+
+"Use DeepSeek from OpenCode" = "Use DeepSeek from OpenCode";
+
+"Uses the DeepSeek key already saved in OpenCode. Updates follow that source; no second key entry is needed." = "Uses the DeepSeek key already saved in OpenCode. Updates follow that source; no second key entry is needed.";
+
+"Connection: local Antigravity CLI" = "Connection: local Antigravity CLI";
+
+"Antigravity’s running local CLI. Enable it in Accounts after signing in." = "Antigravity’s running local CLI. Enable it in Accounts after signing in.";
+
+"Enable source" = "Enable source";
+
+"Rename account" = "Rename account";
+
+"Sign in to the app or CLI, then connect again." = "Sign in to the app or CLI, then connect again.";
+
+"Connect this account to resume." = "Connect this account to resume.";
+
+"Connecting saved accounts automatically. macOS may ask you to approve access." = "Connecting saved accounts automatically. macOS may ask you to approve access.";
+"Checking saved accounts…" = "Checking saved accounts…";
+
+"Could not monitor local Claude quota." = "Could not monitor local Claude quota.";
+"Could not read local Claude quota." = "Could not read local Claude quota.";
+
+"Could not enable local Claude quota." = "Could not enable local Claude quota.";
+
+"Could not remove the old Waterline login item." = "Could not remove the old Waterline login item.";

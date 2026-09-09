@@ -2,6 +2,7 @@ public enum Provider: String, CaseIterable, Codable, Sendable {
     case claudeCode = "claude-code"
     case codex
     case cursor
+    case grok
     case xai
     case antigravity
     case zhipu
@@ -14,8 +15,9 @@ public enum Provider: String, CaseIterable, Codable, Sendable {
     public var displayName: String {
         switch self {
         case .claudeCode: "Claude Code"
-        case .codex: "Codex"
+        case .codex: "ChatGPT"
         case .cursor: "Cursor"
+        case .grok: "Grok"
         case .xai: "xAI"
         case .antigravity: "Antigravity"
         case .zhipu: "Zhipu GLM"

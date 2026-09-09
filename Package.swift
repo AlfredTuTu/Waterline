@@ -10,13 +10,15 @@ let package = Package(
         .executable(name: "waterline", targets: ["WaterlineCLI"]),
         .executable(name: "WaterlineApp", targets: ["WaterlineApp"]),
     ],
+    dependencies: [.package(url: "https://github.com/sparkle-project/Sparkle", exact: "2.9.6")],
     targets: [
         .target(name: "WaterlineKit"),
         .executableTarget(name: "WaterlineCLI", dependencies: ["WaterlineKit"]),
         .executableTarget(
             name: "WaterlineApp",
-            dependencies: ["WaterlineKit"],
-            swiftSettings: [.defaultIsolation(MainActor.self)]
+            dependencies: ["WaterlineKit", .product(name: "Sparkle", package: "Sparkle")],
+            swiftSettings: [.defaultIsolation(MainActor.self)],
+            linkerSettings: [.unsafeFlags(["-Xlinker", "-rpath", "-Xlinker", "@executable_path/../Frameworks"])]
         ),
         .testTarget(
             name: "WaterlineKitTests",

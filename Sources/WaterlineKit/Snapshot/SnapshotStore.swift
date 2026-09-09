@@ -2,6 +2,10 @@ import Foundation
 
 /// `~/Library/Application Support/Waterline/snapshot.json`, written atomically. Anything on the
 /// machine may read it: the CLI, statusline scripts, other agents.
+public enum SnapshotStoreError: Error, Equatable {
+    case unsupportedVersion(Int)
+}
+
 public struct SnapshotStore: Sendable {
     public let url: URL
 
@@ -20,8 +24,19 @@ public struct SnapshotStore: Sendable {
     }
 
     public func save(_ snapshot: Snapshot) throws {
-        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        if FileManager.default.fileExists(atPath: url.path) {
+            let existing = try load()
+            if let existing, existing.schemaVersion < Snapshot.currentVersion {
+                let backup = url.deletingLastPathComponent().appending(path: "snapshot-legacy-\(UUID()).json")
+                try FileManager.default.copyItem(at: url, to: backup)
+                try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: backup.path)
+            }
+        }
+        try FileManager.default.createDirectory(
+            at: url.deletingLastPathComponent(), withIntermediateDirectories: true,
+            attributes: [.posixPermissions: 0o700])
         try Self.encoder.encode(snapshot).write(to: url, options: .atomic)
+        try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: url.path)
     }
 
     public static let encoder: JSONEncoder = {

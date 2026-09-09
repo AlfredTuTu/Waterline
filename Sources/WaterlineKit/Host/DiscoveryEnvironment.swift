@@ -6,6 +6,8 @@ public struct DiscoveryEnvironment: Sendable {
     public let processEnvironment: [String: String]
     public let fileSystem: any FileSystem
     public let keychain: any KeychainReading
+    public let credentialDatabase: any CredentialDatabaseReading
+    public let enabledCredentialSources: Set<OptionalCredentialSource>
     /// True only during a user-initiated connect; background discovery must never prompt.
     public let allowsUserInteraction: Bool
 
@@ -14,13 +16,17 @@ public struct DiscoveryEnvironment: Sendable {
         processEnvironment: [String: String],
         fileSystem: any FileSystem,
         keychain: any KeychainReading,
-        allowsUserInteraction: Bool
+        allowsUserInteraction: Bool,
+        credentialDatabase: any CredentialDatabaseReading = UnavailableCredentialDatabase(),
+        enabledCredentialSources: Set<OptionalCredentialSource> = []
     ) {
         self.home = home
         self.processEnvironment = processEnvironment
         self.fileSystem = fileSystem
         self.keychain = keychain
         self.allowsUserInteraction = allowsUserInteraction
+        self.credentialDatabase = credentialDatabase
+        self.enabledCredentialSources = enabledCredentialSources
     }
 
     public static func current(allowsUserInteraction: Bool = false) -> DiscoveryEnvironment {
@@ -29,7 +35,8 @@ public struct DiscoveryEnvironment: Sendable {
             processEnvironment: ProcessInfo.processInfo.environment,
             fileSystem: RealFileSystem(),
             keychain: SystemKeychain(),
-            allowsUserInteraction: allowsUserInteraction
+            allowsUserInteraction: allowsUserInteraction,
+            credentialDatabase: SystemCredentialDatabase()
         )
     }
 }

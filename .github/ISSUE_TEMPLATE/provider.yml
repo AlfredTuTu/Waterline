@@ -13,7 +13,7 @@ body:
     id: kind
     attributes:
       label: Quota kind
-      options: [window, balance, both, unsupported]
+      options: [window, balance, both, unsupported, "capability investigation"]
     validations:
       required: true
   - type: textarea
@@ -35,12 +35,12 @@ body:
     attributes:
       label: Acceptance
       value: |
-        - `discover` finds the account from a synthetic home directory in tests and returns no secret when reading would prompt
-        - `fetch` maps the recorded response to `Usage` exactly; a changed shape throws `FetchError.schemaChanged`
-        - `descriptor.allowedHosts` lists every host the adapter contacts and nothing else
-        - Fixtures under Tests/WaterlineKitTests/Fixtures/<provider>/ are redacted (`Scripts/audit.sh` passes)
-        - `waterline refresh --provider <provider> --json` on the owner's machine returns a fresh reading
-        - docs/providers/<name>.md: response mapping filled in, `last verified` set to today
+        - Discovery uses synthetic files/Keychain, preserves stable account identity and never prompts in the background
+        - Required-field failures report schemaChanged; extra fields, optional omissions and independent valid components follow the documented contract
+        - HTTPS, exact allowed hosts, account region and redirects obey ARCHITECTURE.md
+        - Fixtures include provenance and are manually reviewed for private data; the audit script also passes
+        - An authorised live check verifies the declared supported scope; missing access or unsupported metrics are recorded as gaps
+        - Provider contract records source links, mapping, supported scope and actual verification date; no live date for fixture-only work
     validations:
       required: true
   - type: textarea
@@ -49,4 +49,4 @@ body:
       label: Verification
       value: |
         make verify
-        xcrun swift test --filter <Name>
+        DEVELOPER_DIR=/Applications/Xcode.app xcrun swift test --filter <Name>

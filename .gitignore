@@ -21,3 +21,10 @@ release/
 # Agent session state (project settings stay shareable)
 .claude/*
 !.claude/settings.json
+
+# Local design experiments and external CLI consultation records
+design-previews/
+
+# Python tooling bytecode
+__pycache__/
+*.pyc

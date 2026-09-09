@@ -1,24 +1,75 @@
 import SwiftUI
 import WaterlineKit
 
-/// Placeholder collapsed state: health dots on the left of the housing, the headline metric on the right.
 struct CollapsedBar: View {
     let geometry: NotchGeometry
+    let model: AppModel
+    let displayWidth: CGFloat
+    let showMetrics: Bool
+    let toggle: () -> Void
 
     var body: some View {
-        HStack(spacing: 0) {
-            HStack(spacing: 4) {
-                ForEach(0..<3, id: \.self) { _ in
-                    Circle().fill(.secondary).frame(width: 5, height: 5)
+        TimelineView(.explicit(Dashboard.notchHeadlineUpdateDates(model.snapshot, after: Date()))) { _ in bar }
+    }
+
+    private var bar: some View {
+        let edgeInset: CGFloat = 18
+        let wingWidth = (displayWidth - geometry.notchWidth) / 2
+        let accounts = Dashboard.notchAccounts(model.snapshot)
+        let emptyLabel =
+            model.snapshot.accounts.isEmpty ? AppText.text("Connect accounts") : AppText.text("Choose an account")
+        return HStack(spacing: 0) {
+            ProviderLogo(provider: accounts.first?.account.provider)
+                .frame(width: 18, height: 18)
+                .frame(width: wingWidth - edgeInset, alignment: .leading)
+                .padding(.leading, edgeInset)
+            Color.clear.frame(width: geometry.notchWidth)
+            Group {
+                if let first = accounts.first {
+                    metric(first)
+                } else {
+                    Image(systemName: "plus").font(.system(size: 12, weight: .medium))
                 }
             }
-            .frame(width: NotchGeometry.sideWidth)
-            Color.clear.frame(width: geometry.notchWidth)
-            Text("—")
-                .font(.system(size: 12, weight: .medium, design: .rounded))
-                .frame(width: NotchGeometry.sideWidth)
+            .frame(width: wingWidth - edgeInset, alignment: .trailing)
+            .padding(.trailing, edgeInset)
         }
-        .frame(width: geometry.collapsedFrame.width, height: geometry.collapsedFrame.height)
-        .background(geometry.style == .floating ? Color.black.opacity(0.85) : .clear, in: Capsule())
+        .font(.system(size: 12, weight: .medium, design: .rounded))
+        .foregroundStyle(.white)
+        .frame(width: displayWidth, height: geometry.collapsedFrame.height)
+        .contentShape(Rectangle())
+        .onTapGesture(perform: toggle)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(
+            accounts.isEmpty ? emptyLabel : accounts.map(description).joined(separator: ", ")
+        )
+        .accessibilityAddTraits(.isButton)
+        .accessibilityAction { toggle() }
+        .help(accounts.isEmpty ? emptyLabel : accounts.map(description).joined(separator: "\n"))
+    }
+
+    private func metric(_ entry: AccountEntry) -> some View {
+        Text(compactValue(entry))
+            .lineLimit(1)
+            .monospacedDigit()
+    }
+
+    private func compactValue(_ entry: AccountEntry) -> String {
+        let value = Dashboard.accountHeadline(entry, preferences: model.snapshot.preferences, now: Date())
+        if case .quota(let used) = value {
+            return "\(Int(((1 - min(1, max(0, used))) * 100).rounded()))%"
+        }
+        return model.headlineText(value)
+    }
+
+    private func description(_ entry: AccountEntry) -> String {
+        let label = [entry.account.provider.displayName, entry.preferences.label].compactMap { $0 }.joined(
+            separator: " · ")
+        let value = model.headlineText(
+            Dashboard.accountHeadline(entry, preferences: model.snapshot.preferences, now: Date()))
+        if case .quota = Dashboard.accountHeadline(entry, preferences: model.snapshot.preferences, now: Date()) {
+            return "\(label), \(AppText.format("%@ remaining", compactValue(entry)))"
+        }
+        return "\(label), \(value)"
     }
 }

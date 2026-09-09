@@ -1,68 +1,72 @@
-# Acceptance
+# Release acceptance
 
-Two layers: gates that run on every change, and a checklist per milestone. A task is done when its
-issue's acceptance list holds, `make verify` passes, and the milestone checklist items it touches can be
-ticked without caveats.
+Current owner scope: finish the current native interface and Claude Code local quota
+reading, optimize performance, simplify this repository, submit to GitHub, pass CI
+and publish the first Release. Stop the active goal after this scope is complete.
+Do not expand additional providers, subscription tiers or new features.
 
-## Gates — `make verify`
+## Required gates
 
-| Gate | Command | Passes when |
-|---|---|---|
-| Build | `xcrun swift build` | no errors; new deprecation warnings are explained in the PR |
-| Tests | `xcrun swift test` | every test passes; no test opens a socket or reads the real Keychain |
-| Format | `xcrun swift-format lint --strict --recursive Package.swift Sources Tests` | no findings |
-| Whitespace | `git diff --check`, `git diff --cached --check` | no trailing whitespace or conflict markers |
-| Audit | `Scripts/audit.sh` | `WaterlineKit` imports no AppKit/SwiftUI; no secret-shaped strings in `Sources`, `Tests`, `docs`, `README.md`; every `Package.swift` dependency is on the allowlist |
+- [x] Current UI matches owner decisions: no overview heading, Token records,
+  connection guide, redundant account actions or rate-limit explanation. Sorting
+  is available directly on cards and in the footer Waterline menu.
+- [x] Native drag ordering saves and restores; menu language controls work. Retired launch-at-login registration is removed. First launch connects without a separate guide, with OS
+  permission prompts only as required.
+- [x] Claude CLI local observation -> identity binding -> private bounded storage
+  -> engine -> native card is verified with the owner's real account. Duplicate
+  callbacks, account changes, reset expiry and restart preserve correct freshness.
+- [x] Claude server fallback is explicit app policy, respects backoff and does not
+  accelerate on opening the panel. No claim of an undocumented official limit.
+- [x] Performance is measured on the final installed Release: mean CPU <1%
+  (100%=one core), physical memory <120MB, no material interaction regression.
+  A completed earlier sample is not evidence for a later binary.
+- [x] Repository cleanup preserves source, real-account state, credentials and
+  necessary verification evidence. Remove unused product code and stale drafts;
+  retain actionable provider contracts and reproducible build instructions.
+- [x] `make verify` passes locally and on GitHub for the exact release commit.
+- [x] Release bundle/DMG identity, installation, launch and update behavior are
+  checked. Signing/notarization/Gatekeeper conditions are accurately reported;
+  ad-hoc signing is never described as Developer ID or notarization.
+- Publication gate: verify the first GitHub Release and its downloaded attachments
+  after publishing; the remote Release is the authoritative completion record.
 
-CI (`.github/workflows/ci.yml`) runs exactly `make verify` on `macos-26` with Xcode 26.6.
+## Verified candidate evidence
 
-## Standards every change meets
+- Final application SHA256:
+  `4fae1d8cb646120d4db9c2d30d83179dadc038c6d984602265ecb1f2918b1d5d`.
+  Runtime sources have not changed since commit 3fce5f9; later changes concern
+  documentation, installation text and checksum-file formatting.
+- Local `make verify`: 335 Swift tests in 76 suites plus script/format/audit gates.
+  GitHub verified candidate commit bf51e628d7bf32da5b1cca64e098c5a8d3de0563
+  successfully in run 34290887498. Recheck the final documentation commit before tagging.
+- Final real-account performance: 600 seconds warmup + 600 one-second samples;
+  mean CPU 0.5199955%, peak physical footprint 55,493,880 bytes (52.9 MiB).
+  Configuration and executable unchanged; maximum sample gap 1.030 seconds.
+  Tested on Mac17,9 with 48 GiB memory, macOS 27.0 build 26A5425a. This is not a
+  universal OS/hardware or energy-use claim.
+- Native GUI verification: Claude's old 38%/login-error card changed to desktop
+  data 2%/33%, retaining the original 08:30:07 sample time; later automatic GUI
+  updates reached 12%/34%. Same-binary restart preserved valid data. CLI local
+  delivery was independently observed through the installed receiver. Offline
+  regressions cover source identity, replay, expiry and failed fallback handling.
+- Owner explicitly confirmed card drag changes/preserves order and language
+  selection works. Full-card preview is installed. Footer sorting window opens
+  natively. The retired login item is system-reported disabled.
+- The final DMG passed sealed-code/resource checks, read-only mount and full
+  file/symlink inventory comparison. Its Read Me and Applications link match.
+  DMG SHA256: `4ecf8c2c9b8f3f1a2f9d09a90bf7f30db8d779b1cbc21d8bec5c5c5c41b5e02b`.
+- Unnotarized/ad-hoc distribution and manual updates were explicitly approved
+  by the owner. Developer ID and notarization are not claimed. Repository
+  visibility remains private.
+- Old draft bundles, caches, development images and duplicate history documents
+  were removed. Current artifacts, selected evidence and pre-upgrade account-state
+  backups remain; canonical account files and Keychain data were not deleted.
 
-- A number on screen or in `snapshot.json` came from a provider response or is marked as an estimate (`≈`, secondary colour). Never a placeholder zero.
-- A secret is only sent to an `allowedHosts` entry, is never logged, never written outside the app's own Keychain entries.
-- No Keychain prompt unless the user clicked something that says it will read the Keychain.
-- Idle app: CPU under 1 %, memory under 120 MB, no timer faster than the documented refresh intervals.
-- New behaviour has a test that fails without the change.
+Detailed local evidence is consolidated in
+`build/verification/release-validation-summary.json` and the final runtime report.
 
-## v0.1 — engine, notch, Claude Code / Codex / Cursor / xAI
+## Historical evidence
 
-- [ ] `main` is green on CI.
-- [ ] `Registry.adapters` contains `claudeCode`, `codex`, `cursor`, `xai`; each folder has fixtures for a good reading, an auth failure and a changed schema, and tests for each.
-- [ ] `waterline refresh --provider <p> --json` on the owner's machine returns `fresh` for all four; every `resetsAt` is in the future; xAI also returns a balance.
-- [ ] Airplane mode: the app keeps showing the last reading greyed with its age; `snapshot.json` holds `stale` entries with the transport error; nothing shows zero.
-- [ ] Launch after login shows no Keychain prompt; the Claude Code row reads "needs connect" until Connect is clicked, then reads normally.
-- [ ] Collapsed panel height equals `safeAreaInsets.top`; hover expands after about 150 ms and leaving collapses; click pins; an external display gets the floating capsule; only one panel exists across displays.
-- [ ] Collapsed bar shows exactly one metric — the highest window fraction, or the smallest balance when no windows exist — with the colours in `docs/ui.md`.
-- [ ] Expanded panel: one row per account, window rows and balance rows visually distinct, stale rows greyed with age, unavailable rows show only the reason.
-- [ ] Bundle launches with no Dock icon; the menu bar item offers Refresh and Quit; idle CPU under 1 %, memory under 120 MB after ten minutes.
-- [ ] Disk writes are limited to `~/Library/Application Support/Waterline/` (checked with `fs_usage -f filesys` during a refresh cycle).
-- [ ] `docs/providers/claude-code.md`, `codex.md`, `cursor.md`, `xai.md` have the response mapping filled in and a `last verified` date.
-- [ ] `v0.1.0` tagged on `main`.
-
-## v0.2 — Chinese providers, Tier-2 discovery, gateways
-
-- [ ] Zhipu, Kimi Code, Moonshot, MiniMax and DeepSeek adapters meet the v0.1 adapter bar (fixtures, live check, docs).
-- [ ] A Kimi Code subscription and a Moonshot top-up on one machine appear as two rows.
-- [ ] Tier-2 sources are off by default; enabling one is a single toggle per source and discovery shows the file each key came from.
-- [ ] A harness configured with a gateway `baseURL` shows the gateway's quota with a "via" label and never attributes it to a local account.
-- [ ] `history.jsonl` grows by one line per balance reading; burn rate and days-left appear only after two readings and are marked as estimates.
-
-## v0.3 — onboarding, settings, public
-
-- [ ] First launch explains what is read and where it is sent, per provider, with Tier 1 on and Tier 2 off; the Keychain prompt is announced before it appears.
-- [ ] Settings covers accounts (source, enable, add manual key), thresholds, intervals, privacy (per-host allowlist shown), language, launch at login.
-- [ ] Antigravity adapter meets the adapter bar; Qwen shows as unsupported with the reason.
-- [ ] Every string is localised zh-Hans and en and follows the system.
-- [ ] Every `docs/providers/*.md` has a `last verified` within 30 days of the release.
-- [ ] Repository is public with CONTRIBUTING and a bug template.
-
-## v0.4 — alerts and activity
-
-- [ ] A window crossing the threshold or a balance below its threshold expands the panel for 3 s once per account per hour and posts a system notification.
-- [ ] Balance rows show a 7-day sparkline from `history.jsonl`.
-- [ ] Claude Code `Stop` / `Notification` hooks drive the activity state without heuristics.
-
-## v1.0 — distribution
-
-- [ ] Sparkle updates with an EdDSA-signed appcast; Homebrew cask; notarised DMG.
-- [ ] A person who has never seen the repository installs from the README and sees data within one minute.
+Superseded milestone logs remain in Git history (for example commit 4e9ca10).
+They are not duplicated in the working directory or treated as current acceptance.
+Key live-verification artifacts are kept locally under `build/verification`.
